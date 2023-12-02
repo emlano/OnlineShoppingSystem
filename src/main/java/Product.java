@@ -1,17 +1,17 @@
 public abstract class Product {
-    private int id;
+    private String id;
     private String name;
     private double price;
     private int count;
 
-    public Product(int id, String name, double price, int count) {
+    public Product(String id, String name, double price, int count) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.count = count;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -27,7 +27,7 @@ public abstract class Product {
         return price;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -45,6 +45,28 @@ public abstract class Product {
 
     @Override
     public boolean equals(Object obj) {
-        return !obj.getClass().equals(this.getClass());
+        if (obj == null) return false;
+        
+        if (obj.getClass() != this.getClass()) {
+            System.out.println(this.getClass());
+            return false;
+        }
+
+        Product product = (Product) obj;
+
+        if (!this.id.equals(product.id)) return false;
+        
+        if (!this.name.equals(product.name)) return false;
+
+        if (this.count != product.count) return false;
+
+        if (this.price != product.price) return false;
+
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }
