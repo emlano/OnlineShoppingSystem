@@ -4,6 +4,7 @@ public abstract class Product {
     private double price;
     private int count;
 
+    // Constructor
     public Product(String id, String name, double price, int count) {
         this.id = id;
         this.name = name;
@@ -47,11 +48,10 @@ public abstract class Product {
     public boolean equals(Object obj) {
         if (obj == null) return false;
         
-        if (obj.getClass() != this.getClass()) {
-            System.out.println(this.getClass());
-            return false;
-        }
+        // Check if classes match the passed object
+        if (obj.getClass() != this.getClass()) return false;
 
+        // Type casting object type 'Object' to 'Product'
         Product product = (Product) obj;
 
         if (!this.id.equals(product.id)) return false;
@@ -66,6 +66,7 @@ public abstract class Product {
     }
 
     @Override
+    // Returns Product name when printed
     public String toString() {
         return this.name;
     }

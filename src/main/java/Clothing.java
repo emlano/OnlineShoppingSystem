@@ -45,6 +45,7 @@ public class Clothing extends Product {
         // Calls parent class's equals method to check inherited vars
         if (!super.equals(obj)) return false;
 
+        // Type casting object type 'Object' to 'Clothing'
         Clothing clothing = (Clothing) obj;
 
         if (!this.color.equals(clothing.color)) return false;

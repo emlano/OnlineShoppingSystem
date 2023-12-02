@@ -1,8 +1,11 @@
 import org.junit.*;
+import org.junit.jupiter.api.DisplayName;
+
 import static org.junit.Assert.*;
 
 public class ClothingTest {
     @Test
+    @DisplayName("Clothing class exists in Package")
     public void clothingClassExists() {
         try {
             Class.forName("Clothing");
