@@ -7,4 +7,45 @@ public class Electronic extends Product {
         this.brand = brand;
         this.warrantyPeriod = warrantyPeriod;
     }
+
+    public Electronic(String id, String name, double price, int count) {
+        this(id, name, price, count, "DefaultBrand", 1);
+    }
+
+    public Electronic(String id, String name, double price) {
+        this(id, name, price, 1);
+    }
+
+    public Electronic(String brand, int warrantyPeriod) {
+        this("DefaultId", "DefaultName", 100, 1, brand, warrantyPeriod);
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public int getWarrantyPeriod() {
+        return warrantyPeriod;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public void setWarrantyPeriod(int warrantyPeriod) {
+        this.warrantyPeriod = warrantyPeriod;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!super.equals(obj)) return false;
+
+        Electronic electronic = (Electronic) obj;
+
+        if (!this.brand.equals(electronic.brand)) return false;
+
+        if (this.warrantyPeriod != electronic.warrantyPeriod) return false;
+
+        return true;
+    }
 }

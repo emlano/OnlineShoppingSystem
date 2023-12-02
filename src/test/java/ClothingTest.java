@@ -1,8 +1,5 @@
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.*;
+import static org.junit.Assert.*;
 
 public class ClothingTest {
     @Test
@@ -20,49 +17,31 @@ public class ClothingTest {
     }
 
     @Test
-    public void clothingEqualsMethodWorks() {
-        Clothing clothing = new Clothing(
-            "abcd1234",
-            "T-Shirt",
-            399.99,
-            15,
-            "XL",
-            "White"
-        );
+    public void clothingGettersWork() {
+      Clothing clothing = new Clothing("XL", "White");
 
-        Clothing other = new Clothing(
-            "abcd1234",
-            "T-Shirt",
-            399.99,
-            15,
-            "XL",
-            "White"
-        );
-
-        Clothing another = new Clothing(
-            "xyz123",
-            "Jeans",
-            499.96,
-            1,
-            "L",
-            "Black"
-        );
-
-        assertTrue(clothing.equals(other));
-        assertFalse(clothing.equals(another));
+      assertTrue(clothing.getSize().equals("XL"));
+      assertTrue(clothing.getColor().equals("White"));
     }
 
     @Test
-    public void clothingToStringMethodWorks() {
-        Clothing clothing = new Clothing(
-            "abcd1234",
-            "T-Shirt",
-            399.99,
-            15,
-            "XL",
-            "White"
-        );
+    public void clothingSettersWork() {
+       Clothing clothing = new Clothing("XL", "White");
 
-        assertTrue(clothing.toString().equals("T-Shirt"));
+       clothing.setColor("Indigo");
+       clothing.setSize("M");
+
+       assertTrue(clothing.getColor().equals("Indigo"));
+       assertTrue(clothing.getSize().equals("M"));
+    }
+
+    @Test
+    public void clothingEqualsMethodWorks() {
+        Clothing clothing = new Clothing("XL", "White");
+        Clothing other = new Clothing("XL", "White");
+        Clothing another = new Clothing("L", "Black");
+
+        assertEquals(clothing, other);
+        assertNotEquals(clothing, another);
     }
 }
