@@ -1,8 +1,12 @@
 import org.junit.*;
+import org.junit.jupiter.api.DisplayName;
+
 import static org.junit.Assert.*;
 
+@DisplayName("Testing class Product")
 public class ProductTest {
 
+    @DisplayName("Product class must exist")
     @Test
     public void productClassExists() {
         try {
@@ -12,16 +16,18 @@ public class ProductTest {
         }
     }
 
+    @DisplayName("Testing Product class's Getters")
     @Test
     public void productGettersWork() {
         SubProduct sb = new SubProduct("abcdef", "SubProduct", 199.99, 10);
         
-        assertTrue(sb.getId().equals("abcdef"));
-        assertTrue(sb.getName().equals("SubProduct"));
-        assertTrue(199.99 == sb.getPrice());
+        assertEquals("abcdef", sb.getId());
+        assertEquals("SubProduct", sb.getName());
+        assertEquals(199.99, sb.getPrice(), 0.0);
         assertEquals(10, sb.getCount());
     }
 
+    @DisplayName("Testing Product class's Setters")
     @Test
     public void productSettersWork() {
         SubProduct sb = new SubProduct("abcdef", "SubProduct", 199.99, 10);
@@ -31,12 +37,13 @@ public class ProductTest {
         sb.setPrice(399.99);
         sb.setCount(1);
 
-        assertTrue(sb.getId().equals("defabc"));
-        assertTrue(sb.getName().equals("ProductSub"));
-        assertTrue(sb.getPrice() == 399.99);
+        assertEquals("defabc", sb.getId());
+        assertEquals("ProductSub", sb.getName());
+        assertEquals(399.99, sb.getPrice(), 0.0);
         assertEquals(1, sb.getCount());
     }
 
+    @DisplayName("Testing equals method of Product class")
     @Test
     public void productEqualsMethodWorks() {
         SubProduct sb = new SubProduct("abcdef", "SubProduct", 199.99, 10);
@@ -47,11 +54,12 @@ public class ProductTest {
         assertNotEquals(sb, another);
     }
 
+    @DisplayName("Testing toString method of Product class")
     @Test
     public void productToStringMethodWorks() {
         SubProduct sb = new SubProduct("abcdef", "SubProduct", 199.99, 10);
 
-        assertTrue(sb.toString().equals("SubProduct"));
+        assertEquals("SubProduct", sb.toString());
     }
 }
 

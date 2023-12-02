@@ -1,8 +1,11 @@
 import org.junit.*;
+import org.junit.jupiter.api.DisplayName;
 import static org.junit.Assert.*;
 
+@DisplayName("Testing class Electronic")
 public class ElectronicTest {
 
+    @DisplayName("Electronic class must exist in Package")
     @Test
     public void electronicClassExists() {
         try {
@@ -12,19 +15,22 @@ public class ElectronicTest {
         }
     }
 
+    @DisplayName("Electronic class must inherit from class Product")
     @Test
     public void electronicInheritsFromProduct() {
-        assertTrue(Electronic.class.getSuperclass() == Product.class);
+        assertSame(Electronic.class.getSuperclass(), Product.class);
     }
 
+    @DisplayName("Testing Electronic class's Getters")
     @Test
     public void electronicGettersWork() {
         Electronic electronic = new Electronic("Toshiba", 3);
 
-        assertTrue(electronic.getBrand().equals("Toshiba"));
+        assertEquals("Toshiba", electronic.getBrand());
         assertEquals(3, electronic.getWarrantyPeriod());
     }
 
+    @DisplayName("Testing Electronic class's Setters")
     @Test
     public void electronicSettersWork() {
         Electronic electronic = new Electronic("Toshiba", 3);
@@ -32,10 +38,11 @@ public class ElectronicTest {
         electronic.setBrand("Mitsubishi");
         electronic.setWarrantyPeriod(1);
 
-        assertTrue(electronic.getBrand().equals("Mitsubishi"));
+        assertEquals("Mitsubishi", electronic.getBrand());
         assertEquals(1, electronic.getWarrantyPeriod());
     }
 
+    @DisplayName("Testing equals method of Electronic class")
     @Test
     public void electronicEqualsMethodWorks() {
         Electronic electronic = new Electronic("Toshiba", 3);
