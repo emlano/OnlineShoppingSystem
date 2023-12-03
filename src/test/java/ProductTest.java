@@ -1,13 +1,18 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 import org.junit.*;
 import org.junit.jupiter.api.DisplayName;
 
 import static org.junit.Assert.*;
 
+
 @DisplayName("Testing class Product")
 public class ProductTest {
 
-    @DisplayName("Product class must exist")
     @Test
+    @DisplayName("Product class must exist")
     public void productClassExists() {
         try {
             Class.forName("Product");
@@ -16,8 +21,8 @@ public class ProductTest {
         }
     }
 
-    @DisplayName("Testing Product class's Getters")
     @Test
+    @DisplayName("Testing Product class's Getters")
     public void productGettersWork() {
         SubProduct sb = new SubProduct("abcdef", "SubProduct", 199.99, 10);
         
@@ -27,8 +32,8 @@ public class ProductTest {
         assertEquals(10, sb.getCount());
     }
 
-    @DisplayName("Testing Product class's Setters")
     @Test
+    @DisplayName("Testing Product class's Setters")
     public void productSettersWork() {
         SubProduct sb = new SubProduct("abcdef", "SubProduct", 199.99, 10);
 
@@ -43,8 +48,8 @@ public class ProductTest {
         assertEquals(1, sb.getCount());
     }
 
-    @DisplayName("Testing equals method of Product class")
     @Test
+    @DisplayName("Testing equals method of Product class")
     public void productEqualsMethodWorks() {
         SubProduct sb = new SubProduct("abcdef", "SubProduct", 199.99, 10);
         SubProduct other = new SubProduct("abcdef", "SubProduct", 199.99, 10);
@@ -54,12 +59,41 @@ public class ProductTest {
         assertNotEquals(sb, another);
     }
 
-    @DisplayName("Testing toString method of Product class")
     @Test
+    @DisplayName("Testing toString method of Product class")
     public void productToStringMethodWorks() {
         SubProduct sb = new SubProduct("abcdef", "SubProduct", 199.99, 10);
 
         assertEquals("SubProduct", sb.toString());
+    }
+
+    @Test
+    @DisplayName("Testing Product comparators")
+    public void productComparatorsWork() {
+        SubProduct sb1 = new SubProduct("AAAA", "AAAA", 0, 0);
+        SubProduct sb2 = new SubProduct("AAA", "AAA", 0, 0);
+        SubProduct sb3 = new SubProduct("AA", "AA", 0, 0);
+        SubProduct sb4 = new SubProduct("A", "A", 0, 0);
+        SubProduct sb5 = new SubProduct("ABCD", "ABCD", 0, 0);
+        SubProduct sb6 = new SubProduct("ABBB", "ABBB", 0, 0);
+        SubProduct sb7 = new SubProduct("ABC", "ABC", 0, 0);
+
+        ArrayList<SubProduct> sorted = new ArrayList<SubProduct>();
+        ArrayList<SubProduct> list = new ArrayList<SubProduct>();
+        ArrayList<SubProduct> anotherList = null;
+
+        sorted.addAll(Arrays.asList(sb4, sb3, sb2, sb1, sb6, sb7, sb5));
+        list.addAll(Arrays.asList(sb1, sb2, sb3, sb4, sb5, sb6, sb7));
+
+        anotherList = list;
+
+
+
+        Collections.sort(list, new ProductIdComparator());
+        Collections.sort(anotherList, new ProductNameComparator());
+
+        assertEquals(sorted, list);
+        assertEquals(sorted, anotherList);
     }
 }
 

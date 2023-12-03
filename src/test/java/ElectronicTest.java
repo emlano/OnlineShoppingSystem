@@ -5,8 +5,8 @@ import static org.junit.Assert.*;
 @DisplayName("Testing class Electronic")
 public class ElectronicTest {
 
-    @DisplayName("Electronic class must exist in Package")
     @Test
+    @DisplayName("Electronic class must exist in Package")
     public void electronicClassExists() {
         try {
             Class.forName("Electronic");
@@ -15,14 +15,14 @@ public class ElectronicTest {
         }
     }
 
-    @DisplayName("Electronic class must inherit from class Product")
     @Test
+    @DisplayName("Electronic class must inherit from class Product")
     public void electronicInheritsFromProduct() {
         assertSame(Electronic.class.getSuperclass(), Product.class);
     }
 
-    @DisplayName("Testing Electronic class's Getters")
     @Test
+    @DisplayName("Testing Electronic class's Getters")
     public void electronicGettersWork() {
         Electronic electronic = new Electronic("Toshiba", 3);
 
@@ -30,8 +30,8 @@ public class ElectronicTest {
         assertEquals(3, electronic.getWarrantyPeriod());
     }
 
-    @DisplayName("Testing Electronic class's Setters")
     @Test
+    @DisplayName("Testing Electronic class's Setters")
     public void electronicSettersWork() {
         Electronic electronic = new Electronic("Toshiba", 3);
 
@@ -42,8 +42,8 @@ public class ElectronicTest {
         assertEquals(1, electronic.getWarrantyPeriod());
     }
 
-    @DisplayName("Testing equals method of Electronic class")
     @Test
+    @DisplayName("Testing equals method of Electronic class")
     public void electronicEqualsMethodWorks() {
         Electronic electronic = new Electronic("Toshiba", 3);
         Electronic other = new Electronic("Toshiba", 3);

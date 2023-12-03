@@ -5,8 +5,8 @@ import static org.junit.Assert.*;
 @DisplayName("Testing class Clothing")
 public class ClothingTest {
 
-    @DisplayName("Clothing class must exist in Package")
     @Test
+    @DisplayName("Clothing class must exist in Package")
     public void clothingClassExists() {
         try {
             Class.forName("Clothing");
@@ -15,14 +15,14 @@ public class ClothingTest {
         }
     }
 
-    @DisplayName("Clothing class must inherit from class Product")
     @Test
+    @DisplayName("Clothing class must inherit from class Product")
     public void clothingInheritsFromProduct() {
         assertEquals(Product.class, Clothing.class.getSuperclass());
     }
 
-    @DisplayName("Testing Clothing class's Getters")
     @Test
+    @DisplayName("Testing Clothing class's Getters")
     public void clothingGettersWork() {
         Clothing clothing = new Clothing("XL", "White");
 
@@ -30,8 +30,8 @@ public class ClothingTest {
         assertEquals("White", clothing.getColor());
     }
 
-    @DisplayName("Testing Clothing class's Setters")
     @Test
+    @DisplayName("Testing Clothing class's Setters")
     public void clothingSettersWork() {
         Clothing clothing = new Clothing("XL", "White");
 
@@ -42,8 +42,8 @@ public class ClothingTest {
         assertEquals("M", clothing.getSize());
     }
 
-    @DisplayName("Testing if the equals method is working")
     @Test
+    @DisplayName("Testing if the equals method is working")
     public void clothingEqualsMethodWorks() {
         Clothing clothing = new Clothing("XL", "White");
         Clothing other = new Clothing("XL", "White");
