@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 import org.junit.*;
 import org.junit.jupiter.api.DisplayName;
@@ -78,19 +77,15 @@ public class ProductTest {
         SubProduct sb6 = new SubProduct("ABBB", "ABBB", 0, 0);
         SubProduct sb7 = new SubProduct("ABC", "ABC", 0, 0);
 
-        ArrayList<SubProduct> sorted = new ArrayList<SubProduct>();
-        ArrayList<SubProduct> list = new ArrayList<SubProduct>();
-        ArrayList<SubProduct> anotherList = null;
+        ArrayList<SubProduct> anotherList;
 
-        sorted.addAll(Arrays.asList(sb4, sb3, sb2, sb1, sb6, sb7, sb5));
-        list.addAll(Arrays.asList(sb1, sb2, sb3, sb4, sb5, sb6, sb7));
+        ArrayList<SubProduct> sorted = new ArrayList<>(Arrays.asList(sb4, sb3, sb2, sb1, sb6, sb7, sb5));
+        ArrayList<SubProduct> list = new ArrayList<>(Arrays.asList(sb1, sb2, sb3, sb4, sb5, sb6, sb7));
 
         anotherList = list;
 
-
-
-        Collections.sort(list, new ProductIdComparator());
-        Collections.sort(anotherList, new ProductNameComparator());
+        list.sort(new ProductIdComparator());
+        anotherList.sort(new ProductNameComparator());
 
         assertEquals(sorted, list);
         assertEquals(sorted, anotherList);

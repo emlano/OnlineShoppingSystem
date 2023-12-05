@@ -24,30 +24,30 @@ public class ClothingTest {
     @Test
     @DisplayName("Testing Clothing class's Getters")
     public void clothingGettersWork() {
-        Clothing clothing = new Clothing("XL", "White");
+        Clothing clothing = new Clothing(Size.M, "White");
 
-        assertEquals("XL", clothing.getSize());
+        assertEquals(Size.M, clothing.getSize());
         assertEquals("White", clothing.getColor());
     }
 
     @Test
     @DisplayName("Testing Clothing class's Setters")
     public void clothingSettersWork() {
-        Clothing clothing = new Clothing("XL", "White");
+        Clothing clothing = new Clothing(Size.L, "White");
 
         clothing.setColor("Indigo");
-        clothing.setSize("M");
+        clothing.setSize(Size.M);
 
         assertEquals("Indigo", clothing.getColor());
-        assertEquals("M", clothing.getSize());
+        assertEquals(Size.M, clothing.getSize());
     }
 
     @Test
     @DisplayName("Testing if the equals method is working")
     public void clothingEqualsMethodWorks() {
-        Clothing clothing = new Clothing("XL", "White");
-        Clothing other = new Clothing("XL", "White");
-        Clothing another = new Clothing("L", "Black");
+        Clothing clothing = new Clothing(Size.XL, "White");
+        Clothing other = new Clothing(Size.XL, "White");
+        Clothing another = new Clothing(Size.L, "Black");
 
         assertEquals(clothing, other);
         assertNotEquals(clothing, another);
