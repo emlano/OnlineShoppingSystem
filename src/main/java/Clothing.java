@@ -56,24 +56,3 @@ public class Clothing extends Product {
     }
 }
 
-enum Size {
-    XS,
-    S,
-    M,
-    L,
-    XL,
-    XXL;
-
-    @Override
-    public String toString() {
-        switch (this) {
-            case Size.XS : return "XS";
-            case Size.S : return "S";
-            case Size.M : return "M";
-            case Size.L : return "L";
-            case Size.XL : return "XL";
-            case Size.XXL : return "XXL";
-            default : return null;
-        }
-    }
-}

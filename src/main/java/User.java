@@ -9,6 +9,7 @@ public abstract class User {
         this.access = access;
     }
 
+    // Used to create a single client user account
     public User(String username, String password) {
         this(username, password, Access.CLIENT);
     }
@@ -38,16 +39,3 @@ public abstract class User {
     }
 }
 
-enum Access {
-    ADMIN,
-    CLIENT;
-
-    @Override
-    public String toString() {
-        switch (this) {
-            case Access.ADMIN : return "Admin";
-            case Access.CLIENT : return "Client";
-            default : return null;
-        }
-    }
-}

@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 
 public class Client extends User {
-    // Amount of items bought by this customer
-    // used to track whether the customer is recurring customer;
+    // All products bought by the customer
     private ArrayList<Product> purchaseHistory;
 
     public Client(String username, String password) {
@@ -19,6 +18,7 @@ public class Client extends User {
         this.purchaseHistory = list;
     }
 
+    // Adds a single product to the product history
     public void addToPurchaseHistory(Product product) {
         purchaseHistory.add(product);
     }
