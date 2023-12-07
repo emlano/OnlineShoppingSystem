@@ -1,4 +1,3 @@
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
     }
 
     @Override
-    public String getProductListString() {
+    public void printProductList() {
         productList.sort(new ProductIdComparator());
         StringBuilder sb = new StringBuilder();
 
@@ -48,85 +47,29 @@ public class WestminsterShoppingManager implements ShoppingManager {
             .replaceAll("::", "          ")
         );
 
-        for (Product i : productList) {
-            sb.append(
-                String.format(
-                    "%15.15s | %15.15s | %15.15s | %15.2f | %15.15s",
-                    i.getName(),
-                    i.getClass().getName(),
-                    i.getId(),
-                    i.getPrice(),
-                    i.getCount()
-                )
-            );
+        sb.append(this.getProductListRows(productList));
 
-            switch (i.getClass().getName()) {
-                case "Clothing" -> {
-                    sb.append(
-                        String.format(
-                            " | %15.15s | %15.15s | %15.15s | %15.15s\n",
-                            ((Clothing) i).getSize(),
-                            ((Clothing) i).getColor(),
-                            "-",
-                            "-"
-                        )
-                    );
-                }
-
-                case "Electronic" -> {
-                    sb.append(
-                        String.format(
-                            " | %15.15s | %15.15s | %15.15s | %15.15s\n",
-                            "-",
-                            "-",
-                            ((Electronic) i).getBrand(),
-                            ((Electronic) i).getWarrantyPeriod()
-                        )
-                    );
-                }
-            }
-        }
-
-        return sb.toString();
+        System.out.println(sb.toString());
     }
 
     @Override
     public void saveToFile() {
         JSONArray jsonProdArr = this.getProductListJsonArray(productList);
-        JSONArray jsonUserArr = new JSONArray();
-
-        userList.stream().forEach(e -> {
-            JSONObject jsonUser = new JSONObject();
-            jsonUser.put("username", e.getUsername());
-            jsonUser.put("password", e.getPassword());
-            jsonUser.put("access", e.getAccess());
-            
-            if (e.getClass().getName().equals("Client")) {
-                Client j = (Client) e;
-                jsonUser.put(
-                    "productHistory",
-                    this.getProductListJsonArray(
-                        j.getPurchaseHistory()
-                    )
-                );
-            }
-
-            jsonUserArr.put(jsonUser);
-        });
+        JSONArray jsonUserArr = this.getUserListJsonArray(userList);
         
         try {
-            FileWriter fw = new FileWriter(new File("data.json"));
+            FileWriter fw = new FileWriter("data.json");
             JSONObject root = new JSONObject();
             
             root.put("products", jsonProdArr);
             root.put("users", jsonUserArr);
+            fw.write("");
             fw.write(root.toString());
-            
             fw.flush();
             fw.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error! Could not open file to write! \n");
         }
     }
 
@@ -140,38 +83,77 @@ public class WestminsterShoppingManager implements ShoppingManager {
         // TODO
     }
 
+    private JSONArray getUserListJsonArray(ArrayList<User> list) {
+        JSONArray jsonArr = new JSONArray();
+
+        list.forEach(e -> {
+            JSONObject jo = new JSONObject();
+
+            jo.put("username", e.getUsername());
+            jo.put("password", e.getPassword());
+            jo.put("access", e.getAccess());
+
+            if (e.getClass() == Client.class) {
+                Client c = (Client) e;
+                jo.put(
+                    "purchaseHistory",
+                    getProductListJsonArray(c.getPurchaseHistory())
+                );
+            }
+
+            jsonArr.put(jo);
+        });
+
+        return jsonArr;
+    }
 
     private JSONArray getProductListJsonArray(ArrayList<Product> list) {
         JSONArray jsArr = new JSONArray();
 
         list.stream().forEach(e -> {
-            JSONObject jsonProduct = new JSONObject();
-            jsonProduct.put("id", e.getId());
-            jsonProduct.put("name", e.getName());
-            jsonProduct.put("price", e.getPrice());
-            jsonProduct.put("count", e.getCount());
+            JSONObject jo = new JSONObject();
 
-            switch (e.getClass().getName()) {
-                case "Clothing" -> {
-                    Clothing j = (Clothing) e;
-                    jsonProduct.put("type", "Clothing");
-                    jsonProduct.put("size", j.getSize());
-                    jsonProduct.put("color", j.getColor());
-                }
-
-                case "Electronic" -> {
-                    Electronic j = (Electronic) e;
-                    jsonProduct.put("type", "Electronic");
-                    jsonProduct.put("brand", j.getBrand());
-                    jsonProduct.put("warranty", j.getWarrantyPeriod());
-                }
+            jo.put("id", e.getId());
+            jo.put("name", e.getName());
+            jo.put("price", e.getPrice());
+            jo.put("count", e.getCount());
+            
+            if (e.getClass() == Clothing.class) {
+                Clothing c = (Clothing) e;
+                jo.put("size", c.getSize());
+                jo.put("color", c.getColor());
+            
+            } else if (e.getClass() == Electronic.class) {
+                Electronic el = (Electronic) e;
+                jo.put("brand", el.getBrand());
+                jo.put("warranty", el.getWarrantyPeriod());
             }
 
-            jsArr.put(jsonProduct);
+            jsArr.put(jo);
         });
 
         return jsArr;
     }
 
-    
+    private StringBuilder getProductListRows(ArrayList<Product> productArr) {
+        StringBuilder str = new StringBuilder();
+
+        for (Product i : productArr) {
+                str.append(String.format(
+                    "%15.15s | %15.15s | %15.15s | %15.2f | %15.15s | %15.15s | %15.15s | %15.15s | %15.15s\n",
+                    i.getName(),
+                    i.getClass().getName(),
+                    i.getId(),
+                    i.getPrice(),
+                    i.getCount(),
+                    i.getClass() == Clothing.class ? ((Clothing) i).getSize() : "-",
+                    i.getClass() == Clothing.class ? ((Clothing) i).getColor() : "-",
+                    i.getClass() == Electronic.class ? ((Electronic) i).getBrand() : "-",
+                    i.getClass() == Electronic.class ? ((Electronic) i).getWarrantyPeriod() : "-"
+                )
+            );
+        }
+
+        return str;
+    }
 }

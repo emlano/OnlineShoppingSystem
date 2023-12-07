@@ -46,7 +46,6 @@
                         <artifactId>junit-platform-surefire-provider</artifactId>
                         <version>1.2.0</version>
                     </dependency>
-
                 </dependencies>
                 <configuration>
                 <additionalClasspathElements>

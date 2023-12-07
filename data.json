@@ -1,0 +1,226 @@
+{
+    "users": [
+        {
+            "password": "********",
+            "access": "ADMIN",
+            "username": "rosebud"
+        },
+        {
+            "password": "leviOsaa",
+            "access": "ADMIN",
+            "username": "harrypotter"
+        },
+        {
+            "password": "takingthehobbitsto",
+            "access": "ADMIN",
+            "username": "isengard"
+        },
+        {
+            "password": "anyafolger",
+            "access": "ADMIN",
+            "username": "secondson"
+        },
+        {
+            "password": "avadakedvra",
+            "access": "ADMIN",
+            "username": "voldymorte"
+        },
+        {
+            "password": "theCommuneManifesto",
+            "purchaseHistory": [
+                {
+                    "size": "L",
+                    "color": "Brown",
+                    "price": 544.99,
+                    "name": "Cowboy Hat",
+                    "count": 10,
+                    "id": "A1B4U3I98"
+                },
+                {
+                    "price": 1000,
+                    "name": "Television",
+                    "count": 10,
+                    "warranty": 2,
+                    "id": "H7GSD8J2S",
+                    "brand": "Toshiba"
+                }
+            ],
+            "access": "CLIENT",
+            "username": "karlmax"
+        },
+        {
+            "password": "prepare2cry",
+            "purchaseHistory": [
+                {
+                    "size": "XXL",
+                    "color": "White",
+                    "price": 34.55,
+                    "name": "Polo Shirt",
+                    "count": 5,
+                    "id": "Z1E45A4L8"
+                },
+                {
+                    "price": 155.99,
+                    "name": "Car Radio",
+                    "count": 5,
+                    "warranty": 1,
+                    "id": "J8H7F3GG3",
+                    "brand": "Kenwood"
+                }
+            ],
+            "access": "CLIENT",
+            "username": "vaatividya"
+        },
+        {
+            "password": "icmdtheeKNEEL",
+            "purchaseHistory": [
+                {
+                    "size": "S",
+                    "color": "Blue",
+                    "price": 199,
+                    "name": "Blue Jeans",
+                    "count": 8,
+                    "id": "P13SFF078"
+                },
+                {
+                    "price": 900.99,
+                    "name": "Laptop",
+                    "count": 5,
+                    "warranty": 3,
+                    "id": "H7A8SB213",
+                    "brand": "Lenovo"
+                }
+            ],
+            "access": "CLIENT",
+            "username": "godrickdagolden"
+        },
+        {
+            "password": "foolishambitions",
+            "purchaseHistory": [
+                {
+                    "size": "XL",
+                    "color": "Yellow",
+                    "price": 83.95,
+                    "name": "Yellow Hoodie",
+                    "count": 3,
+                    "id": "I13F5B5VC"
+                },
+                {
+                    "price": 599.99,
+                    "name": "Washing Machine",
+                    "count": 2,
+                    "warranty": 3,
+                    "id": "V92NAJSDA",
+                    "brand": "Panasonic"
+                }
+            ],
+            "access": "CLIENT",
+            "username": "morgot_alt_acc"
+        },
+        {
+            "password": "writ_it_upon_thy_meagre_grave",
+            "purchaseHistory": [
+                {
+                    "size": "XS",
+                    "color": "Black",
+                    "price": 199.95,
+                    "name": "Cargo Pants",
+                    "count": 1,
+                    "id": "H7C4H99NS"
+                },
+                {
+                    "price": 1499.99,
+                    "name": "Smartphone",
+                    "count": 20,
+                    "warranty": 1,
+                    "id": "BA92J12Q2",
+                    "brand": "Samsung"
+                }
+            ],
+            "access": "CLIENT",
+            "username": "therealmorgot"
+        }
+    ],
+    "products": [
+        {
+            "size": "L",
+            "color": "Brown",
+            "price": 544.99,
+            "name": "Cowboy Hat",
+            "count": 10,
+            "id": "A1B4U3I98"
+        },
+        {
+            "size": "XXL",
+            "color": "White",
+            "price": 34.55,
+            "name": "Polo Shirt",
+            "count": 5,
+            "id": "Z1E45A4L8"
+        },
+        {
+            "size": "S",
+            "color": "Blue",
+            "price": 199,
+            "name": "Blue Jeans",
+            "count": 8,
+            "id": "P13SFF078"
+        },
+        {
+            "size": "XL",
+            "color": "Yellow",
+            "price": 83.95,
+            "name": "Yellow Hoodie",
+            "count": 3,
+            "id": "I13F5B5VC"
+        },
+        {
+            "size": "XS",
+            "color": "Black",
+            "price": 199.95,
+            "name": "Cargo Pants",
+            "count": 1,
+            "id": "H7C4H99NS"
+        },
+        {
+            "price": 1000,
+            "name": "Television",
+            "count": 10,
+            "warranty": 2,
+            "id": "H7GSD8J2S",
+            "brand": "Toshiba"
+        },
+        {
+            "price": 155.99,
+            "name": "Car Radio",
+            "count": 5,
+            "warranty": 1,
+            "id": "J8H7F3GG3",
+            "brand": "Kenwood"
+        },
+        {
+            "price": 900.99,
+            "name": "Laptop",
+            "count": 5,
+            "warranty": 3,
+            "id": "H7A8SB213",
+            "brand": "Lenovo"
+        },
+        {
+            "price": 599.99,
+            "name": "Washing Machine",
+            "count": 2,
+            "warranty": 3,
+            "id": "V92NAJSDA",
+            "brand": "Panasonic"
+        },
+        {
+            "price": 1499.99,
+            "name": "Smartphone",
+            "count": 20,
+            "warranty": 1,
+            "id": "BA92J12Q2",
+            "brand": "Samsung"
+        }
+    ]
+}
