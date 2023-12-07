@@ -36,7 +36,7 @@ public class ClothingTest {
         Clothing clothing = new Clothing(Size.L, "White");
 
         clothing.setColor("Indigo");
-        clothing.setSize(Size.M);
+        clothing.setSize("M");
 
         assertEquals("Indigo", clothing.getColor());
         assertEquals(Size.M, clothing.getSize());

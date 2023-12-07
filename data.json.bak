@@ -34,8 +34,7 @@
                     "price": 544.99,
                     "name": "Cowboy Hat",
                     "count": 10,
-                    "id": "A1B4U3I98",
-                    "type": "Clothing"
+                    "id": "A1B4U3I98"
                 },
                 {
                     "price": 1000,
@@ -43,7 +42,6 @@
                     "count": 10,
                     "warranty": 2,
                     "id": "H7GSD8J2S",
-                    "type": "Electronic",
                     "brand": "Toshiba"
                 }
             ],
@@ -59,8 +57,7 @@
                     "price": 34.55,
                     "name": "Polo Shirt",
                     "count": 5,
-                    "id": "Z1E45A4L8",
-                    "type": "Clothing"
+                    "id": "Z1E45A4L8"
                 },
                 {
                     "price": 155.99,
@@ -68,7 +65,6 @@
                     "count": 5,
                     "warranty": 1,
                     "id": "J8H7F3GG3",
-                    "type": "Electronic",
                     "brand": "Kenwood"
                 }
             ],
@@ -84,8 +80,7 @@
                     "price": 199,
                     "name": "Blue Jeans",
                     "count": 8,
-                    "id": "P13SFF078",
-                    "type": "Clothing"
+                    "id": "P13SFF078"
                 },
                 {
                     "price": 900.99,
@@ -93,7 +88,6 @@
                     "count": 5,
                     "warranty": 3,
                     "id": "H7A8SB213",
-                    "type": "Electronic",
                     "brand": "Lenovo"
                 }
             ],
@@ -109,8 +103,7 @@
                     "price": 83.95,
                     "name": "Yellow Hoodie",
                     "count": 3,
-                    "id": "I13F5B5VC",
-                    "type": "Clothing"
+                    "id": "I13F5B5VC"
                 },
                 {
                     "price": 599.99,
@@ -118,7 +111,6 @@
                     "count": 2,
                     "warranty": 3,
                     "id": "V92NAJSDA",
-                    "type": "Electronic",
                     "brand": "Panasonic"
                 }
             ],
@@ -134,8 +126,7 @@
                     "price": 199.95,
                     "name": "Cargo Pants",
                     "count": 1,
-                    "id": "H7C4H99NS",
-                    "type": "Clothing"
+                    "id": "H7C4H99NS"
                 },
                 {
                     "price": 1499.99,
@@ -143,7 +134,6 @@
                     "count": 20,
                     "warranty": 1,
                     "id": "BA92J12Q2",
-                    "type": "Electronic",
                     "brand": "Samsung"
                 }
             ],
@@ -158,8 +148,7 @@
             "price": 544.99,
             "name": "Cowboy Hat",
             "count": 10,
-            "id": "A1B4U3I98",
-            "type": "Clothing"
+            "id": "A1B4U3I98"
         },
         {
             "size": "XXL",
@@ -167,8 +156,7 @@
             "price": 34.55,
             "name": "Polo Shirt",
             "count": 5,
-            "id": "Z1E45A4L8",
-            "type": "Clothing"
+            "id": "Z1E45A4L8"
         },
         {
             "size": "S",
@@ -176,8 +164,7 @@
             "price": 199,
             "name": "Blue Jeans",
             "count": 8,
-            "id": "P13SFF078",
-            "type": "Clothing"
+            "id": "P13SFF078"
         },
         {
             "size": "XL",
@@ -185,8 +172,7 @@
             "price": 83.95,
             "name": "Yellow Hoodie",
             "count": 3,
-            "id": "I13F5B5VC",
-            "type": "Clothing"
+            "id": "I13F5B5VC"
         },
         {
             "size": "XS",
@@ -194,8 +180,7 @@
             "price": 199.95,
             "name": "Cargo Pants",
             "count": 1,
-            "id": "H7C4H99NS",
-            "type": "Clothing"
+            "id": "H7C4H99NS"
         },
         {
             "price": 1000,
@@ -203,7 +188,6 @@
             "count": 10,
             "warranty": 2,
             "id": "H7GSD8J2S",
-            "type": "Electronic",
             "brand": "Toshiba"
         },
         {
@@ -212,7 +196,6 @@
             "count": 5,
             "warranty": 1,
             "id": "J8H7F3GG3",
-            "type": "Electronic",
             "brand": "Kenwood"
         },
         {
@@ -221,7 +204,6 @@
             "count": 5,
             "warranty": 3,
             "id": "H7A8SB213",
-            "type": "Electronic",
             "brand": "Lenovo"
         },
         {
@@ -230,7 +212,6 @@
             "count": 2,
             "warranty": 3,
             "id": "V92NAJSDA",
-            "type": "Electronic",
             "brand": "Panasonic"
         },
         {
@@ -239,7 +220,6 @@
             "count": 20,
             "warranty": 1,
             "id": "BA92J12Q2",
-            "type": "Electronic",
             "brand": "Samsung"
         }
     ]

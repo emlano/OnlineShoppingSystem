@@ -36,8 +36,15 @@ public class Clothing extends Product {
         this.color = color;
     }
 
-    public void setSize(Size size) {
-        this.size = size;
+    public void setSize(String size) {
+        switch (size.toUpperCase()) {
+            case "XS" -> this.size = Size.XS;
+            case "S" -> this.size = Size.S;
+            case "M" -> this.size = Size.M;
+            case "L" -> this.size = Size.L;
+            case "XL" -> this.size = Size.XL;
+            case "XLL" -> this.size = Size.XXL;
+        }
     }
 
     @Override
