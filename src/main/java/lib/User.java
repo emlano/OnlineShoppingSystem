@@ -1,3 +1,7 @@
+package lib;
+
+import enums.Access;
+
 public abstract class User {
     private String username;
     private String password;

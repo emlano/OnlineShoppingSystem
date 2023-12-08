@@ -1,22 +1,24 @@
+import enums.Access;
+import lib.User;
 import org.junit.*;
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.Assert.*;
 
-@DisplayName("Testing class User")
+@DisplayName("Testing class lib.User")
 public class UserTest {
     
     @Test
     @DisplayName("Abstract class user must exist")
     public void userClassExists() {
         try {
-            Class.forName("User");
+            Class.forName("lib.User");
         } catch (Exception e) {
-            Assert.fail("Abstract class 'User' not found!");
+            Assert.fail("Abstract class 'lib.User' not found!");
         }
     }
 
     @Test
-    @DisplayName("Testing User's Getters")
+    @DisplayName("Testing lib.User's Getters")
     public void userGettersWork() {
         SubUser su = new SubUser("admin", "password", Access.ADMIN);
 
@@ -26,7 +28,7 @@ public class UserTest {
     }
 
     @Test
-    @DisplayName("Testing User's Setters")
+    @DisplayName("Testing lib.User's Setters")
     public void userSettersWork() {
         SubUser su = new SubUser("admin", "password", Access.ADMIN);
 

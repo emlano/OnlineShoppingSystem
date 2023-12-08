@@ -1,27 +1,30 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import comparators.ProductIdComparator;
+import comparators.ProductNameComparator;
+import lib.Product;
 import org.junit.*;
 import org.junit.jupiter.api.DisplayName;
 
 import static org.junit.Assert.*;
 
 
-@DisplayName("Testing class Product")
+@DisplayName("Testing class lib.Product")
 public class ProductTest {
 
     @Test
-    @DisplayName("Product class must exist")
+    @DisplayName("lib.Product class must exist")
     public void productClassExists() {
         try {
-            Class.forName("Product");
+            Class.forName("lib.Product");
         } catch (Exception e) {
-            Assert.fail("'Product' class was not found!");
+            Assert.fail("'lib.Product' class was not found!");
         }
     }
 
     @Test
-    @DisplayName("Testing Product class's Getters")
+    @DisplayName("Testing lib.Product class's Getters")
     public void productGettersWork() {
         SubProduct sb = new SubProduct("abcdef", "SubProduct", 199.99, 10);
         
@@ -32,7 +35,7 @@ public class ProductTest {
     }
 
     @Test
-    @DisplayName("Testing Product class's Setters")
+    @DisplayName("Testing lib.Product class's Setters")
     public void productSettersWork() {
         SubProduct sb = new SubProduct("abcdef", "SubProduct", 199.99, 10);
 
@@ -48,7 +51,7 @@ public class ProductTest {
     }
 
     @Test
-    @DisplayName("Testing equals method of Product class")
+    @DisplayName("Testing equals method of lib.Product class")
     public void productEqualsMethodWorks() {
         SubProduct sb = new SubProduct("abcdef", "SubProduct", 199.99, 10);
         SubProduct other = new SubProduct("abcdef", "SubProduct", 199.99, 10);
@@ -59,7 +62,7 @@ public class ProductTest {
     }
 
     @Test
-    @DisplayName("Testing toString method of Product class")
+    @DisplayName("Testing toString method of lib.Product class")
     public void productToStringMethodWorks() {
         SubProduct sb = new SubProduct("abcdef", "SubProduct", 199.99, 10);
 
@@ -67,7 +70,7 @@ public class ProductTest {
     }
 
     @Test
-    @DisplayName("Testing Product comparators")
+    @DisplayName("Testing lib.Product comparators")
     public void productComparatorsWork() {
         SubProduct sb1 = new SubProduct("AAAA", "AAAA", 0, 0);
         SubProduct sb2 = new SubProduct("AAA", "AAA", 0, 0);

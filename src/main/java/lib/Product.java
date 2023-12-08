@@ -1,3 +1,5 @@
+package lib;
+
 public abstract class Product {
     private String id;
     private String name;
@@ -51,7 +53,7 @@ public abstract class Product {
         // Check if classes match the passed object
         if (obj.getClass() != this.getClass()) return false;
 
-        // Type casting object type 'Object' to 'Product'
+        // Type casting object type 'Object' to 'lib.Product'
         Product product = (Product) obj;
 
         if (!this.id.equals(product.id)) return false;
@@ -66,7 +68,7 @@ public abstract class Product {
     }
 
     @Override
-    // Returns Product name when printed
+    // Returns lib.Product name when printed
     public String toString() {
         return this.name;
     }

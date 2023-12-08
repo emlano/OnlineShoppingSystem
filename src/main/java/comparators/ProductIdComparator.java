@@ -1,3 +1,7 @@
+package comparators;
+
+import lib.Product;
+
 import java.util.Comparator;
 
 // Used to sort products by their product IDs

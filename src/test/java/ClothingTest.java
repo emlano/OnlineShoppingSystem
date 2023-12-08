@@ -1,53 +1,55 @@
+import lib.Clothing;
+import lib.Product;
 import org.junit.*;
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.Assert.*;
 
-@DisplayName("Testing class Clothing")
+@DisplayName("Testing class lib.Clothing")
 public class ClothingTest {
 
     @Test
-    @DisplayName("Clothing class must exist in Package")
+    @DisplayName("lib.Clothing class must exist in Package")
     public void clothingClassExists() {
         try {
-            Class.forName("Clothing");
+            Class.forName("lib.Clothing");
         } catch (Exception e) {
-            Assert.fail("'Clothing' class was not found!");
+            Assert.fail("'lib.Clothing' class was not found!");
         }
     }
 
     @Test
-    @DisplayName("Clothing class must inherit from class Product")
+    @DisplayName("lib.Clothing class must inherit from class lib.Product")
     public void clothingInheritsFromProduct() {
         assertEquals(Product.class, Clothing.class.getSuperclass());
     }
 
     @Test
-    @DisplayName("Testing Clothing class's Getters")
+    @DisplayName("Testing lib.Clothing class's Getters")
     public void clothingGettersWork() {
-        Clothing clothing = new Clothing(Size.M, "White");
+        Clothing clothing = new Clothing("M", "White");
 
-        assertEquals(Size.M, clothing.getSize());
+        assertEquals("M", clothing.getSize());
         assertEquals("White", clothing.getColor());
     }
 
     @Test
-    @DisplayName("Testing Clothing class's Setters")
+    @DisplayName("Testing lib.Clothing class's Setters")
     public void clothingSettersWork() {
-        Clothing clothing = new Clothing(Size.L, "White");
+        Clothing clothing = new Clothing("L", "White");
 
         clothing.setColor("Indigo");
         clothing.setSize("M");
 
         assertEquals("Indigo", clothing.getColor());
-        assertEquals(Size.M, clothing.getSize());
+        assertEquals("M", clothing.getSize());
     }
 
     @Test
     @DisplayName("Testing if the equals method is working")
     public void clothingEqualsMethodWorks() {
-        Clothing clothing = new Clothing(Size.XL, "White");
-        Clothing other = new Clothing(Size.XL, "White");
-        Clothing another = new Clothing(Size.L, "Black");
+        Clothing clothing = new Clothing("XL", "White");
+        Clothing other = new Clothing("XL", "White");
+        Clothing another = new Clothing("L", "Black");
 
         assertEquals(clothing, other);
         assertNotEquals(clothing, another);

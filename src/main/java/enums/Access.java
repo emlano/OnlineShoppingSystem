@@ -1,3 +1,5 @@
+package enums;
+
 // Users access to the system, controls accessibility of user accounts
 public enum Access {
     ADMIN,
@@ -7,7 +9,7 @@ public enum Access {
     public String toString() {
         return switch (this) {
             case Access.ADMIN -> "Admin";
-            case Access.CLIENT -> "Client";
+            case Access.CLIENT -> "lib.Client";
         };
     }
 }

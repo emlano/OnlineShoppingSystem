@@ -1,3 +1,5 @@
+package lib;
+
 public class Electronic extends Product {
     private String brand;
     private int warrantyPeriod;
@@ -45,7 +47,7 @@ public class Electronic extends Product {
         // Calls parent class's equals method to check inherited attributes
         if (!super.equals(obj)) return false;
 
-        // Type casting object type 'Object' to 'Electronic'
+        // Type casting object type 'Object' to 'lib.Electronic'
         Electronic electronic = (Electronic) obj;
 
         if (!this.brand.equals(electronic.brand)) return false;

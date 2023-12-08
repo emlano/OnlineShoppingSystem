@@ -1,29 +1,33 @@
+import lib.Client;
+import lib.Clothing;
+import lib.Product;
+import lib.User;
 import org.junit.*;
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-@DisplayName("Testing Client class")
+@DisplayName("Testing lib.Client class")
 public class ClientTest {
     @Test
     @DisplayName("Class client must exist")
     public void clientClassExists() {
         try {
-            Class.forName("Client");
+            Class.forName("lib.Client");
         } catch (Exception e) {
-            Assert.fail("Class 'Client' not found!");
+            Assert.fail("Class 'lib.Client' not found!");
         }
     }
 
     @Test
-    @DisplayName("Client class inherits from User")
+    @DisplayName("lib.Client class inherits from lib.User")
     public void clientInheritsFromUser() {
         assertEquals(User.class, Client.class.getSuperclass());
     }
 
     @Test
-    @DisplayName("Client class getters work")
+    @DisplayName("lib.Client class getters work")
     public void clientGettersWork() {
         Client cl = new Client("John", "password");
 
@@ -31,11 +35,11 @@ public class ClientTest {
     }
 
     @Test
-    @DisplayName("Client purchase history works")
+    @DisplayName("lib.Client purchase history works")
     public void clientPurchaseHistoryWorks() {
         Client cl = new Client("John", "password");
-        Clothing shirt = new Clothing(Size.L, "Black");
-        Clothing jeans = new Clothing(Size.L, "Blue");
+        Clothing shirt = new Clothing("L", "Black");
+        Clothing jeans = new Clothing("L", "Blue");
 
         ArrayList<Product> list = new ArrayList<>(Arrays.asList(shirt, jeans));
 
@@ -46,12 +50,12 @@ public class ClientTest {
     }
 
     @Test
-    @DisplayName("Client class setters work")
+    @DisplayName("lib.Client class setters work")
     public void clientSettersWork() {
         Client cl = new Client("John", "password");
 
-        Clothing shirt = new Clothing(Size.L, "Black");
-        Clothing jeans = new Clothing(Size.S, "Blue");
+        Clothing shirt = new Clothing("L", "Black");
+        Clothing jeans = new Clothing("S", "Blue");
 
         ArrayList<Product> list = new ArrayList<>(Arrays.asList(shirt, jeans));
 

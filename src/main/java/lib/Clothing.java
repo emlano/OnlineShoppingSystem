@@ -1,9 +1,11 @@
+package lib;
+
 public class Clothing extends Product {
-    private Size size;
+    private String size;
     private String color;
 
     // Constructor with all attributes
-    public Clothing(String id, String name, double price, int count, Size size, String color) {
+    public Clothing(String id, String name, double price, int count, String size, String color) {
         super(id, name, price, count);
         this.size = size;
         this.color = color;
@@ -11,7 +13,7 @@ public class Clothing extends Product {
 
     // Constructor with instance attributes being defaulted
     public Clothing(String id, String name, double price, int count) {
-        this(id, name, price, count, Size.M, "Black");
+        this(id, name, price, count, "L", "Black");
     }
 
     // Constructor with instance attributes and item count being defaulted
@@ -20,7 +22,7 @@ public class Clothing extends Product {
     }
 
     // Constructor with inherited attributes being defaulted.
-    public Clothing(Size size, String color) {
+    public Clothing(String size, String color) {
         this("DefaultId", "DefaultName", 100, 1, size, color);
     }
 
@@ -28,7 +30,7 @@ public class Clothing extends Product {
         return color;
     }
 
-    public Size getSize() {
+    public String getSize() {
         return size;
     }
 
@@ -37,14 +39,7 @@ public class Clothing extends Product {
     }
 
     public void setSize(String size) {
-        switch (size.toUpperCase()) {
-            case "XS" -> this.size = Size.XS;
-            case "S" -> this.size = Size.S;
-            case "M" -> this.size = Size.M;
-            case "L" -> this.size = Size.L;
-            case "XL" -> this.size = Size.XL;
-            case "XLL" -> this.size = Size.XXL;
-        }
+        this.size = size;
     }
 
     @Override
@@ -52,7 +47,7 @@ public class Clothing extends Product {
         // Calls parent class's equals method to check inherited vars
         if (!super.equals(obj)) return false;
 
-        // Type casting object type 'Object' to 'Clothing'
+        // Type casting object type 'Object' to 'lib.Clothing'
         Clothing clothing = (Clothing) obj;
 
         if (!this.color.equals(clothing.color)) return false;
