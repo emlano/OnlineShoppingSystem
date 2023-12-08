@@ -62,7 +62,11 @@ public class WestminsterShoppingManagerTest {
             Assert.fail("Test Error: Product ID already used!");
         }
 
-        wsm.deleteProduct("ABCDE");
+        try {
+            wsm.deleteProduct("ABCDE");
+        } catch (ProductNotFoundException e) {
+            Assert.fail("Test Failed: Product was not found!");
+        }
 
         assertNull(wsm.getProduct("ABCDE"));
     }

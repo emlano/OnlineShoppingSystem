@@ -65,13 +65,14 @@ public class WestminsterShoppingManager implements ShoppingManager {
      * @return {@link Product} object removed.
      */
     @Override
-    public Product deleteProduct(String productId) {
+    public Product deleteProduct(String productId) throws ProductNotFoundException {
         for (int i = 0; i < this.productList.size(); i++) {
             if (this.productList.get(i).getId().equals(productId)) {
                 return this.productList.remove(i);
             }
         }
-        return null;
+
+        throw new ProductNotFoundException();
     }
 
     /**
