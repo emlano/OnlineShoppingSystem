@@ -9,7 +9,7 @@ public enum Access {
     public String toString() {
         return switch (this) {
             case Access.ADMIN -> "Admin";
-            case Access.CLIENT -> "lib.Client";
+            case Access.CLIENT -> "Client";
         };
     }
 }

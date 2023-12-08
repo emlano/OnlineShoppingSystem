@@ -4,27 +4,27 @@ import org.junit.*;
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.Assert.*;
 
-@DisplayName("Testing class lib.Clothing")
+@DisplayName("Testing class Clothing")
 public class ClothingTest {
 
     @Test
-    @DisplayName("lib.Clothing class must exist in Package")
+    @DisplayName("Clothing class must exist in Package")
     public void clothingClassExists() {
         try {
             Class.forName("lib.Clothing");
         } catch (Exception e) {
-            Assert.fail("'lib.Clothing' class was not found!");
+            Assert.fail("'Clothing' class was not found!");
         }
     }
 
     @Test
-    @DisplayName("lib.Clothing class must inherit from class lib.Product")
+    @DisplayName("Clothing class must inherit from class Product")
     public void clothingInheritsFromProduct() {
         assertEquals(Product.class, Clothing.class.getSuperclass());
     }
 
     @Test
-    @DisplayName("Testing lib.Clothing class's Getters")
+    @DisplayName("Testing Clothing class's Getters")
     public void clothingGettersWork() {
         Clothing clothing = new Clothing("M", "White");
 
@@ -33,7 +33,7 @@ public class ClothingTest {
     }
 
     @Test
-    @DisplayName("Testing lib.Clothing class's Setters")
+    @DisplayName("Testing Clothing class's Setters")
     public void clothingSettersWork() {
         Clothing clothing = new Clothing("L", "White");
 

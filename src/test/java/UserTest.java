@@ -4,7 +4,7 @@ import org.junit.*;
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.Assert.*;
 
-@DisplayName("Testing class lib.User")
+@DisplayName("Testing class User")
 public class UserTest {
     
     @Test
@@ -13,12 +13,12 @@ public class UserTest {
         try {
             Class.forName("lib.User");
         } catch (Exception e) {
-            Assert.fail("Abstract class 'lib.User' not found!");
+            Assert.fail("Abstract class 'User' not found!");
         }
     }
 
     @Test
-    @DisplayName("Testing lib.User's Getters")
+    @DisplayName("Testing User's Getters")
     public void userGettersWork() {
         SubUser su = new SubUser("admin", "password", Access.ADMIN);
 
@@ -28,7 +28,7 @@ public class UserTest {
     }
 
     @Test
-    @DisplayName("Testing lib.User's Setters")
+    @DisplayName("Testing User's Setters")
     public void userSettersWork() {
         SubUser su = new SubUser("admin", "password", Access.ADMIN);
 

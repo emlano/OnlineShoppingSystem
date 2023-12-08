@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-@DisplayName("Testing lib.Client class")
+@DisplayName("Testing Client class")
 public class ClientTest {
     @Test
     @DisplayName("Class client must exist")
@@ -16,18 +16,18 @@ public class ClientTest {
         try {
             Class.forName("lib.Client");
         } catch (Exception e) {
-            Assert.fail("Class 'lib.Client' not found!");
+            Assert.fail("Class 'Client' not found!");
         }
     }
 
     @Test
-    @DisplayName("lib.Client class inherits from lib.User")
+    @DisplayName("Client class inherits from User")
     public void clientInheritsFromUser() {
         assertEquals(User.class, Client.class.getSuperclass());
     }
 
     @Test
-    @DisplayName("lib.Client class getters work")
+    @DisplayName("Client class getters work")
     public void clientGettersWork() {
         Client cl = new Client("John", "password");
 
@@ -35,7 +35,7 @@ public class ClientTest {
     }
 
     @Test
-    @DisplayName("lib.Client purchase history works")
+    @DisplayName("Client purchase history works")
     public void clientPurchaseHistoryWorks() {
         Client cl = new Client("John", "password");
         Clothing shirt = new Clothing("L", "Black");
@@ -50,7 +50,7 @@ public class ClientTest {
     }
 
     @Test
-    @DisplayName("lib.Client class setters work")
+    @DisplayName("Client class setters work")
     public void clientSettersWork() {
         Client cl = new Client("John", "password");
 

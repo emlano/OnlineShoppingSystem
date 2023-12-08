@@ -4,27 +4,27 @@ import org.junit.*;
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.Assert.*;
 
-@DisplayName("Testing class lib.Electronic")
+@DisplayName("Testing class Electronic")
 public class ElectronicTest {
 
     @Test
-    @DisplayName("lib.Electronic class must exist in Package")
+    @DisplayName("Electronic class must exist in Package")
     public void electronicClassExists() {
         try {
             Class.forName("lib.Electronic");
         } catch (Exception e) {
-            Assert.fail("'lib.Electronic' class was not found!");
+            Assert.fail("'Electronic' class was not found!");
         }
     }
 
     @Test
-    @DisplayName("lib.Electronic class must inherit from class lib.Product")
+    @DisplayName("Electronic class must inherit from class Product")
     public void electronicInheritsFromProduct() {
         assertSame(Electronic.class.getSuperclass(), Product.class);
     }
 
     @Test
-    @DisplayName("Testing lib.Electronic class's Getters")
+    @DisplayName("Testing Electronic class's Getters")
     public void electronicGettersWork() {
         Electronic electronic = new Electronic("Toshiba", 3);
 
@@ -33,7 +33,7 @@ public class ElectronicTest {
     }
 
     @Test
-    @DisplayName("Testing lib.Electronic class's Setters")
+    @DisplayName("Testing Electronic class's Setters")
     public void electronicSettersWork() {
         Electronic electronic = new Electronic("Toshiba", 3);
 
@@ -45,7 +45,7 @@ public class ElectronicTest {
     }
 
     @Test
-    @DisplayName("Testing equals method of lib.Electronic class")
+    @DisplayName("Testing equals method of Electronic class")
     public void electronicEqualsMethodWorks() {
         Electronic electronic = new Electronic("Toshiba", 3);
         Electronic other = new Electronic("Toshiba", 3);

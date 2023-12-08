@@ -41,5 +41,16 @@ public abstract class User {
     public void setAccess(Access access) {
         this.access = access;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (obj.getClass() != this.getClass()) return false;
+
+        User user = (User) obj;
+
+        if (!this.username.equals(user.username)) return false;
+        return true;
+    }
 }
 
