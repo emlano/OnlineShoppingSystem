@@ -6,7 +6,7 @@ import enums.*;
 import java.util.Scanner;
 
 public class InputValidator {
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
     public static String getStringInput(String msg, InputFlag flag) throws IllegalInputException {
         System.out.print(msg);
         String str = scanner.nextLine();

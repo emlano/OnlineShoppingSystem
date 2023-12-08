@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class UserInterface {
     private final Scanner scn;
-    private WestminsterShoppingManager wsm;
+    private final WestminsterShoppingManager wsm;
     private final Random random;
     private static final String err = "\n[ ! ] An error occurred: ";
 

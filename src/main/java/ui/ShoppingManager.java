@@ -9,7 +9,6 @@ import lib.User;
 import java.io.IOException;
 
 public interface ShoppingManager {
-    void start();
     void addProduct(Product product) throws NonUniqueProductIdException;
     void addUser(User user) throws NonUniqueUsernameException;
     Product deleteProduct(String productId) throws ProductNotFoundException;

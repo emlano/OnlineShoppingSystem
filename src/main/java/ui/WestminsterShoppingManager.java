@@ -19,11 +19,6 @@ public class WestminsterShoppingManager implements ShoppingManager {
         this.userList = new ArrayList<>();
     }
 
-    @Override
-    public void start() {
-        // TODO
-    }
-
     /**
      * Adds a {@link Product} to the product list.
      * @param product is the {@link Product} to be added.

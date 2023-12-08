@@ -1,7 +1,6 @@
 import enums.Access;
 import lib.*;
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.junit.*;
 import org.junit.jupiter.api.DisplayName;
 
@@ -9,7 +8,6 @@ import exceptions.*;
 import ui.WestminsterShoppingManager;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -142,7 +140,6 @@ public class WestminsterShoppingManagerTest {
         SubProduct sp3 = new SubProduct("ABBB", "AAAA", 100.00, 1);
         SubProduct sp4 = new SubProduct("ABCD", "AAAA", 100.00, 1);
 
-        ArrayList<Product> list = new ArrayList<>(List.of(sp, sp1, sp2, sp3, sp4));
         ArrayList<Product> sortedList = new ArrayList<>(List.of(sp1, sp, sp2, sp3, sp4));
 
         WestminsterShoppingManager wsm = new WestminsterShoppingManager();
