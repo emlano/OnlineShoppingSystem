@@ -3,8 +3,10 @@ package ui;
 import exceptions.*;
 import enums.*;
 import lib.*;
+import org.w3c.dom.ls.LSOutput;
 
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -13,6 +15,7 @@ public class UserInterface {
     private final WestminsterShoppingManager wsm;
     private final Random random;
     private static final String err = "\n[ ! ] An error occurred: ";
+    private static User currentUser;
 
     public UserInterface() {
         this.scn = new Scanner(System.in);
@@ -21,7 +24,22 @@ public class UserInterface {
     }
 
     public void start() {
-        showMenu();
+        System.out.println("\n\t> Attempting auto reload of program data...");
+        try {
+            wsm.readFromFile("data.json");
+            System.out.println("\t> Load successful!");
+        } catch (IOException e) {
+            System.out.println("\t> No save file present.");
+        } catch (CorruptedFileDataException e) {
+            System.out.println(err + e.getMessage());
+        }
+
+        System.out.println();
+        userMenu();
+    }
+
+    public void adminMenu() {
+        showAdminMenu();
 
         while (true) {
             System.out.print("\nEnter an option: ");
@@ -33,14 +51,61 @@ public class UserInterface {
                 case "3" -> printProductList();
                 case "4" -> saveData();
                 case "5" -> reloadData();
-                case "6" -> showMenu();
-                case "7" -> System.exit(0);
-                default -> {}
+                case "6" -> showAdminMenu();
+                case "7" -> logout();
+                case "8" -> destroyState();
+                case "9" -> System.exit(0);
+                default -> System.out.println("\nPlease choose a valid option!");
             }
         }
     }
 
-    private void showMenu() {
+    public void clientMenu() {
+        showClientMenu();
+
+        while (true) {
+            System.out.print("\nEnter an option: ");
+            String option = scn.nextLine().trim();
+
+            switch (option) {
+                case "1" -> wsm.startGUI(); //TODO
+                case "2" -> logout();
+                case "3" -> saveData();
+                case "4" -> System.exit(0);
+            }
+        }
+    }
+
+    private void userMenu() {
+        System.out.println("""
+                       
+                       Welcome!
+                       --------
+                       
+                Online Shopping Manager
+                    ---------------
+                    
+                1. Sign in
+                2. Sign up
+                3. Show user list
+                4. Quit""");
+
+        while (currentUser == null) {
+
+            System.out.print("\nChoose an option: ");
+            String option = scn.nextLine().trim();
+
+            switch (option) {
+                case "1" -> signIn();
+                case "2" -> signUp();
+                case "3" -> showUsers();
+                case "4" -> System.exit(0);
+                default -> System.out.println("\nPlease choose a valid option!");
+            }
+        }
+    }
+
+    private void showAdminMenu() {
         System.out.println("""
         
         Online Shopping System -- Administrator Menu
@@ -51,7 +116,82 @@ public class UserInterface {
             4. Save data in a file.
             5. Reload session from file.
             6. Show this menu.
-            7. Quit.""");
+            7. Logout.
+            8. DESTROY DATA.
+            9. Quit.""");
+    }
+
+    private void showClientMenu() {
+        System.out.println("""
+                
+        Online Shopping System -- Client Menu
+        _____________________________________
+            1. Launch GUI.
+            2. Logout.
+            3. Quit""");
+    }
+
+
+    private void signIn() {
+        try {
+            String username = InputValidator.getStringInput("\n\tEnter username: ", InputFlag.NONE);
+            String password = InputValidator.getStringInput("\tEnter password: ", InputFlag.NONE);
+
+            User user = wsm.getUser(username);
+
+            if (!user.getPassword().equals(password)) throw new IncorrectPasswordException();
+
+            currentUser = user;
+            System.out.println("\nSign in successful!");
+
+            if (user.getAccess() == Access.ADMIN) adminMenu();
+            else clientMenu();
+
+        } catch (IllegalInputException | UserNotFoundException | IncorrectPasswordException e) {
+            System.out.println(err + e.getMessage());
+        }
+    }
+
+    private void signUp() {
+        System.out.println("\n\t\t1. Administrator\n\t\t2. Client\n");
+        try {
+            int type = InputValidator.getIntInput("\tEnter account type: ", InputFlag.NONE, 1, 2);
+
+            String username = InputValidator.getStringInput("\tEnter username: ", InputFlag.NONE, 1, 15);
+            String password = InputValidator.getStringInput("\tEnter password: ", InputFlag.NONE, 1, 15);
+
+            User user = switch (type) {
+                case 1 -> new Manager(username, password);
+                case 2 -> new Client(username, password);
+                default -> throw new RuntimeException("No such account type found!");
+            };
+
+            wsm.addUser(user);
+            currentUser = user;
+            System.out.println("\nSign up successful!");
+
+            if (type == 1) adminMenu();
+            else clientMenu();
+
+        } catch (IllegalInputException | OutOfBoundsException | NonUniqueUsernameException | RuntimeException e) {
+            System.out.println(err + e.getMessage());
+        }
+    }
+
+    private void logout() {
+        currentUser = null;
+        userMenu();
+    }
+
+    private void showUsers() {
+        System.out.printf("\n\t%15.15s | %15.15s%n", "User", "Access");
+        System.out.printf("\t%15.15s | %15.15s%n", "-".repeat(15), "-".repeat(15));
+
+        wsm.getUserList().forEach(e -> {
+            System.out.printf("\t%15.15s | %15.15s%n", e.getUsername(), e.getAccess());
+        });
+
+        System.out.println();
     }
 
     private void addProduct() {
@@ -97,6 +237,7 @@ public class UserInterface {
             System.out.println();
             String id = InputValidator.getStringInput("\tEnter product id of the item: ", InputFlag.NONE,8, 10);
             wsm.deleteProduct(id);
+            System.out.println("\nItem successfully deleted!");
 
         } catch (IllegalInputException | ProductNotFoundException e) {
             System.out.println(err + e.getMessage());
@@ -124,6 +265,19 @@ public class UserInterface {
 
         } catch (IOException | CorruptedFileDataException e) {
             System.out.println(err + "Problem reading file, " + e.getMessage());
+        }
+    }
+
+    private void destroyState() {
+        System.out.println("\nProgram will DELETE ALL DATA!");
+        System.out.println("Save file will not be cleared.");
+
+        System.out.print("\tIf you are certain, type 'YES' and hit enter to continue... ");
+        String confirmation = scn.nextLine().trim();
+
+        if (confirmation.equals("YES")) {
+            wsm.destroyState();
+            System.out.println("\nProgram cleared of data...\n");
         }
     }
 

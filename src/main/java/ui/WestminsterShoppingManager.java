@@ -1,5 +1,6 @@
 package ui;
 
+import comparators.UsernameComparator;
 import enums.Size;
 import exceptions.*;
 import lib.*;
@@ -49,11 +50,15 @@ public class WestminsterShoppingManager implements ShoppingManager {
      * @param id product id
      * @return returns the {@link Product} if found, else returns null
      */
-    public Product getProduct(String id) {
-        return this.productList.stream()
+    public Product getProduct(String id) throws ProductNotFoundException {
+        Product product = this.productList.stream()
             .filter(e -> e.getId().equals(id))
             .findFirst()
             .orElse(null);
+
+        if (product == null) throw new ProductNotFoundException();
+
+        return product;
     }
 
     /**
@@ -108,11 +113,15 @@ public class WestminsterShoppingManager implements ShoppingManager {
      * @param username of the User object
      * @return User object if found or null.
      */
-    public User getUser(String username) {
-        return this.userList.stream()
+    public User getUser(String username) throws UserNotFoundException {
+        User user = this.userList.stream()
         .filter(e -> e.getUsername().equals(username))
         .findFirst()
         .orElse(null);
+
+        if (user == null) throw new UserNotFoundException();
+
+        return user;
     }
 
     /**
@@ -120,6 +129,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
      * @return User list containing all users added into the program
      */
     public ArrayList<User> getUserList() {
+        userList.sort(new UsernameComparator());
         return this.userList;
     }
 
@@ -369,5 +379,10 @@ public class WestminsterShoppingManager implements ShoppingManager {
     @Override
     public void startGUI() {
         // TODO
+    }
+
+    public void destroyState() {
+        userList = new ArrayList<>();
+        productList = new ArrayList<>();
     }
 }
