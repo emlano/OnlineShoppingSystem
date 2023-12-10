@@ -1,28 +1,20 @@
 package lib;
 
+import enums.Size;
+
 public class Clothing extends Product {
-    private String size;
+    private Size size;
     private String color;
 
     // Constructor with all attributes
-    public Clothing(String id, String name, double price, int count, String size, String color) {
+    public Clothing(String id, String name, double price, int count, Size size, String color) {
         super(id, name, price, count);
         this.size = size;
         this.color = color;
     }
 
-    // Constructor with instance attributes being defaulted
-    public Clothing(String id, String name, double price, int count) {
-        this(id, name, price, count, "L", "Black");
-    }
-
-    // Constructor with instance attributes and item count being defaulted
-    public Clothing(String id, String name, double price) {
-        this(id, name, price, 1);
-    }
-
     // Constructor with inherited attributes being defaulted.
-    public Clothing(String size, String color) {
+    public Clothing(Size size, String color) {
         this("DefaultId", "DefaultName", 100, 1, size, color);
     }
 
@@ -30,7 +22,7 @@ public class Clothing extends Product {
         return color;
     }
 
-    public String getSize() {
+    public Size getSize() {
         return size;
     }
 
@@ -38,7 +30,7 @@ public class Clothing extends Product {
         this.color = color;
     }
 
-    public void setSize(String size) {
+    public void setSize(Size size) {
         this.size = size;
     }
 

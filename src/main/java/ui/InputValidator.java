@@ -78,14 +78,14 @@ public class InputValidator {
         return d;
     }
 
-    public static double getDoubleInput(String msg, InputFlag flag, double min, double max) throws IllegalInputException, OutOfBoundsException {
-        double d = getDoubleInput(msg, flag);
+    public static Size getSizeInput(String msg, InputFlag flag) throws IllegalInputException {
+        String str = getStringInput(msg, flag);
 
-        if (d < min || d > max) {
-            throw new OutOfBoundsException("Input out of bounds for range %.2f and %.2f".formatted(min, max));
+        if (Size.toSize(str) == null) {
+            throw new IllegalInputException("Wrong format for Size, Input must in format 'XS / M / L / XL / XXL'");
         }
 
-        return d;
+        return Size.toSize(str);
     }
 }
 

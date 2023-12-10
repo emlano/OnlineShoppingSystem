@@ -1,9 +1,10 @@
 import enums.Access;
 import lib.Manager;
 import lib.User;
-import org.junit.*;
-import org.junit.jupiter.api.DisplayName;
-import static org.junit.Assert.*;
+
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing Manager class")
 public class ManagerTest {
@@ -14,7 +15,7 @@ public class ManagerTest {
         try {
             Class.forName("lib.Manager");
         } catch (Exception e) {
-            Assert.fail("Class 'Manager' was not found!");
+            Assertions.fail("Class 'Manager' was not found!");
         }
     }
 

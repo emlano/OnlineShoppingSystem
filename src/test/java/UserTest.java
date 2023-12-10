@@ -1,8 +1,11 @@
 import enums.Access;
 import lib.User;
-import org.junit.*;
+
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-import static org.junit.Assert.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing class User")
 public class UserTest {
@@ -13,7 +16,7 @@ public class UserTest {
         try {
             Class.forName("lib.User");
         } catch (Exception e) {
-            Assert.fail("Abstract class 'User' not found!");
+            Assertions.fail("Abstract class 'User' not found!");
         }
     }
 

@@ -1,9 +1,9 @@
 import lib.Electronic;
 import lib.Product;
-import org.junit.*;
-import org.junit.jupiter.api.DisplayName;
-import static org.junit.Assert.*;
 
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Testing class Electronic")
 public class ElectronicTest {
 
@@ -13,7 +13,7 @@ public class ElectronicTest {
         try {
             Class.forName("lib.Electronic");
         } catch (Exception e) {
-            Assert.fail("'Electronic' class was not found!");
+            Assertions.fail("'Electronic' class was not found!");
         }
     }
 

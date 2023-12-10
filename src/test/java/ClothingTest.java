@@ -1,8 +1,10 @@
+import enums.Size;
 import lib.Clothing;
 import lib.Product;
-import org.junit.*;
-import org.junit.jupiter.api.DisplayName;
-import static org.junit.Assert.*;
+
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing class Clothing")
 public class ClothingTest {
@@ -13,7 +15,7 @@ public class ClothingTest {
         try {
             Class.forName("lib.Clothing");
         } catch (Exception e) {
-            Assert.fail("'Clothing' class was not found!");
+            Assertions.fail("'Clothing' class was not found!");
         }
     }
 
@@ -26,30 +28,30 @@ public class ClothingTest {
     @Test
     @DisplayName("Testing Clothing class's Getters")
     public void clothingGettersWork() {
-        Clothing clothing = new Clothing("M", "White");
+        Clothing clothing = new Clothing(Size.M, "White");
 
-        assertEquals("M", clothing.getSize());
+        assertEquals(Size.M, clothing.getSize());
         assertEquals("White", clothing.getColor());
     }
 
     @Test
     @DisplayName("Testing Clothing class's Setters")
     public void clothingSettersWork() {
-        Clothing clothing = new Clothing("L", "White");
+        Clothing clothing = new Clothing(Size.L, "White");
 
         clothing.setColor("Indigo");
-        clothing.setSize("M");
+        clothing.setSize(Size.M);
 
         assertEquals("Indigo", clothing.getColor());
-        assertEquals("M", clothing.getSize());
+        assertEquals(Size.M, clothing.getSize());
     }
 
     @Test
     @DisplayName("Testing if the equals method is working")
     public void clothingEqualsMethodWorks() {
-        Clothing clothing = new Clothing("XL", "White");
-        Clothing other = new Clothing("XL", "White");
-        Clothing another = new Clothing("L", "Black");
+        Clothing clothing = new Clothing(Size.XL, "White");
+        Clothing other = new Clothing(Size.XL, "White");
+        Clothing another = new Clothing(Size.L, "Black");
 
         assertEquals(clothing, other);
         assertNotEquals(clothing, another);

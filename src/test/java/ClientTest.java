@@ -1,12 +1,12 @@
-import lib.Client;
-import lib.Clothing;
-import lib.Product;
-import lib.User;
-import org.junit.*;
-import org.junit.jupiter.api.DisplayName;
-import static org.junit.Assert.*;
-import java.util.ArrayList;
+import enums.*;
+import lib.*;
+
 import java.util.Arrays;
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing Client class")
 public class ClientTest {
@@ -16,7 +16,7 @@ public class ClientTest {
         try {
             Class.forName("lib.Client");
         } catch (Exception e) {
-            Assert.fail("Class 'Client' not found!");
+            Assertions.fail("Class 'Client' not found!");
         }
     }
 
@@ -38,8 +38,8 @@ public class ClientTest {
     @DisplayName("Client purchase history works")
     public void clientPurchaseHistoryWorks() {
         Client cl = new Client("John", "password");
-        Clothing shirt = new Clothing("L", "Black");
-        Clothing jeans = new Clothing("L", "Blue");
+        Clothing shirt = new Clothing(Size.L, "Black");
+        Clothing jeans = new Clothing(Size.L, "Blue");
 
         ArrayList<Product> list = new ArrayList<>(Arrays.asList(shirt, jeans));
 
@@ -54,8 +54,8 @@ public class ClientTest {
     public void clientSettersWork() {
         Client cl = new Client("John", "password");
 
-        Clothing shirt = new Clothing("L", "Black");
-        Clothing jeans = new Clothing("S", "Blue");
+        Clothing shirt = new Clothing(Size.L, "Black");
+        Clothing jeans = new Clothing(Size.S, "Blue");
 
         ArrayList<Product> list = new ArrayList<>(Arrays.asList(shirt, jeans));
 

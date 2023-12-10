@@ -75,7 +75,7 @@ public class UserInterface {
 
             Product obj;
             if (type == 1) {
-                String size = InputValidator.getStringInput("\tEnter items Size: ", InputFlag.NONE,1, 4);
+                Size size = InputValidator.getSizeInput("\tEnter items Size: ", InputFlag.NONE);
                 String color = InputValidator.getStringInput("\tEnter items color : ", InputFlag.NONE,1, 15);
                 obj = new Clothing(id, name, price, count, size, color);
 
@@ -122,8 +122,8 @@ public class UserInterface {
             wsm.readFromFile("data.json");
             System.out.println("\nLoaded data from 'data.json' file");
 
-        } catch (IOException e) {
-            System.out.println(err + "Could not open file to read!");
+        } catch (IOException | CorruptedFileDataException e) {
+            System.out.println(err + "Problem reading file, " + e.getMessage());
         }
     }
 

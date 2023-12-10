@@ -11,16 +11,6 @@ public class Electronic extends Product {
         this.warrantyPeriod = warrantyPeriod;
     }
 
-    // Constructor with instance attributes defaulted
-    public Electronic(String id, String name, double price, int count) {
-        this(id, name, price, count, "DefaultBrand", 1);
-    }
-
-    // Constructor with instance attributes and item count defaulted
-    public Electronic(String id, String name, double price) {
-        this(id, name, price, 1);
-    }
-
     // Constructor with inherited attributes defaulted
     public Electronic(String brand, int warrantyPeriod) {
         this("DefaultId", "DefaultName", 100, 1, brand, warrantyPeriod);

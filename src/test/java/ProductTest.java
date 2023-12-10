@@ -4,11 +4,10 @@ import java.util.Arrays;
 import comparators.ProductIdComparator;
 import comparators.ProductNameComparator;
 import lib.Product;
-import org.junit.*;
-import org.junit.jupiter.api.DisplayName;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.*;
 
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing class Product")
 public class ProductTest {
@@ -19,7 +18,7 @@ public class ProductTest {
         try {
             Class.forName("lib.Product");
         } catch (Exception e) {
-            Assert.fail("'Product' class was not found!");
+            Assertions.fail("'Product' class was not found!");
         }
     }
 

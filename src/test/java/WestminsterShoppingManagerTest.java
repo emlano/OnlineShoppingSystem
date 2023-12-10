@@ -1,26 +1,24 @@
-import enums.Access;
+import enums.*;
 import lib.*;
-import org.json.JSONArray;
-import org.junit.*;
-import org.junit.jupiter.api.DisplayName;
+import org.json.*;
+import org.junit.jupiter.api.*;
 
 import exceptions.*;
-import ui.WestminsterShoppingManager;
+import ui.*;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing class WestminsterShopping")
 public class WestminsterShoppingManagerTest {
-    
+
     @Test
-    @DisplayName("Products are able to be added")
+    @DisplayName("Possible to add products")
     public void methodAddProductWorks() {
         SubProduct sb = new SubProduct("abcdef", "ABCD", 100.99, 10);
         WestminsterShoppingManager wsm = new WestminsterShoppingManager();
@@ -28,14 +26,16 @@ public class WestminsterShoppingManagerTest {
         try {
             wsm.addProduct(sb);
         } catch (NonUniqueProductIdException e) {
-            Assert.fail("Test Error: Product ID already used!");
+            Assertions.fail("Test Error: Product ID already used!");
         }
 
-        assertEquals(new ArrayList<Product>(List.of(sb)), wsm.getProductList());
+        assertNotNull( wsm.getProductList(), "Product list was null");
+        assertEquals(1, wsm.getProductList().size(), "List length was wrong");
+        assertEquals(new ArrayList<Product>(List.of(sb)), wsm.getProductList(), "List content was wrong");
     }
 
     @Test
-    @DisplayName("Products are able to be retrieved")
+    @DisplayName("Possible to return products")
     public void getProductMethodWorks() {
         SubProduct sb = new SubProduct("abcdef", "ABCD", 100.99, 10);
         WestminsterShoppingManager wsm = new WestminsterShoppingManager();
@@ -43,10 +43,12 @@ public class WestminsterShoppingManagerTest {
         try {
             wsm.addProduct(sb);
         } catch (NonUniqueProductIdException e) {
-            Assert.fail("Test Error: Product ID already used!");
+            Assertions.fail("Test Error: Product ID already used!");
         }
 
-        assertEquals(sb, wsm.getProduct(sb.getId()));
+        assertNull(wsm.getProduct("invaldiId"), "Non existent product returned");
+        assertNotNull(wsm.getProduct(sb.getId()), "Failed to find product");
+        assertEquals(sb, wsm.getProduct(sb.getId()), "Returned object was wrong");
     }
 
     @Test
@@ -57,16 +59,17 @@ public class WestminsterShoppingManagerTest {
         try {
             wsm.addProduct(sb);
         } catch (NonUniqueProductIdException e) {
-            Assert.fail("Test Error: Product ID already used!");
+            Assertions.fail("Test Error: Product ID already used!");
         }
 
         try {
             wsm.deleteProduct("ABCDE");
         } catch (ProductNotFoundException e) {
-            Assert.fail("Test Failed: Product was not found!");
+            Assertions.fail("Test Failed: Product was not found!");
         }
 
-        assertNull(wsm.getProduct("ABCDE"));
+        assertThrows(ProductNotFoundException.class, () -> wsm.deleteProduct("invalidId"), "Did not throw for a invalid deletion");
+        assertNull(wsm.getProduct("ABCDE"), "Product was not deleted");
     }
 
     @Test
@@ -79,10 +82,10 @@ public class WestminsterShoppingManagerTest {
         try {
             wsm.addProduct(sb);
         } catch (NonUniqueProductIdException e) {
-            Assert.fail("Test Error: Product ID already used!");
+            Assertions.fail("Test Error: Product ID already used!");
         }
 
-        assertThrows(NonUniqueProductIdException.class, () -> wsm.addProduct(sbClone));
+        assertThrows(NonUniqueProductIdException.class, () -> wsm.addProduct(sbClone), "Failed to detect duplicate Id");
     }
 
     @Test
@@ -94,10 +97,12 @@ public class WestminsterShoppingManagerTest {
         try {
             wsm.addUser(su);
         } catch (NonUniqueUsernameException e) {
-            Assert.fail("Test Error: Username already used!");
+            Assertions.fail("Test Error: Username already used!");
         }
 
-        assertEquals(new ArrayList<User>(List.of(su)), wsm.getUserList());
+        assertNotNull(wsm.getUserList(), "User list was null");
+        assertEquals(1, wsm.getUserList().size(), "Returned list's size was wrong");
+        assertEquals(new ArrayList<User>(List.of(su)), wsm.getUserList(), "Returned list was wrong");
     }
 
     @Test
@@ -109,10 +114,12 @@ public class WestminsterShoppingManagerTest {
         try {
             wsm.addUser(su);
         } catch (NonUniqueUsernameException e) {
-            Assert.fail("Test Error: Username already used!");
+            Assertions.fail("Test Error: Username already used!");
         }
 
-        assertEquals(su, wsm.getUser(su.getUsername()));
+        assertNull(wsm.getUser("invalidUsername"), "Non existent user returned");
+        assertNotNull(wsm.getUser(su.getUsername()), "Search failed to find user");
+        assertEquals(su, wsm.getUser(su.getUsername()), "Wrong user returned");
     }
 
     @Test
@@ -125,10 +132,10 @@ public class WestminsterShoppingManagerTest {
         try {
             wsm.addUser(su);
         } catch (NonUniqueUsernameException e) {
-            Assert.fail("Test Error: Username already used!");
+            Assertions.fail("Test Error: Username already used!");
         }
 
-        assertThrows(NonUniqueUsernameException.class, () -> wsm.addUser(su2));
+        assertThrows(NonUniqueUsernameException.class, () -> wsm.addUser(su2), "Accepted user with duplicate username");
     }
 
     @Test
@@ -151,20 +158,20 @@ public class WestminsterShoppingManagerTest {
             wsm.addProduct(sp3);
             wsm.addProduct(sp4);
         } catch (NonUniqueProductIdException e) {
-            Assert.fail("Test Error: Product Id used twice!");
+            Assertions.fail("Test Error: Product Id used twice!");
         }
 
         wsm.sortProductList(0);
-        assertEquals(sortedList, wsm.getProductList());
+        assertEquals(sortedList, wsm.getProductList(), "Order by ID failed");
 
         wsm.sortProductList(1);
-        assertEquals(sortedList, wsm.getProductList());
+        assertEquals(sortedList, wsm.getProductList(), "Order by name failed");
     }
 
     @Test
     @DisplayName("Checking JSON parsers")
     public void jsonParserMethodsWork() {
-        Clothing c = new Clothing("ABCDEF", "White button-up Shirt", 100.99, 1, "L", "White");
+        Clothing c = new Clothing("ABCDEF", "White button-up Shirt", 100.99, 1, Size.L, "White");
         Electronic e = new Electronic("ABCDEG", "Dell G5505 SE Laptop", 1499.99, 3, "Dell", 36);
         Client cl = new Client("harrypotter", "expelliarmus");
         Manager m = new Manager("gandalf", "mellon");
@@ -183,14 +190,14 @@ public class WestminsterShoppingManagerTest {
         JSONArray prodArray = wsm.getJsonArrayFromProductList(prodList);
         JSONArray userArray = wsm.getJsonArrayFromUserList(userList);
 
-        assertEquals(prodList, wsm.getProductListFromJsonArray(prodArray));
-        assertEquals(userList, wsm.getUserListFromJsonArray(userArray));
+        assertEquals(prodList, wsm.getProductListFromJsonArray(prodArray), "Failed to rebuild products from JSON");
+        assertEquals(userList, wsm.getUserListFromJsonArray(userArray), "Failed to rebuild users from JSON");
     }
 
     @Test
     @DisplayName("Checking file readers/writers")
     public void fileReadingWritingMethodsWork() {
-        Clothing c = new Clothing("ABCDEF", "White button-up Shirt", 100.99, 1, "L", "White");
+        Clothing c = new Clothing("ABCDEF", "White button-up Shirt", 100.99, 1, Size.L, "White");
         Electronic e = new Electronic("ABCDEG", "Dell G5505 SE Laptop", 1499.99, 3, "Dell", 36);
         Client cl = new Client("harrypotter", "expelliarmus");
         Manager m = new Manager("gandalf", "mellon");
@@ -206,19 +213,86 @@ public class WestminsterShoppingManagerTest {
             wsm.addProduct(c);
             wsm.addProduct(e);
         } catch (NonUniqueUsernameException | NonUniqueProductIdException x) {
-            Assert.fail("Test Failed: Duplicate Id Entries");
+            Assertions.fail("Test Failed: Duplicate Id Entries");
         }
 
         try {
             File temp = new File("temp.json");
             wsm.saveToFile("temp.json");
             wsm.readFromFile("temp.json");
-            temp.delete();
-        } catch (IOException x) {
-            Assert.fail("Failed to open test file to write/read");
+            assertTrue(temp.delete());
+        } catch (IOException | CorruptedFileDataException x) {
+            Assertions.fail("Failed to open test file to write/read");
         }
 
-        assertEquals(wsm.getProductList(), new ArrayList<Product>(List.of(c, e)));
-        assertEquals(wsm.getUserList(), new ArrayList<User>(List.of(cl, m)));
+        assertEquals(wsm.getProductList(), new ArrayList<Product>(List.of(c, e)), "Products were not written to/read back correctly");
+        assertEquals(wsm.getUserList(), new ArrayList<User>(List.of(cl, m)), "Users were not written to/read back correctly");
+    }
+
+    @Test
+    @DisplayName("Errors when the file is not available to be read")
+    public void checksIfFileIsMissing() {
+        WestminsterShoppingManager wsm = new WestminsterShoppingManager();
+
+        assertThrows(IOException.class, () -> wsm.readFromFile("file.json"), "Did not throw exception when file was missing");
+    }
+
+    @Test
+    @DisplayName("Handles when file is corrupted")
+    public void checksIfFileIsCorrupted() {
+        WestminsterShoppingManager wsm = new WestminsterShoppingManager();
+
+        File temp = new File("temp.json");
+        File temp2 = new File("temp2.json");
+        File temp3 = new File("temp3.json");
+
+        try {
+            FileWriter fw = new FileWriter(temp);
+            fw.write("TotallyNotJsonStrings");
+            fw.close();
+
+            FileWriter fw2 = new FileWriter(temp2);
+            fw2.write("""
+            {
+                "users": [
+                    {"invalid":  "json"}
+                ],
+                "products": [
+                    {"veryInvalid": "json"}
+                ]
+            }
+            """);
+            fw2.close();
+
+            FileWriter fw3 = new FileWriter(temp3);
+            fw3.write("""
+                    {
+                        "users": [
+                            {
+                                "id":  1337,
+                                "name": true,
+                                "price": "hello",
+                                "count": 1337
+                            }
+                        ],
+                        "products": [
+                            {"veryInvalid": "json"}
+                        ]
+                    }
+                    """);
+            fw3.close();
+
+            assertThrows(CorruptedFileDataException.class, () -> wsm.readFromFile("temp.json"), "Did not throw when data was not JSON");
+            assertThrows(CorruptedFileDataException.class, () -> wsm.readFromFile("temp2.json"), "Did not throw when json queries were wrong");
+            assertThrows(CorruptedFileDataException.class, () -> wsm.readFromFile("temp3.json"), "Did not throw when data value types were wrong");
+
+            assertTrue(temp.delete(), "Failed to delete temporary file");
+            assertTrue(temp2.delete(), "Failed to delete temporary file");
+            assertTrue(temp3.delete(), "Failed to delete temporary file");
+        } catch (IOException e) {
+            Assertions.fail("Test Failed: Unable to open file to write");
+        }
+
+
     }
 }

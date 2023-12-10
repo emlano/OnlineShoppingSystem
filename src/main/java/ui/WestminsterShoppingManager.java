@@ -1,8 +1,10 @@
 package ui;
 
+import enums.Size;
 import exceptions.*;
 import lib.*;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileReader;
@@ -132,15 +134,21 @@ public class WestminsterShoppingManager implements ShoppingManager {
         StringBuilder sb = new StringBuilder();
 
         sb.append(
-            "Product::Type::ID::Price::Count::Size::Color::Brand::WarrantyPeriod\n"
-            .replaceAll("::", "             ")
+                "%15.15s | %15.15s | %15.15s |  %14.14s | %15.15s | %15.15s | %15.15s | %15.15s | %15.15s\n"
+                        .formatted(
+                            "Product",
+                                "Type",
+                                "ID",
+                                "Price",
+                                "Count",
+                                "Size",
+                                "Color",
+                                "Brand",
+                                "WarrantyPeriod"
+                        )
         );
 
-        sb.append(
-            "----------::-------::-----::--------::--------::-------::--------::--------::-----------------\n"
-            .replaceAll("::", "          ")
-        );
-
+        sb.append("%15.15s | ".formatted("-------------").repeat(9)).append("\n");
         sb.append(this.convertProductsToString(this.productList));
 
         System.out.println(sb);
@@ -171,7 +179,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
 
         for (Product i : list) {
                 str.append(String.format(
-                    "%15.15s | %15.15s | %15.15s | %15.2f | %15.15s | %15.15s | %15.15s | %15.15s | %15.15s\n",
+                    "%15.15s | %15.15s | %15.15s | $%14.2f | %15.15s | %15.15s | %15.15s | %15.15s | %15.15s\n",
                     i.getName(),
                     i.getClass().getSimpleName(),
                     i.getId(),
@@ -256,7 +264,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
             if (e.getClass() == Clothing.class) {
                 Clothing c = (Clothing) e;
                 jo.put("type", "Clothing");
-                jo.put("size", c.getSize());
+                jo.put("size", c.getSize().toString());
                 jo.put("color", c.getColor());
             
             } else if (e.getClass() == Electronic.class) {
@@ -276,7 +284,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
      * Reads from JSON file and stores data in the program.
      */
     @Override
-    public void readFromFile(String file) throws IOException {
+    public void readFromFile(String file) throws IOException, CorruptedFileDataException {
         StringBuilder sb = new StringBuilder();
 
         FileReader fr = new FileReader(file);
@@ -289,12 +297,17 @@ public class WestminsterShoppingManager implements ShoppingManager {
 
         fr.close();
 
-        JSONObject root = new JSONObject(sb.toString());
-        JSONArray jsonProdArr = root.getJSONArray("products");
-        JSONArray jsonUserArr = root.getJSONArray("users");
+        try {
+            JSONObject root = new JSONObject(sb.toString());
+            JSONArray jsonProdArr = root.getJSONArray("products");
+            JSONArray jsonUserArr = root.getJSONArray("users");
 
-        this.productList = getProductListFromJsonArray(jsonProdArr);
-        this.userList = getUserListFromJsonArray(jsonUserArr);
+            this.productList = getProductListFromJsonArray(jsonProdArr);
+            this.userList = getUserListFromJsonArray(jsonUserArr);
+
+        } catch (JSONException e) {
+            throw new CorruptedFileDataException();
+        }
     }
 
 
@@ -314,7 +327,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
             obj.setCount(jo.getInt("count"));
 
             if (obj.getClass().getSimpleName().equals("Clothing")) {
-                ((Clothing) obj).setSize(jo.getString("size"));
+                ((Clothing) obj).setSize(Size.toSize(jo.getString("size")));
                 ((Clothing)obj).setColor(jo.getString("color"));
             
             } else {

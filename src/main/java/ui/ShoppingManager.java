@@ -1,5 +1,6 @@
 package ui;
 
+import exceptions.CorruptedFileDataException;
 import exceptions.NonUniqueProductIdException;
 import exceptions.NonUniqueUsernameException;
 import exceptions.ProductNotFoundException;
@@ -14,6 +15,6 @@ public interface ShoppingManager {
     Product deleteProduct(String productId) throws ProductNotFoundException;
     void printProductList();
     void saveToFile(String file) throws IOException;
-    void readFromFile(String file) throws IOException;
+    void readFromFile(String file) throws IOException, CorruptedFileDataException;
     void startGUI();
 }
