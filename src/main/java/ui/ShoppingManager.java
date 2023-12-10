@@ -1,11 +1,7 @@
 package ui;
 
-import exceptions.CorruptedFileDataException;
-import exceptions.NonUniqueProductIdException;
-import exceptions.NonUniqueUsernameException;
-import exceptions.ProductNotFoundException;
-import lib.Product;
-import lib.User;
+import exceptions.*;
+import lib.*;
 
 import java.io.IOException;
 

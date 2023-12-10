@@ -1,150 +1,150 @@
 {
-  "products": [
-    {
-      "color": "Blue",
-      "count": 15,
-      "id": "0DH2M07W81",
-      "name": "Dress",
-      "price": 450,
-      "size": "M",
-      "type": "Clothing"
-    },
-    {
-      "color": "Blue",
-      "count": 10,
-      "id": "5QDJZNMHO4",
-      "name": "Blazer",
-      "price": 250,
-      "size": "S",
-      "type": "Clothing"
-    },
-    {
-      "brand": "Apple",
-      "count": 5,
-      "id": "61A5IIODEF",
-      "name": "Smartphone",
-      "price": 1999.99,
-      "type": "Electronic",
-      "warranty": 12
-    },
-    {
-      "brand": "Dell",
-      "count": 2,
-      "id": "76RICJAA9S",
-      "name": "Laptop",
-      "price": 2499.99,
-      "type": "Electronic",
-      "warranty": 36
-    },
-    {
-      "color": "Red",
-      "count": 24,
-      "id": "8NLMXIKKNI",
-      "name": "Tie",
-      "price": 50,
-      "size": "M",
-      "type": "Clothing"
-    },
-    {
-      "brand": "Logitech",
-      "count": 14,
-      "id": "ENVAMD596V",
-      "name": "Computer Mouse",
-      "price": 150.99,
-      "type": "Electronic",
-      "warranty": 6
-    },
-    {
-      "brand": "Samsung",
-      "count": 12,
-      "id": "G7VEGKCB9O",
-      "name": "Smartphone",
-      "price": 699.99,
-      "type": "Electronic",
-      "warranty": 12
-    },
-    {
-      "brand": "Toshiba",
-      "count": 1,
-      "id": "JIKQTOOT2D",
-      "name": "Television",
-      "price": 2100,
-      "type": "Electronic",
-      "warranty": 12
-    },
-    {
-      "color": "Black",
-      "count": 4,
-      "id": "MRN09O6U5T",
-      "name": "Hoodie",
-      "price": 249.99,
-      "size": "XL",
-      "type": "Clothing"
-    },
-    {
-      "brand": "Lenovo",
-      "count": 3,
-      "id": "MUIHSMNU7Z",
-      "name": "Laptop",
-      "price": 1499.99,
-      "type": "Electronic",
-      "warranty": 24
-    },
-    {
-      "color": "Yellow/Black",
-      "count": 1,
-      "id": "RP29AE4PK8",
-      "name": "Hoodie",
-      "price": 165.45,
-      "size": "M",
-      "type": "Clothing"
-    },
-    {
-      "color": "Grey",
-      "count": 13,
-      "id": "RVMDZP35WS",
-      "name": "Cargo Pants",
-      "price": 169.99,
-      "size": "XXL",
-      "type": "Clothing"
-    },
-    {
-      "color": "Grey",
-      "count": 14,
-      "id": "VZHJR7J906",
-      "name": "Hoodie",
-      "price": 149.99,
-      "size": "L",
-      "type": "Clothing"
-    }
-  ],
-  "users": [
-    {
-      "access": "Admin",
-      "password": "tipsfedora",
-      "username": "AbrarSL"
-    },
-    {
-      "access": "Admin",
-      "password": "oshinokomo",
-      "username": "Sewwandi"
-    },
-    {
-      "access": "Client",
-      "password": "honeybadger",
-      "purchaseHistory": [],
-      "username": "buttercup"
-    },
-    {
-      "access": "Admin",
-      "password": "password",
-      "username": "emilano"
-    },
-    {
-      "access": "Client",
-      "password": "1337",
-      "purchaseHistory": [],
-      "username": "rafanDaMAN"
-    }
-  ]
+    "users": [
+        {
+            "password": "tipsfedora",
+            "access": "Admin",
+            "username": "AbrarSL"
+        },
+        {
+            "password": "oshinokomo",
+            "access": "Admin",
+            "username": "Sewwandi"
+        },
+        {
+            "password": "honeybadger",
+            "purchaseHistory": [],
+            "access": "Client",
+            "username": "buttercup"
+        },
+        {
+            "password": "password",
+            "access": "Admin",
+            "username": "emilano"
+        },
+        {
+            "password": "1337",
+            "purchaseHistory": [],
+            "access": "Client",
+            "username": "rafanDaMAN"
+        }
+    ],
+    "products": [
+        {
+            "size": "M",
+            "color": "Blue",
+            "price": 450,
+            "name": "Dress",
+            "count": 15,
+            "id": "0DH2M07W81",
+            "type": "Clothing"
+        },
+        {
+            "size": "S",
+            "color": "Blue",
+            "price": 250,
+            "name": "Blazer",
+            "count": 10,
+            "id": "5QDJZNMHO4",
+            "type": "Clothing"
+        },
+        {
+            "price": 1999.99,
+            "name": "Smartphone",
+            "count": 5,
+            "warranty": 12,
+            "id": "61A5IIODEF",
+            "type": "Electronic",
+            "brand": "Apple"
+        },
+        {
+            "price": 2499.99,
+            "name": "Laptop",
+            "count": 2,
+            "warranty": 36,
+            "id": "76RICJAA9S",
+            "type": "Electronic",
+            "brand": "Dell"
+        },
+        {
+            "size": "M",
+            "color": "Red",
+            "price": 50,
+            "name": "Tie",
+            "count": 24,
+            "id": "8NLMXIKKNI",
+            "type": "Clothing"
+        },
+        {
+            "price": 150.99,
+            "name": "Computer Mouse",
+            "count": 14,
+            "warranty": 6,
+            "id": "ENVAMD596V",
+            "type": "Electronic",
+            "brand": "Logitech"
+        },
+        {
+            "price": 699.99,
+            "name": "Smartphone",
+            "count": 12,
+            "warranty": 12,
+            "id": "G7VEGKCB9O",
+            "type": "Electronic",
+            "brand": "Samsung"
+        },
+        {
+            "price": 2100,
+            "name": "Television",
+            "count": 1,
+            "warranty": 12,
+            "id": "JIKQTOOT2D",
+            "type": "Electronic",
+            "brand": "Toshiba"
+        },
+        {
+            "size": "XL",
+            "color": "Black",
+            "price": 249.99,
+            "name": "Hoodie",
+            "count": 4,
+            "id": "MRN09O6U5T",
+            "type": "Clothing"
+        },
+        {
+            "price": 1499.99,
+            "name": "Laptop",
+            "count": 3,
+            "warranty": 24,
+            "id": "MUIHSMNU7Z",
+            "type": "Electronic",
+            "brand": "Lenovo"
+        },
+        {
+            "size": "M",
+            "color": "Yellow/Black",
+            "price": 165.45,
+            "name": "Hoodie",
+            "count": 1,
+            "id": "RP29AE4PK8",
+            "type": "Clothing"
+        },
+        {
+            "size": "XXL",
+            "color": "Grey",
+            "price": 169.99,
+            "name": "Cargo Pants",
+            "count": 13,
+            "id": "RVMDZP35WS",
+            "type": "Clothing"
+        },
+        {
+            "size": "L",
+            "color": "Grey",
+            "price": 149.99,
+            "name": "Hoodie",
+            "count": 14,
+            "id": "VZHJR7J906",
+            "type": "Clothing"
+        }
+    ]
 }

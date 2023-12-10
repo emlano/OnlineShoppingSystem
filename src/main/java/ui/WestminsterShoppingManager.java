@@ -1,16 +1,13 @@
 package ui;
 
-import comparators.UsernameComparator;
-import enums.Size;
+import comparators.*;
+import enums.*;
 import exceptions.*;
 import lib.*;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import org.json.*;
+
+import java.io.*;
 import java.util.ArrayList;
 
 public class WestminsterShoppingManager implements ShoppingManager {
@@ -28,7 +25,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
      */
     @Override
     public void addProduct(Product product) throws NonUniqueProductIdException {
-        if (isProductIdAlreadyUsed(product.getId())) {
+        if (isIdNotUnique(product.getId())) {
             throw new NonUniqueProductIdException();
         }
 
@@ -40,7 +37,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
      * @param id to be checked against all existing products
      * @return boolean 
      */
-    private boolean isProductIdAlreadyUsed(String id) {
+    private boolean isIdNotUnique(String id) {
         return this.productList.stream()
             .anyMatch(e -> e.getId().equals(id));
     }
@@ -91,7 +88,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
      */
     @Override
     public void addUser(User user) throws NonUniqueUsernameException {
-        if (isUsernameAlreadyUsed(user.getUsername())) {
+        if (isUsernameNotUnique(user.getUsername())) {
             throw new NonUniqueUsernameException();
         }
 
@@ -103,7 +100,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
      * @param username to be checked against existing users
      * @return boolean
      */
-    private boolean isUsernameAlreadyUsed(String username) {
+    private boolean isUsernameNotUnique(String username) {
         return this.userList.stream()
             .anyMatch(e -> e.getUsername().equals(username));
     }
@@ -133,8 +130,6 @@ public class WestminsterShoppingManager implements ShoppingManager {
         return this.userList;
     }
 
-
-
     /**
      * Creates an ASCII table of all products and information and displays it
      */
@@ -142,23 +137,12 @@ public class WestminsterShoppingManager implements ShoppingManager {
     public void printProductList() {
         sortProductList(0);
         StringBuilder sb = new StringBuilder();
+        Object[] headers = {
+            "Product", "Type", "ID", "Price", "Count", "Size", "Color", "Brand", "WarrantyPeriod"
+        };
 
-        sb.append(
-                "%15.15s | %15.15s | %15.15s |  %14.14s | %15.15s | %15.15s | %15.15s | %15.15s | %15.15s\n"
-                        .formatted(
-                            "Product",
-                                "Type",
-                                "ID",
-                                "Price",
-                                "Count",
-                                "Size",
-                                "Color",
-                                "Brand",
-                                "WarrantyPeriod"
-                        )
-        );
-
-        sb.append("%15.15s | ".formatted("-------------").repeat(9)).append("\n");
+        sb.append(String.format("%15.15s | ".repeat(9), headers) + "\n");
+        sb.append("%15.15s | ".formatted("-".repeat(15)).repeat(9)).append("\n");
         sb.append(this.convertProductsToString(this.productList));
 
         System.out.println(sb);
@@ -188,19 +172,16 @@ public class WestminsterShoppingManager implements ShoppingManager {
         StringBuilder str = new StringBuilder();
 
         for (Product i : list) {
-                str.append(String.format(
-                    "%15.15s | %15.15s | %15.15s | $%14.2f | %15.15s | %15.15s | %15.15s | %15.15s | %15.15s\n",
-                    i.getName(),
-                    i.getClass().getSimpleName(),
-                    i.getId(),
-                    i.getPrice(),
-                    i.getCount(),
-                    i.getClass() == Clothing.class ? ((Clothing) i).getSize() : "-",
-                    i.getClass() == Clothing.class ? ((Clothing) i).getColor() : "-",
-                    i.getClass() == Electronic.class ? ((Electronic) i).getBrand() : "-",
-                    i.getClass() == Electronic.class ? ((Electronic) i).getWarrantyPeriod() : "-"
-                )
-            );
+            str.append(String.format("%15.15s | ".repeat(3), i.getName(), i.getClass().getSimpleName(), i.getId()));
+            str.append(String.format("$%14.2f | ", i.getPrice()));
+            str.append(String.format(
+                "%15.15s | ".repeat(5) + "\n",
+                i.getCount(),
+                i.getClass() == Clothing.class ? ((Clothing) i).getSize() : "-",
+                i.getClass() == Clothing.class ? ((Clothing) i).getColor() : "-",
+                i.getClass() == Electronic.class ? ((Electronic) i).getBrand() : "-",
+                i.getClass() == Electronic.class ? ((Electronic) i).getWarrantyPeriod() : "-"
+            ));
         }
 
         return str;

@@ -202,7 +202,6 @@ public class UserInterface {
             if (id.isBlank()) id = createProductId();
 
             String name = InputValidator.getStringInput("\tEnter product name: ", InputFlag.NONE,1, 15);
-
             int count = InputValidator.getIntInput("\tEnter an item count to add: ", InputFlag.CANBEBLANK);
             double price = InputValidator.getDoubleInput("\tEnter an price for the item: ", InputFlag.NONE);
 
@@ -210,14 +209,17 @@ public class UserInterface {
             int type = InputValidator.getIntInput("\tEnter an option: ", InputFlag.NONE, 1, 2);
 
             Product obj;
+
             if (type == 1) {
                 Size size = InputValidator.getSizeInput("\tEnter items Size: ", InputFlag.NONE);
                 String color = InputValidator.getStringInput("\tEnter items color : ", InputFlag.NONE,1, 15);
+                
                 obj = new Clothing(id, name, price, count, size, color);
 
             } else {
                 String brand = InputValidator.getStringInput("\tEnter brand of item: ", InputFlag.NONE,1, 15);
                 int warranty = InputValidator.getIntInput("\tEnter warranty of item in months: ", InputFlag.NONE);
+                
                 obj = new Electronic(id, name, price, count, brand, warranty);
             }
 
@@ -232,6 +234,7 @@ public class UserInterface {
         try {
             System.out.println();
             String id = InputValidator.getStringInput("\tEnter product id of the item: ", InputFlag.NONE,8, 10);
+            
             wsm.deleteProduct(id);
             System.out.println("\nItem successfully deleted!");
 
@@ -249,6 +252,7 @@ public class UserInterface {
         try {
             wsm.saveToFile("data.json");
             System.out.println("\nSaved data to 'data.json' file");
+        
         } catch (IOException e) {
             System.out.println(err + "Could not open file to write!");
         }
@@ -294,8 +298,9 @@ public class UserInterface {
             }
         }
 
-        System.out.println("\tGenerated ID: " + str.toString().toUpperCase());
-        return str.toString().toUpperCase();
-    }
+        String id = str.toString().toUpperCase();
+        System.out.println("\tGenerated ID: " + id);
 
+        return id;
+    }
 }
