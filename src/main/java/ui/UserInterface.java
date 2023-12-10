@@ -3,10 +3,8 @@ package ui;
 import exceptions.*;
 import enums.*;
 import lib.*;
-import org.w3c.dom.ls.LSOutput;
 
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -187,9 +185,7 @@ public class UserInterface {
         System.out.printf("\n\t%15.15s | %15.15s%n", "User", "Access");
         System.out.printf("\t%15.15s | %15.15s%n", "-".repeat(15), "-".repeat(15));
 
-        wsm.getUserList().forEach(e -> {
-            System.out.printf("\t%15.15s | %15.15s%n", e.getUsername(), e.getAccess());
-        });
+        wsm.getUserList().forEach(e -> System.out.printf("\t%15.15s | %15.15s%n", e.getUsername(), e.getAccess()));
 
         System.out.println();
     }

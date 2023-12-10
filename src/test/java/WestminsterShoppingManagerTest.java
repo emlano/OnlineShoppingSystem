@@ -46,9 +46,14 @@ public class WestminsterShoppingManagerTest {
             Assertions.fail("Test Error: Product ID already used!");
         }
 
-        assertNull(wsm.getProduct("invaldiId"), "Non existent product returned");
-        assertNotNull(wsm.getProduct(sb.getId()), "Failed to find product");
-        assertEquals(sb, wsm.getProduct(sb.getId()), "Returned object was wrong");
+        assertThrows(ProductNotFoundException.class, () -> wsm.getProduct("invalidId"), "Non-existent product search didn't throw");
+
+        try {
+            assertNotNull(wsm.getProduct(sb.getId()), "Failed to find product");
+            assertEquals(sb, wsm.getProduct(sb.getId()), "Returned object was wrong");
+        } catch (ProductNotFoundException e) {
+            Assertions.fail("Added products were not found");
+        }
     }
 
     @Test
@@ -69,7 +74,7 @@ public class WestminsterShoppingManagerTest {
         }
 
         assertThrows(ProductNotFoundException.class, () -> wsm.deleteProduct("invalidId"), "Did not throw for a invalid deletion");
-        assertNull(wsm.getProduct("ABCDE"), "Product was not deleted");
+        assertThrows(ProductNotFoundException.class, () -> wsm.getProduct(sb.getId()));
     }
 
     @Test
@@ -117,9 +122,14 @@ public class WestminsterShoppingManagerTest {
             Assertions.fail("Test Error: Username already used!");
         }
 
-        assertNull(wsm.getUser("invalidUsername"), "Non existent user returned");
-        assertNotNull(wsm.getUser(su.getUsername()), "Search failed to find user");
-        assertEquals(su, wsm.getUser(su.getUsername()), "Wrong user returned");
+        assertThrows(UserNotFoundException.class, () -> wsm.getUser("invalidUsername"));
+
+        try {
+            assertNotNull(wsm.getUser(su.getUsername()), "Search failed to find user");
+            assertEquals(su, wsm.getUser(su.getUsername()), "Wrong user returned");
+        } catch (UserNotFoundException e) {
+            Assertions.fail("Failed to find existing user");
+        }
     }
 
     @Test
@@ -225,8 +235,14 @@ public class WestminsterShoppingManagerTest {
             Assertions.fail("Failed to open test file to write/read");
         }
 
-        assertEquals(wsm.getProductList(), new ArrayList<Product>(List.of(c, e)), "Products were not written to/read back correctly");
-        assertEquals(wsm.getUserList(), new ArrayList<User>(List.of(cl, m)), "Users were not written to/read back correctly");
+        try {
+            assertEquals(c, wsm.getProduct(c.getId()));
+            assertEquals(e, wsm.getProduct(e.getId()));
+            assertEquals(cl, wsm.getUser(cl.getUsername()));
+            assertEquals(m, wsm.getUser(m.getUsername()));
+        } catch (ProductNotFoundException | UserNotFoundException ex) {
+            Assertions.fail("Test Failed: Wasn't able to find added users");
+        }
     }
 
     @Test
