@@ -4,24 +4,32 @@ import lib.*;
 
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.image.AreaAveragingScaleFilter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class GraphicalInterface {
     private final JFrame frame = new JFrame("Westminster Shopping Centre");
-    private JLabel productId = new JLabel("N/A");
-    private JLabel category = new JLabel("N/A");
-    private JLabel name = new JLabel("N/A");
-    private JLabel size = new JLabel("N/A");
-    private JLabel color = new JLabel("N/A");
-    private JLabel itemCount = new JLabel("N/A");
+    private static JLabel productId = new JLabel("N/A");
+    private static JLabel category = new JLabel("N/A");
+    private static JLabel name = new JLabel("N/A");
+    private static JLabel sizeOrBrand = new JLabel("N/A");
+    private static JLabel sizeOrBrandText = new JLabel("N/A - ");
+    private static JLabel colorOrWarranty = new JLabel("N/A");
+    private static JLabel colorOrWarrantyText = new JLabel("N/A - ");
+    private static JLabel itemCount = new JLabel("N/A");
     private final String[] SELECTION_LIST = {"All", "Clothing", "Electronic"};
-    private final WComboBox<String> comboBox = new WComboBox<>(SELECTION_LIST);
     private final Color BG = new Color(122, 0, 228);
     private final Color FG = new Color(255, 255, 255);
-    private ArrayList<Product> products;
+    private static WTable catalogueTable;
+
+    public static ArrayList<Product> products;
 
     public GraphicalInterface(ArrayList<Product> productList) {
-        this.products = productList;
+        products = productList;
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
 
@@ -29,13 +37,18 @@ public class GraphicalInterface {
         WButton viewCartButton = new WButton("Shopping Cart");
         viewButtonPanel.add(viewCartButton);
 
+        WComboBox<String> comboBox = new WComboBox<>(SELECTION_LIST);
         JPanel productCategoryContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         productCategoryContainer.add(new JLabel("Select Product Category"));
         productCategoryContainer.add(comboBox);
 
+        comboBox.addItemListener(new ComboBoxItemListener());
+
         ItemTableModel tableModel = new ItemTableModel(productList);
-        WTable catalogueTable = new WTable(tableModel);
+        catalogueTable = new WTable(tableModel);
         JScrollPane tableScroller = new JScrollPane(catalogueTable);
+
+        catalogueTable.addMouseListener(new TableItemListener());
 
         topPanel.add(viewButtonPanel);
         topPanel.add(productCategoryContainer);
@@ -52,12 +65,19 @@ public class GraphicalInterface {
         productDetailsPanel.add(productDetailsTextContainer);
         productDetailsTextContainer.add(new JLabel("Selected Product - Details"));
 
-        JLabel[] productPanels = {productId, category, name, size, color, itemCount};
-        final String[] productTexts = {"Product ID", "Category", "Name", "Size", "Color", "Items Available"};
+        JLabel[] productPanels = {productId, category, name, sizeOrBrand, colorOrWarranty, itemCount};
+        JLabel[] productTexts = {
+                        new JLabel("Product ID - "),
+                        new JLabel("Category - "),
+                        new JLabel("Name - "),
+                        sizeOrBrandText,
+                        colorOrWarrantyText,
+                        new JLabel("Items Available - ")
+        };
 
         for (int i = 0; i < productPanels.length; i++) {
             JPanel j = new JPanel();
-            j.add(new JLabel(productTexts[i] + " - "));
+            j.add(productTexts[i]);
             j.add(productPanels[i]);
             j.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
             productDetailsPanel.add(j);
@@ -84,5 +104,44 @@ public class GraphicalInterface {
 
     public void start() {
         frame.setVisible(true);
+    }
+
+    public static void redrawTable(String type) {
+        ArrayList<Product> list;
+
+        if (type.equals("All")) {
+            list = products;
+        } else {
+            list = products
+                    .stream()
+                    .filter(e -> e.getClass().getSimpleName().equals(type))
+                    .collect(Collectors.toCollection(ArrayList::new));
+        }
+
+        ItemTableModel tm = new ItemTableModel(list);
+        GraphicalInterface.catalogueTable.setModel(tm);
+    }
+
+    public static void setSelectedProduct(Product product) {
+        productId.setText(product.getId());
+        category.setText(product.getClass().getSimpleName());
+        name.setText(product.getName());
+
+        if (product.getClass().getSimpleName().equals("Clothing")) {
+            Clothing c = (Clothing) product;
+            sizeOrBrandText.setText("Size - ");
+            sizeOrBrand.setText(c.getSize().toString());
+            colorOrWarrantyText.setText("Color - ");
+            colorOrWarranty.setText(c.getColor());
+
+        } else {
+            Electronic e = (Electronic) product;
+            sizeOrBrandText.setText("Brand - ");
+            sizeOrBrand.setText(e.getBrand());
+            colorOrWarrantyText.setText("Warranty in Weeks - ");
+            colorOrWarranty.setText(String.valueOf(e.getWarrantyPeriod()));
+        }
+
+        itemCount.setText(String.valueOf(product.getCount()));
     }
 }
