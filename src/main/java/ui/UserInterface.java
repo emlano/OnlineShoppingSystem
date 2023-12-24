@@ -4,6 +4,7 @@ import exceptions.*;
 import enums.*;
 import lib.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
@@ -270,15 +271,17 @@ public class UserInterface {
 
     private void destroyState() {
         System.out.println("\nProgram will DELETE ALL DATA!");
-        System.out.println("Save file will not be cleared.");
 
-        System.out.print("\tIf you are certain, type 'YES' and hit enter to continue... ");
+        System.out.print("\n\tIf you are certain, type 'YES' and hit enter to continue... ");
         String confirmation = scn.nextLine().trim();
 
         if (confirmation.equals("YES")) {
             wsm.destroyState();
-            System.out.println("\nProgram cleared of data...\n");
-        }
+            System.out.println("\nProgram cleared of data...");
+            File file = new File("data.json");
+            file.delete();
+        
+        } else System.out.println("\nDeletion cancelled...");
     }
 
     private String createProductId() {
