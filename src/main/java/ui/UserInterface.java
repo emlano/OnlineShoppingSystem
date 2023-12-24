@@ -67,7 +67,7 @@ public class UserInterface {
             String option = scn.nextLine().trim();
 
             switch (option) {
-                case "1" -> wsm.startGUI(); //TODO
+                case "1" -> wsm.startGUI();
                 case "2" -> logout();
                 case "3" -> saveData();
                 case "4" -> System.exit(0);

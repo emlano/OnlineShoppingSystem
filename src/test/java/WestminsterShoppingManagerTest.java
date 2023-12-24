@@ -29,7 +29,7 @@ public class WestminsterShoppingManagerTest {
             Assertions.fail("Test Error: Product ID already used!");
         }
 
-        assertNotNull( wsm.getProductList(), "Product list was null");
+        assertNotNull(wsm.getProductList(), "Product list was null");
         assertEquals(1, wsm.getProductList().size(), "List length was wrong");
         assertEquals(new ArrayList<Product>(List.of(sb)), wsm.getProductList(), "List content was wrong");
     }

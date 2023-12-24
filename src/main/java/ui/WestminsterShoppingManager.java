@@ -4,6 +4,7 @@ import comparators.*;
 import enums.*;
 import exceptions.*;
 import lib.*;
+import ui.gui.*;
 
 import org.json.*;
 
@@ -359,11 +360,12 @@ public class WestminsterShoppingManager implements ShoppingManager {
 
     @Override
     public void startGUI() {
-        // TODO
+        GraphicalInterface gui = new GraphicalInterface(productList);
+        gui.start();
     }
 
     public void destroyState() {
-        userList = new ArrayList<>();
-        productList = new ArrayList<>();
+        this.userList = new ArrayList<>();
+        this.productList = new ArrayList<>();
     }
 }
