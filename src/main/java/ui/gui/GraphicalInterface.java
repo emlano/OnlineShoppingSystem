@@ -1,23 +1,21 @@
 package ui.gui;
 
-import lib.*;
+import lib.Clothing;
+import lib.Electronic;
+import lib.Product;
 import ui.gui.WComponents.WButton;
 import ui.gui.WComponents.WComboBox;
 import ui.gui.WComponents.WTable;
 import ui.gui.models.ItemTableModel;
 
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,8 +23,8 @@ import java.util.stream.Collectors;
 public class GraphicalInterface {
     private final JFrame frame = new JFrame("Westminster Shopping Centre");
     private final String[] SELECTION_LIST = {"All", "Clothing", "Electronic"};
-    private static JLabel[] productDetailsInfo = new JLabel[6];
-    private static JLabel[] productDetailsText = new JLabel[6];
+    private static final JLabel[] productDetailsInfo = new JLabel[6];
+    private static final JLabel[] productDetailsText = new JLabel[6];
     private static WTable catalogueTable;
 
     private static ArrayList<Product> products;
@@ -198,50 +196,38 @@ public class GraphicalInterface {
     }
 
     public ItemListener getComboBoxItemListener() {
-        ItemListener il = new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                redrawTable(e.getItem().toString());
-            }
-        };
-
-        return il;
+        return e -> redrawTable(e.getItem().toString());
     }
 
     public WindowListener getWindowSwitchListener() {
-        WindowListener wl = new WindowAdapter() {
+
+        return new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 e.getWindow().dispose();
                 start();
             }
         };
-
-        return wl;
     }
 
     public ListSelectionListener getProductTableListSelectionListener() {
-        ListSelectionListener lsl = new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                WTable table = catalogueTable;
-                int selectedRow = table.getSelectedRow();
-                if (selectedRow == -1) {
-                    unsetSelectedProduct();
-                    return;
-                }
 
-                String selectedProductId = table.getValueAt(selectedRow, 0).toString();
-
-                Optional<Product> selectedProduct = products
-                    .stream()
-                    .filter(f -> f.getId().equals(selectedProductId))
-                    .findFirst();
-
-                if (selectedProduct.isPresent()) setSelectedProduct(selectedProduct.get());
+        return e -> {
+            WTable table = catalogueTable;
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow == -1) {
+                unsetSelectedProduct();
+                return;
             }
-        };
 
-        return lsl;
+            String selectedProductId = table.getValueAt(selectedRow, 0).toString();
+
+            Optional<Product> selectedProduct = products
+                .stream()
+                .filter(f -> f.getId().equals(selectedProductId))
+                .findFirst();
+
+            selectedProduct.ifPresent(GraphicalInterface::setSelectedProduct);
+        };
     }
 }
