@@ -142,12 +142,20 @@ public class GraphicalInterface {
             if (productDetailsInfo[i] == null) {
                 productDetailsText[i] = new JLabel("N/A");
                 productDetailsInfo[i] = new JLabel("N/A");
+
+                setLabelFixedSize(productDetailsText[i], 120, 15);
             
             } else {
                 productDetailsText[i].setText("N/A");
                 productDetailsInfo[i].setText("N/A");
             }
         }
+    }
+
+    private void setLabelFixedSize(JLabel label, int width, int height) {
+        label.setMinimumSize(new Dimension(width, height));
+        label.setPreferredSize(new Dimension(width, height));
+        label.setMaximumSize(new Dimension(width, height));
     }
 
     public static void setSelectedProduct(Product product) {
