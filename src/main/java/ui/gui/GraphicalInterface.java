@@ -9,6 +9,7 @@ import ui.gui.WComponents.WButton;
 import ui.gui.WComponents.WComboBox;
 import ui.gui.WComponents.WTable;
 import ui.gui.models.ItemTableModel;
+import ui.gui.models.WTableCellRenderer;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -78,6 +79,8 @@ public class GraphicalInterface {
         catalogueTable
             .getSelectionModel()
             .addListSelectionListener(getProductTableListSelectionListener());
+        catalogueTable.setDefaultRenderer(String.class, new WTableCellRenderer());
+        
         JScrollPane tableScroller = new JScrollPane(catalogueTable);
 
         topPanel.add(viewButtonPanel);
@@ -208,8 +211,34 @@ public class GraphicalInterface {
     }
 
     private void addToUserPurchaseHistory() {
-        cart.stream().forEach(e -> client.addToPurchaseHistory(e));
+        cart.forEach(e -> client.addToPurchaseHistory(e));
         cart.clear();
+    }
+
+    private static double calculateTotal() {
+        return cart.stream().mapToDouble(e -> e.getPrice()).sum();
+    }
+
+    private double calculateFirstCustomerDiscount() {
+         if (client.getPurchaseHistory().isEmpty()) return calculateTotal() * 0.10;
+
+         return 0.0;
+    } 
+
+    private double calculateSetOfThreeDiscount() {
+        long clothingCount = cart
+            .stream()
+            .filter(e -> e.getClass().getSimpleName().equals("Clothing"))
+            .count();
+        
+        long electronicCount = cart
+            .stream()
+            .filter(e -> e.getClass().getSimpleName().equals("Electronic"))
+            .count();
+        
+        if (clothingCount >= 3 || electronicCount >= 3) return calculateTotal() * 0.20;
+        
+        return 0.0;
     }
 
     private void addProductToCart() {
@@ -258,19 +287,24 @@ public class GraphicalInterface {
     public ListSelectionListener getProductTableListSelectionListener() {
         return e -> {
             Optional<Product> selectedProduct = getProductFromSelectedRow();
-            selectedProduct.ifPresent(GraphicalInterface::setSelectedProduct);
+            if (selectedProduct.isPresent()) setSelectedProduct(selectedProduct.get());
+            else unsetSelectedProduct();
         };
     }
 
     private Optional<Product> getProductFromSelectedRow() {
             int selectedRow = catalogueTable.getSelectedRow();
-            if (selectedRow == -1) return Optional.empty();
+            return getProductFromRow(selectedRow);
+    }
 
-            String selectedProductId = catalogueTable.getValueAt(selectedRow, 0).toString();
+    public static Optional<Product> getProductFromRow(int row) {
+        if (row == -1) return Optional.empty();
 
-            return products
-                .stream()
-                .filter(e -> e.getId().equals(selectedProductId))
-                .findFirst();
+        String productId = catalogueTable.getValueAt(row, 0).toString();
+
+        return products
+            .stream()
+            .filter(e -> e.getId().equals(productId))
+            .findFirst();
     }
 }
