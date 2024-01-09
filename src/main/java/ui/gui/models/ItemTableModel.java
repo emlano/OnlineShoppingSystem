@@ -1,9 +1,11 @@
 package ui.gui.models;
 
+import lib.Clothing;
+import lib.Electronic;
+import lib.Product;
+
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
-
-import lib.*;
 
 public class ItemTableModel extends AbstractTableModel {
     private final ArrayList<Product> rows;

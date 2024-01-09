@@ -33,6 +33,16 @@ public class Electronic extends Product {
     }
 
     @Override
+    public Object clone() throws CloneNotSupportedException {
+        Electronic e = (Electronic) super.clone();
+
+        e.brand = brand;
+        e.warrantyPeriod = warrantyPeriod;
+
+        return e;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         // Calls parent class's equals method to check inherited attributes
         if (!super.equals(obj)) return false;

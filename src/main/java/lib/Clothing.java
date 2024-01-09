@@ -35,6 +35,16 @@ public class Clothing extends Product {
     }
 
     @Override
+    public Object clone() throws CloneNotSupportedException {
+        Clothing c = (Clothing) super.clone();
+        
+        c.color = color;
+        c.size = size;
+
+        return c;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         // Calls parent class's equals method to check inherited vars
         if (!super.equals(obj)) return false;

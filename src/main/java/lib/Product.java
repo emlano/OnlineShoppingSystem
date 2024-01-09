@@ -1,6 +1,8 @@
 package lib;
 
-public abstract class Product {
+import exceptions.NotEnoughProductStockException;
+
+public abstract class Product implements Cloneable {
     private String id;
     private String name;
     private double price;
@@ -46,6 +48,31 @@ public abstract class Product {
         this.price = price;
     }
 
+    public Product extract(int count) throws CloneNotSupportedException, NotEnoughProductStockException {
+        Product p = (Product) this.clone();
+
+        if (p.count < count) {
+            throw new NotEnoughProductStockException();
+        }
+
+        p.setCount(1);
+        this.count -= count;
+
+        return p;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Product p = (Product) super.clone();
+
+        p.count = this.count;
+        p.id = this.id;
+        p.name = this.name;
+        p.price = this.price;
+
+        return p;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;
@@ -59,8 +86,6 @@ public abstract class Product {
         if (!this.id.equals(product.id)) return false;
         
         if (!this.name.equals(product.name)) return false;
-
-        if (this.count != product.count) return false;
 
         if (this.price != product.price) return false;
 

@@ -1,10 +1,9 @@
 package ui.gui.WComponents;
 
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import javax.swing.JButton;
 
 public class WButton extends JButton {
     final Color HOVER_BG = new Color(55, 0, 179);

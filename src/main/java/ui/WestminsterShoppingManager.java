@@ -1,14 +1,17 @@
 package ui;
 
-import comparators.*;
-import enums.*;
+import comparators.UsernameComparator;
+import enums.Size;
 import exceptions.*;
 import lib.*;
-import ui.gui.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import ui.gui.GraphicalInterface;
 
-import org.json.*;
-
-import java.io.*;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class WestminsterShoppingManager implements ShoppingManager {
@@ -358,8 +361,8 @@ public class WestminsterShoppingManager implements ShoppingManager {
     }
 
     @Override
-    public void startGUI() {
-        GraphicalInterface gui = new GraphicalInterface(productList);
+    public void startGUI(User user) {
+        GraphicalInterface gui = new GraphicalInterface(user, productList);
         gui.start();
     }
 

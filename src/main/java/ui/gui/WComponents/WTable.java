@@ -3,7 +3,6 @@ package ui.gui.WComponents;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
-
 import java.awt.*;
 
 public class WTable extends JTable {

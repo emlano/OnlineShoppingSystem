@@ -1,8 +1,10 @@
 package ui.gui;
 
+import lib.Client;
 import lib.Clothing;
 import lib.Electronic;
 import lib.Product;
+import lib.User;
 import ui.gui.WComponents.WButton;
 import ui.gui.WComponents.WComboBox;
 import ui.gui.WComponents.WTable;
@@ -11,6 +13,9 @@ import ui.gui.models.ItemTableModel;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionListener;
+
+import exceptions.NotEnoughProductStockException;
+
 import java.awt.*;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
@@ -28,9 +33,13 @@ public class GraphicalInterface {
     private static WTable catalogueTable;
 
     private static ArrayList<Product> products;
+    private static ArrayList<Product> cart;
+    private static Client client;
 
-    public GraphicalInterface(ArrayList<Product> productList) {
+    public GraphicalInterface(User user, ArrayList<Product> productList) {
         products = productList;
+        client = (Client) user;
+        cart = new ArrayList<>();
         unsetSelectedProduct();
 
         JPanel topPanel = setupTopPanel();
@@ -111,6 +120,7 @@ public class GraphicalInterface {
         addToCartPanel.setBorder(new EmptyBorder(0, 0, 25, 0));
 
         WButton addToCartButton = new WButton("Add to Shopping Cart");
+        addToCartButton.addActionListener(e -> addProductToCart());
         bottomRibbon.add(addToCartButton);
 
         bottomPanel.add(productDetailsPanel);
@@ -189,10 +199,43 @@ public class GraphicalInterface {
         JFrame cartFrame = new JFrame("Shopping Cart");
         WButton button = new WButton("Test");
 
+        button.addActionListener(e -> addToUserPurchaseHistory());
+
         cartFrame.add(button);
         cartFrame.setSize(1080, 720);
         cartFrame.addWindowListener(wl);
         cartFrame.setVisible(true);
+    }
+
+    private void addToUserPurchaseHistory() {
+        cart.stream().forEach(e -> client.addToPurchaseHistory(e));
+        cart.clear();
+    }
+
+    private void addProductToCart() {
+        Optional<Product> product = getProductFromSelectedRow();
+        if (product.isPresent()) {
+            try {
+                Product p = product.get().extract(1);
+                cart.add(p);
+                setSelectedProduct(product.get());
+            } catch (CloneNotSupportedException e) {
+                System.out.println("Warning! Internal error occurred! Couldn't clone Object!");
+            
+            } catch (NotEnoughProductStockException e) {
+                JOptionPane.showMessageDialog(frame, "Cannot add item to cart, Not enough Stock!", "Error!", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private void returnNotBoughtItems() {
+        products.stream()
+                .filter(e -> cart.contains(e))
+                .forEach(e -> cart.forEach(f -> {
+                    if (e.getId().equals(f.getId())) e.setCount(e.getCount() + f.getCount());
+        }));
+
+        cart.clear();
     }
 
     public ItemListener getComboBoxItemListener() {
@@ -200,34 +243,34 @@ public class GraphicalInterface {
     }
 
     public WindowListener getWindowSwitchListener() {
-
         return new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 e.getWindow().dispose();
+                returnNotBoughtItems();
+                redrawTable("All");
+                unsetSelectedProduct();
                 start();
             }
         };
     }
 
     public ListSelectionListener getProductTableListSelectionListener() {
-
         return e -> {
-            WTable table = catalogueTable;
-            int selectedRow = table.getSelectedRow();
-            if (selectedRow == -1) {
-                unsetSelectedProduct();
-                return;
-            }
-
-            String selectedProductId = table.getValueAt(selectedRow, 0).toString();
-
-            Optional<Product> selectedProduct = products
-                .stream()
-                .filter(f -> f.getId().equals(selectedProductId))
-                .findFirst();
-
+            Optional<Product> selectedProduct = getProductFromSelectedRow();
             selectedProduct.ifPresent(GraphicalInterface::setSelectedProduct);
         };
+    }
+
+    private Optional<Product> getProductFromSelectedRow() {
+            int selectedRow = catalogueTable.getSelectedRow();
+            if (selectedRow == -1) return Optional.empty();
+
+            String selectedProductId = catalogueTable.getValueAt(selectedRow, 0).toString();
+
+            return products
+                .stream()
+                .filter(e -> e.getId().equals(selectedProductId))
+                .findFirst();
     }
 }

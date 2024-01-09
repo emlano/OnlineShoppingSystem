@@ -1,7 +1,11 @@
 package ui;
 
-import exceptions.*;
-import lib.*;
+import exceptions.CorruptedFileDataException;
+import exceptions.NonUniqueProductIdException;
+import exceptions.NonUniqueUsernameException;
+import exceptions.ProductNotFoundException;
+import lib.Product;
+import lib.User;
 
 import java.io.IOException;
 
@@ -12,5 +16,5 @@ public interface ShoppingManager {
     void printProductList();
     void saveToFile(String file) throws IOException;
     void readFromFile(String file) throws IOException, CorruptedFileDataException;
-    void startGUI();
+    void startGUI(User user);
 }

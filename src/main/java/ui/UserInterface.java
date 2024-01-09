@@ -1,7 +1,9 @@
 package ui;
 
+import enums.Access;
+import enums.InputFlag;
+import enums.Size;
 import exceptions.*;
-import enums.*;
 import lib.*;
 
 import java.io.File;
@@ -67,7 +69,7 @@ public class UserInterface {
             String option = scn.nextLine().trim();
 
             switch (option) {
-                case "1" -> wsm.startGUI();
+                case "1" -> startGui();
                 case "2" -> logout();
                 case "3" -> saveData();
                 case "4" -> System.exit(0);
@@ -190,6 +192,10 @@ public class UserInterface {
         wsm.getUserList().forEach(e -> System.out.printf("\t%15.15s | %15.15s%n", e.getUsername(), e.getAccess()));
 
         System.out.println();
+    }
+
+    private void startGui() {
+        wsm.startGUI(currentUser);
     }
 
     private void addProduct() {

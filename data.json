@@ -7,7 +7,17 @@
         },
         {
             "password": "pass",
-            "purchaseHistory": [],
+            "purchaseHistory": [
+                {
+                    "size": "M",
+                    "color": "Grey/White",
+                    "price": 145.99,
+                    "name": "Sweatpants",
+                    "count": 1,
+                    "id": "1KSMLVXJUX",
+                    "type": "Clothing"
+                }
+            ],
             "access": "Client",
             "username": "user"
         }
@@ -18,7 +28,7 @@
             "color": "Grey/White",
             "price": 145.99,
             "name": "Sweatpants",
-            "count": 8,
+            "count": 7,
             "id": "1KSMLVXJUX",
             "type": "Clothing"
         },

@@ -1,7 +1,9 @@
 package ui;
 
-import exceptions.*;
-import enums.*;
+import enums.InputFlag;
+import enums.Size;
+import exceptions.IllegalInputException;
+import exceptions.OutOfBoundsException;
 
 import java.util.Scanner;
 
