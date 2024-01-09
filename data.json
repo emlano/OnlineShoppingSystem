@@ -1,149 +1,196 @@
 {
     "users": [
         {
-            "password": "tipsfedora",
+            "password": "pass",
             "access": "Admin",
-            "username": "AbrarSL"
+            "username": "admin"
         },
         {
-            "password": "oshinokomo",
-            "access": "Admin",
-            "username": "Sewwandi"
-        },
-        {
-            "password": "a",
+            "password": "pass",
             "purchaseHistory": [],
             "access": "Client",
-            "username": "a"
-        },
-        {
-            "password": "password",
-            "access": "Admin",
-            "username": "emilano"
-        },
-        {
-            "password": "1337",
-            "purchaseHistory": [],
-            "access": "Client",
-            "username": "rafanDaMAN"
+            "username": "user"
         }
     ],
     "products": [
         {
             "size": "M",
-            "color": "Blue",
-            "price": 450,
-            "name": "Dress",
-            "count": 15,
-            "id": "0DH2M07W81",
+            "color": "Grey/White",
+            "price": 145.99,
+            "name": "Sweatpants",
+            "count": 8,
+            "id": "1KSMLVXJUX",
+            "type": "Clothing"
+        },
+        {
+            "price": 1100.5,
+            "name": "Smartphone",
+            "count": 4,
+            "warranty": 30,
+            "id": "56FB91CQSF",
+            "type": "Electronic",
+            "brand": "Samsung"
+        },
+        {
+            "price": 1499.99,
+            "name": "Laptop",
+            "count": 1,
+            "warranty": 41,
+            "id": "5AW4OGO5G0",
+            "type": "Electronic",
+            "brand": "Lenovo"
+        },
+        {
+            "size": "L",
+            "color": "Grey",
+            "price": 120,
+            "name": "Hoodie",
+            "count": 12,
+            "id": "5LIH235IQ2",
             "type": "Clothing"
         },
         {
             "size": "S",
-            "color": "Blue",
-            "price": 250,
-            "name": "Blazer",
-            "count": 10,
-            "id": "5QDJZNMHO4",
+            "color": "White/Pink",
+            "price": 30,
+            "name": "Mittens",
+            "count": 14,
+            "id": "6DJVADADVO",
             "type": "Clothing"
-        },
-        {
-            "price": 1999.99,
-            "name": "Smartphone",
-            "count": 5,
-            "warranty": 12,
-            "id": "61A5IIODEF",
-            "type": "Electronic",
-            "brand": "Apple"
         },
         {
             "price": 2499.99,
             "name": "Laptop",
-            "count": 2,
-            "warranty": 36,
-            "id": "76RICJAA9S",
+            "count": 1,
+            "warranty": 52,
+            "id": "6JG5J8WB56",
             "type": "Electronic",
             "brand": "Dell"
         },
         {
             "size": "M",
-            "color": "Red",
-            "price": 50,
-            "name": "Tie",
-            "count": 24,
-            "id": "8NLMXIKKNI",
+            "color": "Black",
+            "price": 99.99,
+            "name": "Hoodie",
+            "count": 10,
+            "id": "9A5ZI17CVZ",
             "type": "Clothing"
         },
         {
-            "price": 150.99,
-            "name": "Computer Mouse",
-            "count": 14,
-            "warranty": 6,
-            "id": "ENVAMD596V",
-            "type": "Electronic",
-            "brand": "Logitech"
-        },
-        {
-            "price": 699.99,
-            "name": "Smartphone",
-            "count": 12,
-            "warranty": 12,
-            "id": "G7VEGKCB9O",
+            "price": 1199.99,
+            "name": "TV",
+            "count": 3,
+            "warranty": 34,
+            "id": "B5X1N5L69N",
             "type": "Electronic",
             "brand": "Samsung"
         },
         {
-            "price": 2100,
-            "name": "Television",
+            "size": "XXL",
+            "color": "Black",
+            "price": 42.69,
+            "name": "Top Hat",
             "count": 1,
+            "id": "CZRQOD82X3",
+            "type": "Clothing"
+        },
+        {
+            "size": "XL",
+            "color": "Yellow/Black",
+            "price": 140.99,
+            "name": "Hoodie",
+            "count": 5,
+            "id": "F8V3BNTYLB",
+            "type": "Clothing"
+        },
+        {
+            "price": 100,
+            "name": "WIFI Router",
+            "count": 5,
             "warranty": 12,
-            "id": "JIKQTOOT2D",
+            "id": "GBDWQII1RJ",
+            "type": "Electronic",
+            "brand": "Huawei"
+        },
+        {
+            "price": 40.59,
+            "name": "USB Drive",
+            "count": 10,
+            "warranty": 4,
+            "id": "M41GCH22RN",
+            "type": "Electronic",
+            "brand": "SanDisk"
+        },
+        {
+            "price": 59.99,
+            "name": "Computer Mouse",
+            "count": 3,
+            "warranty": 25,
+            "id": "O4JWL1FCM1",
+            "type": "Electronic",
+            "brand": "Logitech"
+        },
+        {
+            "size": "XXL",
+            "color": "Khaki",
+            "price": 140.99,
+            "name": "Cargo Pants",
+            "count": 12,
+            "id": "OTI7YE2P10",
+            "type": "Clothing"
+        },
+        {
+            "price": 120,
+            "name": "BlueRay Player",
+            "count": 4,
+            "warranty": 12,
+            "id": "P8ZWV1ERJW",
             "type": "Electronic",
             "brand": "Toshiba"
         },
         {
-            "size": "XL",
-            "color": "Black",
-            "price": 249.99,
-            "name": "Hoodie",
-            "count": 4,
-            "id": "MRN09O6U5T",
+            "size": "XS",
+            "color": "White",
+            "price": 20.59,
+            "name": "Socks",
+            "count": 40,
+            "id": "QKT206N8LQ",
             "type": "Clothing"
         },
         {
-            "price": 1499.99,
-            "name": "Laptop",
-            "count": 3,
-            "warranty": 24,
-            "id": "MUIHSMNU7Z",
+            "price": 300,
+            "name": "Headset",
+            "count": 5,
+            "warranty": 21,
+            "id": "QUVPOZWWDS",
             "type": "Electronic",
-            "brand": "Lenovo"
+            "brand": "JBL"
+        },
+        {
+            "price": 500.99,
+            "name": "Headphones",
+            "count": 4,
+            "warranty": 21,
+            "id": "SI8D384PL6",
+            "type": "Electronic",
+            "brand": "Logitech"
         },
         {
             "size": "M",
-            "color": "Yellow/Black",
-            "price": 165.45,
-            "name": "Hoodie",
-            "count": 1,
-            "id": "RP29AE4PK8",
+            "color": "Black",
+            "price": 25,
+            "name": "Beanie",
+            "count": 15,
+            "id": "TOU889Q0TT",
             "type": "Clothing"
         },
         {
-            "size": "XXL",
-            "color": "Grey",
-            "price": 169.99,
-            "name": "Cargo Pants",
-            "count": 13,
-            "id": "RVMDZP35WS",
-            "type": "Clothing"
-        },
-        {
-            "size": "L",
-            "color": "Grey",
-            "price": 149.99,
-            "name": "Hoodie",
-            "count": 14,
-            "id": "VZHJR7J906",
+            "size": "S",
+            "color": "Blue",
+            "price": 99.99,
+            "name": "Jeans",
+            "count": 25,
+            "id": "YQOZYNHEKA",
             "type": "Clothing"
         }
     ]

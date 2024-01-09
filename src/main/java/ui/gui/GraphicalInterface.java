@@ -1,85 +1,107 @@
 package ui.gui;
 
 import lib.*;
+import ui.gui.WComponents.WButton;
+import ui.gui.WComponents.WComboBox;
+import ui.gui.WComponents.WTable;
+import ui.gui.models.ItemTableModel;
 
 import java.awt.*;
-import javax.swing.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.image.AreaAveragingScaleFilter;
-import java.lang.reflect.Array;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class GraphicalInterface {
     private final JFrame frame = new JFrame("Westminster Shopping Centre");
-    private static JLabel productId = new JLabel("N/A");
-    private static JLabel category = new JLabel("N/A");
-    private static JLabel name = new JLabel("N/A");
-    private static JLabel sizeOrBrand = new JLabel("N/A");
-    private static JLabel sizeOrBrandText = new JLabel("N/A - ");
-    private static JLabel colorOrWarranty = new JLabel("N/A");
-    private static JLabel colorOrWarrantyText = new JLabel("N/A - ");
-    private static JLabel itemCount = new JLabel("N/A");
     private final String[] SELECTION_LIST = {"All", "Clothing", "Electronic"};
-    private final Color BG = new Color(122, 0, 228);
-    private final Color FG = new Color(255, 255, 255);
+    private static JLabel[] productDetailsInfo = new JLabel[6];
+    private static JLabel[] productDetailsText = new JLabel[6];
     private static WTable catalogueTable;
 
-    public static ArrayList<Product> products;
+    private static ArrayList<Product> products;
 
     public GraphicalInterface(ArrayList<Product> productList) {
         products = productList;
+        unsetSelectedProduct();
+
+        JPanel topPanel = setupTopPanel();
+        JPanel bottomPanel = setupBottomPanel();
+
+        frame.setSize(1080, 720);
+        frame.add(topPanel);
+        frame.add(bottomPanel);
+        frame.setLayout(new GridLayout(2, 1));
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+
+    public void start() {
+        frame.setVisible(true);
+    }
+
+    public JPanel setupTopPanel() {
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
 
         JPanel viewButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         WButton viewCartButton = new WButton("Shopping Cart");
+
+        viewCartButton.addActionListener(e -> openCartView());
         viewButtonPanel.add(viewCartButton);
 
         WComboBox<String> comboBox = new WComboBox<>(SELECTION_LIST);
+        comboBox.addItemListener(getComboBoxItemListener());
+
         JPanel productCategoryContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         productCategoryContainer.add(new JLabel("Select Product Category"));
         productCategoryContainer.add(comboBox);
 
-        comboBox.addItemListener(new ComboBoxItemListener());
-
-        ItemTableModel tableModel = new ItemTableModel(productList);
+        ItemTableModel tableModel = new ItemTableModel(products);
         catalogueTable = new WTable(tableModel);
+        catalogueTable
+            .getSelectionModel()
+            .addListSelectionListener(getProductTableListSelectionListener());
         JScrollPane tableScroller = new JScrollPane(catalogueTable);
-
-        catalogueTable.addMouseListener(new TableItemListener());
 
         topPanel.add(viewButtonPanel);
         topPanel.add(productCategoryContainer);
         topPanel.add(tableScroller);
-        
+
+        return topPanel;
+    }
+
+    public JPanel setupBottomPanel() {
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 
         JPanel productDetailsPanel = new JPanel();
         productDetailsPanel.setLayout(new BoxLayout(productDetailsPanel, BoxLayout.Y_AXIS));
+        productDetailsPanel.setBorder(new EmptyBorder(0, 50, 0, 0));
 
-        JPanel productDetailsTextContainer = new JPanel();
-        productDetailsTextContainer.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        productDetailsPanel.add(productDetailsTextContainer);
-        productDetailsTextContainer.add(new JLabel("Selected Product - Details"));
+        JPanel productDetailsHeader = new JPanel();
+        productDetailsHeader.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 10));
+        productDetailsPanel.add(productDetailsHeader);
+        productDetailsHeader.add(new JLabel("Selected Product - Details"));
 
-        JLabel[] productPanels = {productId, category, name, sizeOrBrand, colorOrWarranty, itemCount};
-        JLabel[] productTexts = {
-                        new JLabel("Product ID - "),
-                        new JLabel("Category - "),
-                        new JLabel("Name - "),
-                        sizeOrBrandText,
-                        colorOrWarrantyText,
-                        new JLabel("Items Available - ")
-        };
-
-        for (int i = 0; i < productPanels.length; i++) {
+        for (int i = 0; i < productDetailsText.length; i++) {
             JPanel j = new JPanel();
-            j.add(productTexts[i]);
-            j.add(productPanels[i]);
+
+            j.add(productDetailsText[i]);
+            j.add(new JLabel(" - "));
+            j.add(productDetailsInfo[i]);
+
             j.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+            j.setBorder(new EmptyBorder(0, 25, 0, 0));
             productDetailsPanel.add(j);
         }
 
@@ -88,6 +110,7 @@ public class GraphicalInterface {
 
         JPanel bottomRibbon = new JPanel();
         addToCartPanel.add(bottomRibbon, BorderLayout.SOUTH);
+        addToCartPanel.setBorder(new EmptyBorder(0, 0, 25, 0));
 
         WButton addToCartButton = new WButton("Add to Shopping Cart");
         bottomRibbon.add(addToCartButton);
@@ -95,15 +118,7 @@ public class GraphicalInterface {
         bottomPanel.add(productDetailsPanel);
         bottomPanel.add(addToCartPanel);
 
-        frame.setSize(1080, 720);
-        frame.add(topPanel);
-        frame.add(bottomPanel);
-        frame.setLayout(new GridLayout(2, 1));
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
-    public void start() {
-        frame.setVisible(true);
+        return bottomPanel;
     }
 
     public static void redrawTable(String type) {
@@ -122,26 +137,103 @@ public class GraphicalInterface {
         GraphicalInterface.catalogueTable.setModel(tm);
     }
 
-    public static void setSelectedProduct(Product product) {
-        productId.setText(product.getId());
-        category.setText(product.getClass().getSimpleName());
-        name.setText(product.getName());
-
-        if (product.getClass().getSimpleName().equals("Clothing")) {
-            Clothing c = (Clothing) product;
-            sizeOrBrandText.setText("Size - ");
-            sizeOrBrand.setText(c.getSize().toString());
-            colorOrWarrantyText.setText("Color - ");
-            colorOrWarranty.setText(c.getColor());
-
-        } else {
-            Electronic e = (Electronic) product;
-            sizeOrBrandText.setText("Brand - ");
-            sizeOrBrand.setText(e.getBrand());
-            colorOrWarrantyText.setText("Warranty in Weeks - ");
-            colorOrWarranty.setText(String.valueOf(e.getWarrantyPeriod()));
+    public void unsetSelectedProduct() {
+        for (int i = 0; i < productDetailsInfo.length; i++) {
+            if (productDetailsInfo[i] == null) {
+                productDetailsText[i] = new JLabel("N/A");
+                productDetailsInfo[i] = new JLabel("N/A");
+            
+            } else {
+                productDetailsText[i].setText("N/A");
+                productDetailsInfo[i].setText("N/A");
+            }
         }
+    }
 
-        itemCount.setText(String.valueOf(product.getCount()));
+    public static void setSelectedProduct(Product product) {
+        switch (product.getClass().getSimpleName()) {
+            case "Clothing" -> {
+                Clothing c = (Clothing) product;
+                String[] headers = {"Product ID", "Category", "Name", "Size", "Color", "Items Available"};
+                String[] data = {c.getId(), "Clothing", c.getName(), c.getSize().toString(), c.getColor(), String.valueOf(c.getCount())};
+                
+                for (int i = 0; i < headers.length; i++) {
+                    productDetailsText[i].setText(headers[i]);
+                    productDetailsInfo[i].setText(data[i]);
+                }
+            }
+
+            case "Electronic" -> {
+                Electronic e = (Electronic) product;
+                String[] headers = {"Product ID", "Category", "Name", "Brand", "Warranty in Weeks", "Items Available"};
+                String[] data = {e.getId(), "Electronic", e.getName(), e.getBrand(), String.valueOf(e.getWarrantyPeriod()), String.valueOf(e.getCount())};
+
+                for (int i = 0; i < headers.length; i++) {
+                    productDetailsText[i].setText(headers[i]);
+                    productDetailsInfo[i].setText(data[i]);
+                }
+            }
+        }
+    }
+
+    public void openCartView() {
+        WindowListener wl = getWindowSwitchListener();
+        frame.setVisible(false);
+
+        JFrame cartFrame = new JFrame("Shopping Cart");
+        WButton button = new WButton("Test");
+
+        cartFrame.add(button);
+        cartFrame.setSize(1080, 720);
+        cartFrame.addWindowListener(wl);
+        cartFrame.setVisible(true);
+    }
+
+    public ItemListener getComboBoxItemListener() {
+        ItemListener il = new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                redrawTable(e.getItem().toString());
+            }
+        };
+
+        return il;
+    }
+
+    public WindowListener getWindowSwitchListener() {
+        WindowListener wl = new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                e.getWindow().dispose();
+                start();
+            }
+        };
+
+        return wl;
+    }
+
+    public ListSelectionListener getProductTableListSelectionListener() {
+        ListSelectionListener lsl = new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                WTable table = catalogueTable;
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow == -1) {
+                    unsetSelectedProduct();
+                    return;
+                }
+
+                String selectedProductId = table.getValueAt(selectedRow, 0).toString();
+
+                Optional<Product> selectedProduct = products
+                    .stream()
+                    .filter(f -> f.getId().equals(selectedProductId))
+                    .findFirst();
+
+                if (selectedProduct.isPresent()) setSelectedProduct(selectedProduct.get());
+            }
+        };
+
+        return lsl;
     }
 }

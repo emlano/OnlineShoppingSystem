@@ -1,4 +1,4 @@
-package ui.gui;
+package ui.gui.WComponents;
 
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -19,6 +19,10 @@ public class WButton extends JButton {
         setFocusPainted(false);
 
         setSize(text.length() + 4, 10);
+
+        getModel().addChangeListener(e -> {
+            
+        });
 
         addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {

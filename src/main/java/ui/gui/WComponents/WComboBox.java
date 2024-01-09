@@ -1,7 +1,6 @@
-package ui.gui;
+package ui.gui.WComponents;
 
 import java.awt.Color;
-
 import javax.swing.JComboBox;
 
 public class WComboBox<E> extends JComboBox<E> {

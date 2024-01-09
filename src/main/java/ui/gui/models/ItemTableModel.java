@@ -1,4 +1,4 @@
-package ui.gui;
+package ui.gui.models;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class ItemTableModel extends AbstractTableModel {
     }
 
     @Override
-    public Class<?> getColumnClass(int col) {
+    public Class<String> getColumnClass(int col) {
         return String.class;
     }
 }

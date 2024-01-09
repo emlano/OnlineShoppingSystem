@@ -302,7 +302,6 @@ public class WestminsterShoppingManager implements ShoppingManager {
         }
     }
 
-
     public ArrayList<Product> getProductListFromJsonArray(JSONArray ja) {
         ArrayList<Product> list = new ArrayList<>();
 

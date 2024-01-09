@@ -127,7 +127,8 @@ public class UserInterface {
         _____________________________________
             1. Launch GUI.
             2. Logout.
-            3. Quit""");
+            3. Save Data
+            4. Quit""");
     }
 
 
@@ -219,7 +220,7 @@ public class UserInterface {
 
             } else {
                 String brand = InputValidator.getStringInput("\tEnter brand of item: ", InputFlag.NONE,1, 15);
-                int warranty = InputValidator.getIntInput("\tEnter warranty of item in months: ", InputFlag.NONE);
+                int warranty = InputValidator.getIntInput("\tEnter warranty of item in weeks: ", InputFlag.NONE);
                 
                 obj = new Electronic(id, name, price, count, brand, warranty);
             }
