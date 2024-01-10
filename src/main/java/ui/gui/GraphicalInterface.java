@@ -8,6 +8,7 @@ import lib.User;
 import ui.gui.WComponents.WButton;
 import ui.gui.WComponents.WComboBox;
 import ui.gui.WComponents.WTable;
+import ui.gui.models.CartTableModel;
 import ui.gui.models.ItemTableModel;
 import ui.gui.models.WTableCellRenderer;
 
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 
 public class GraphicalInterface {
     private final JFrame frame = new JFrame("Westminster Shopping Centre");
+    private JFrame cartFrame;
     private final String[] SELECTION_LIST = {"All", "Clothing", "Electronic"};
     private static final JLabel[] productDetailsInfo = new JLabel[6];
     private static final JLabel[] productDetailsText = new JLabel[6];
@@ -86,8 +88,8 @@ public class GraphicalInterface {
         catalogueTable
             .getSelectionModel()
             .addListSelectionListener(getProductTableListSelectionListener());
-        catalogueTable.setDefaultRenderer(String.class, new WTableCellRenderer());
         
+        catalogueTable.setDefaultRenderer(String.class, new WTableCellRenderer());
         JScrollPane tableScroller = new JScrollPane(catalogueTable);
 
         topPanel.add(viewButtonPanel);
@@ -209,18 +211,100 @@ public class GraphicalInterface {
     public void openCartView() {
         WindowListener wl = getWindowSwitchListener();
         frame.setVisible(false);
+        
 
-        JFrame cartFrame = new JFrame("Shopping Cart");
-        WButton button = new WButton("Test");
+        cartFrame = new JFrame("Shopping Cart");
+        cartFrame.setLayout(new GridLayout(3, 1));
 
-        button.addActionListener(e -> addToUserPurchaseHistory());
+        cartFrame.add(setupCartTopPanel());
+        cartFrame.add(setupCartBottomPanel());
+        cartFrame.add(setupBottomRibbon());
 
-        cartFrame.add(button);
         cartFrame.setSize(1080, 720);
-        cartFrame.addWindowListener(wl);
-        cartFrame.setLocation(displayCenterWidth, displayCenterHeight);
-        cartFrame.setVisible(true);
         setFrameToCenter(displayCenterWidth, displayCenterHeight, cartFrame);
+        cartFrame.addWindowListener(wl);
+        cartFrame.setVisible(true);
+    }
+
+    public JPanel setupCartTopPanel() {
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+
+        CartTableModel ctm = new CartTableModel(cart);
+        WTable cartTable = new WTable(ctm);
+        cartTable.setEnabled(false);
+        JScrollPane tableScroll = new JScrollPane(cartTable);
+
+        topPanel.add(tableScroll);
+        return topPanel;
+    }
+
+    public JPanel setupCartBottomPanel() {
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
+
+        double total = calculateTotal();
+        double firstDiscount = calculateFirstCustomerDiscount();
+        double secondDiscount = calculateSetOfThreeDiscount();
+
+        final String[] headers = {"Total", "First Purchase Discount (10%)", "Three Items in Same Category (20%)", "Final Total"};
+        final String[] data = {
+            "$ %.2f".formatted(total),
+            "$ %.2f".formatted(firstDiscount),
+            "$ %.2f".formatted(secondDiscount),
+            "$ %.2f".formatted(total - (firstDiscount + secondDiscount))
+        };
+
+        for (int i = 0; i < headers.length; i++) {
+            JPanel p = new JPanel();
+            p.setLayout(new FlowLayout(FlowLayout.RIGHT));
+            // p.setBorder(new EmptyBorder(0, 0, 10, 0));
+
+            JLabel headLabel = new JLabel(headers[i]);
+            JLabel dataLabel = new JLabel(data[i]);
+
+            setLabelFixedSize(headLabel, 250, 15);
+            setLabelFixedSize(dataLabel, 100, 15);
+
+            p.add(headLabel);
+            p.add(new JLabel(" - "));
+            p.add(dataLabel);
+            
+            bottomPanel.add(p);
+        }
+
+        return bottomPanel;
+    }
+
+    public JPanel setupBottomRibbon() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        JPanel buttonHolder = new JPanel();
+        buttonHolder.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 20));
+
+        WButton clearCart = new WButton("Clear Cart");
+        WButton checkout = new WButton("Checkout");
+
+        clearCart.addActionListener(e -> { 
+            cartFrame.dispose();
+            returnNotBoughtItems();
+            redrawTable("All");
+            start();
+        });
+
+        checkout.addActionListener(e -> {
+            cartFrame.dispose();
+            addToUserPurchaseHistory();
+            redrawTable("All");
+            start();
+        });
+
+        buttonHolder.add(clearCart);
+        buttonHolder.add(checkout);
+
+        panel.add(buttonHolder, BorderLayout.SOUTH);
+
+        return panel;
     }
 
     private void addToUserPurchaseHistory() {
@@ -241,12 +325,12 @@ public class GraphicalInterface {
     private double calculateSetOfThreeDiscount() {
         long clothingCount = cart
             .stream()
-            .filter(e -> e.getClass().getSimpleName().equals("Clothing"))
+            .filter(e -> e instanceof Clothing)
             .count();
         
         long electronicCount = cart
             .stream()
-            .filter(e -> e.getClass().getSimpleName().equals("Electronic"))
+            .filter(e -> e instanceof Electronic)
             .count();
         
         if (clothingCount >= 3 || electronicCount >= 3) return calculateTotal() * 0.20;
@@ -259,7 +343,14 @@ public class GraphicalInterface {
         if (product.isPresent()) {
             try {
                 Product p = product.get().extract(1);
-                cart.add(p);
+                
+                int index = cart.indexOf(p);
+                if (index == -1) cart.add(p);
+                else {
+                    Product indexProduct = cart.get(index);
+                    indexProduct.setCount(indexProduct.getCount() + 1);
+                }
+
                 setSelectedProduct(product.get());
             } catch (CloneNotSupportedException e) {
                 System.out.println("Warning! Internal error occurred! Couldn't clone Object!");
@@ -311,13 +402,7 @@ public class GraphicalInterface {
     }
 
     public static Optional<Product> getProductFromRow(int row) {
-        if (row == -1) return Optional.empty();
-
-        String productId = catalogueTable.getValueAt(row, 0).toString();
-
-        return products
-            .stream()
-            .filter(e -> e.getId().equals(productId))
-            .findFirst();
+        ItemTableModel itm = (ItemTableModel) catalogueTable.getModel();
+        return itm.getProductAtRow(row);
     }
 }

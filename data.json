@@ -7,17 +7,7 @@
         },
         {
             "password": "pass",
-            "purchaseHistory": [
-                {
-                    "size": "M",
-                    "color": "Grey/White",
-                    "price": 145.99,
-                    "name": "Sweatpants",
-                    "count": 1,
-                    "id": "1KSMLVXJUX",
-                    "type": "Clothing"
-                }
-            ],
+            "purchaseHistory": [],
             "access": "Client",
             "username": "user"
         }
@@ -125,7 +115,7 @@
         {
             "price": 40.59,
             "name": "USB Drive",
-            "count": 10,
+            "count": 8,
             "warranty": 4,
             "id": "M41GCH22RN",
             "type": "Electronic",

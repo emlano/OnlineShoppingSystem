@@ -6,6 +6,7 @@ import lib.Product;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class ItemTableModel extends AbstractTableModel {
     private final ArrayList<Product> rows;
@@ -48,6 +49,11 @@ public class ItemTableModel extends AbstractTableModel {
                             );
             default -> null;
         };
+    }
+
+    public Optional<Product> getProductAtRow(int row) {
+        if ((row < 0 || row > getRowCount()) || this.rows.get(row) == null) return Optional.empty();
+        return Optional.of(this.rows.get(row));
     }
 
     @Override
