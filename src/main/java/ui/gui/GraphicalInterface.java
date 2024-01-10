@@ -32,6 +32,8 @@ public class GraphicalInterface {
     private static final JLabel[] productDetailsInfo = new JLabel[6];
     private static final JLabel[] productDetailsText = new JLabel[6];
     private static WTable catalogueTable;
+    private static int displayCenterHeight;
+    private static int displayCenterWidth;
 
     private static ArrayList<Product> products;
     private static ArrayList<Product> cart;
@@ -43,6 +45,10 @@ public class GraphicalInterface {
         cart = new ArrayList<>();
         unsetSelectedProduct();
 
+        GraphicsDevice gd = MouseInfo.getPointerInfo().getDevice();
+        displayCenterWidth = gd.getDisplayMode().getWidth() / 2;
+        displayCenterHeight = gd.getDisplayMode().getHeight() / 2;
+
         JPanel topPanel = setupTopPanel();
         JPanel bottomPanel = setupBottomPanel();
 
@@ -51,6 +57,7 @@ public class GraphicalInterface {
         frame.add(bottomPanel);
         frame.setLayout(new GridLayout(2, 1));
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setFrameToCenter(displayCenterWidth, displayCenterHeight, frame);
     }
 
     public void start() {
@@ -132,6 +139,10 @@ public class GraphicalInterface {
         return bottomPanel;
     }
 
+    public void setFrameToCenter(int x, int y, JFrame frame) {
+        frame.setLocation((x - frame.getWidth() / 2), (y - frame.getHeight() / 2));
+    }
+
     public static void redrawTable(String type) {
         ArrayList<Product> list;
 
@@ -207,7 +218,9 @@ public class GraphicalInterface {
         cartFrame.add(button);
         cartFrame.setSize(1080, 720);
         cartFrame.addWindowListener(wl);
+        cartFrame.setLocation(displayCenterWidth, displayCenterHeight);
         cartFrame.setVisible(true);
+        setFrameToCenter(displayCenterWidth, displayCenterHeight, cartFrame);
     }
 
     private void addToUserPurchaseHistory() {
