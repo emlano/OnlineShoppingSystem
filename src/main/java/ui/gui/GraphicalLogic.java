@@ -102,6 +102,7 @@ public class GraphicalLogic {
         }
 
         setLabelFixedSize(dataLabelArr, 120, 15);
+        setLabelFixedSize(txtLabelArr, 120, 15);
     }
 
     public static void saveUserBuyHistory(Client client) {
