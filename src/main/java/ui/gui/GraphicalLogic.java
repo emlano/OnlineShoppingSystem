@@ -1,14 +1,5 @@
 package ui.gui;
 
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import exceptions.NotEnoughProductStockException;
 import lib.Client;
 import lib.Clothing;
@@ -16,6 +7,12 @@ import lib.Electronic;
 import lib.Product;
 import ui.gui.WComponents.WTable;
 import ui.gui.models.ItemTableModel;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class GraphicalLogic {
         public static final int NONE = 0;
@@ -98,8 +95,14 @@ public class GraphicalLogic {
         final int LABEL_COUNT = txtLabelArr.length;
 
         for (int i = 0; i < LABEL_COUNT; i++) {
-            txtLabelArr[i] = new JLabel("N/A");
-            dataLabelArr[i] = new JLabel("N/A");
+            if (txtLabelArr[i] == null) {
+                txtLabelArr[i] = new JLabel("N/A");
+                dataLabelArr[i] = new JLabel("N/A");
+            
+            } else {
+                txtLabelArr[i].setText("N/A");
+                dataLabelArr[i].setText("N/A");
+            }
         }
 
         setLabelFixedSize(dataLabelArr, 120, 15);

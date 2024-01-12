@@ -22,6 +22,13 @@ public class Client extends User {
 
     // Adds a single product to the product history
     public void addToPurchaseHistory(Product product) {
-        purchaseHistory.add(product);
+        int indexOfItem = purchaseHistory.indexOf(product);
+
+        if (indexOfItem == -1) purchaseHistory.add(product);
+        
+        else {
+            Product p = purchaseHistory.get(indexOfItem);
+            p.setCount(p.getCount() + 1);
+        }
     }
 }

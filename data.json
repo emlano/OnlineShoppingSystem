@@ -7,7 +7,62 @@
         },
         {
             "password": "pass",
-            "purchaseHistory": [],
+            "purchaseHistory": [
+                {
+                    "price": 300,
+                    "name": "Headset",
+                    "count": 1,
+                    "warranty": 21,
+                    "id": "QUVPOZWWDS",
+                    "type": "Electronic",
+                    "brand": "JBL"
+                },
+                {
+                    "price": 120,
+                    "name": "BlueRay Player",
+                    "count": 1,
+                    "warranty": 12,
+                    "id": "P8ZWV1ERJW",
+                    "type": "Electronic",
+                    "brand": "Toshiba"
+                },
+                {
+                    "price": 40.59,
+                    "name": "USB Drive",
+                    "count": 1,
+                    "warranty": 4,
+                    "id": "M41GCH22RN",
+                    "type": "Electronic",
+                    "brand": "SanDisk"
+                },
+                {
+                    "size": "M",
+                    "color": "Black",
+                    "price": 25,
+                    "name": "Beanie",
+                    "count": 1,
+                    "id": "TOU889Q0TT",
+                    "type": "Clothing"
+                },
+                {
+                    "size": "L",
+                    "color": "Grey",
+                    "price": 120,
+                    "name": "Hoodie",
+                    "count": 1,
+                    "id": "5LIH235IQ2",
+                    "type": "Clothing"
+                },
+                {
+                    "size": "M",
+                    "color": "Grey/White",
+                    "price": 145.99,
+                    "name": "Sweatpants",
+                    "count": 2,
+                    "id": "1KSMLVXJUX",
+                    "type": "Clothing"
+                }
+            ],
             "access": "Client",
             "username": "user"
         }
@@ -18,7 +73,7 @@
             "color": "Grey/White",
             "price": 145.99,
             "name": "Sweatpants",
-            "count": 7,
+            "count": 4,
             "id": "1KSMLVXJUX",
             "type": "Clothing"
         },
@@ -45,7 +100,7 @@
             "color": "Grey",
             "price": 120,
             "name": "Hoodie",
-            "count": 12,
+            "count": 11,
             "id": "5LIH235IQ2",
             "type": "Clothing"
         },
@@ -115,7 +170,7 @@
         {
             "price": 40.59,
             "name": "USB Drive",
-            "count": 8,
+            "count": 7,
             "warranty": 4,
             "id": "M41GCH22RN",
             "type": "Electronic",
@@ -142,7 +197,7 @@
         {
             "price": 120,
             "name": "BlueRay Player",
-            "count": 4,
+            "count": 3,
             "warranty": 12,
             "id": "P8ZWV1ERJW",
             "type": "Electronic",
@@ -160,7 +215,7 @@
         {
             "price": 300,
             "name": "Headset",
-            "count": 5,
+            "count": 4,
             "warranty": 21,
             "id": "QUVPOZWWDS",
             "type": "Electronic",
@@ -180,7 +235,7 @@
             "color": "Black",
             "price": 25,
             "name": "Beanie",
-            "count": 15,
+            "count": 14,
             "id": "TOU889Q0TT",
             "type": "Clothing"
         },

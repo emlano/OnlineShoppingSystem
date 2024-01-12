@@ -1,19 +1,17 @@
 package ui.gui;
 
+import lib.Client;
+import lib.Product;
+import ui.gui.WComponents.WTable;
+
+import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.Optional;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.event.ListSelectionListener;
-
-import lib.Client;
-import lib.Product;
-import ui.gui.WComponents.WTable;
 
 public class EventListeners {
     public static void armAddToCartButton(WTable table, ArrayList<Product> cartList, JLabel[] prodTxtLabels, JLabel[] prodDataLabels) {

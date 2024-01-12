@@ -12,7 +12,6 @@ import ui.gui.models.WTableCellRenderer;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.*;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
@@ -64,29 +63,32 @@ public class GraphicalInterface {
         JPanel viewButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         WButton viewCartButton = new WButton("Shopping Cart");
 
-        viewCartButton.addActionListener(e -> openCartView());
         viewButtonPanel.add(viewCartButton);
-
+        
         WComboBox<String> comboBox = new WComboBox<>(SELECTION_LIST);
-        comboBox.addItemListener(EventListeners.getComboBoxItemListener(cart, catalogueTable));
-
+        
         JPanel productCategoryContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         productCategoryContainer.add(new JLabel("Select Product Category"));
         productCategoryContainer.add(comboBox);
-
+        
         ItemTableModel tableModel = new ItemTableModel(products);
         catalogueTable = new WTable(tableModel);
-        catalogueTable
-            .getSelectionModel()
-            .addListSelectionListener(EventListeners.getTableListSelectionListener(catalogueTable, PROD_DESC_TXT_LABELS, PROD_DESC_DATA_LABELS));
         
         catalogueTable.setDefaultRenderer(String.class, new WTableCellRenderer());
         JScrollPane tableScroller = new JScrollPane(catalogueTable);
-
+        
         topPanel.add(viewButtonPanel);
         topPanel.add(productCategoryContainer);
         topPanel.add(tableScroller);
+        
+        catalogueTable
+        .getSelectionModel()
+        .addListSelectionListener(EventListeners.getTableListSelectionListener(catalogueTable, PROD_DESC_TXT_LABELS, PROD_DESC_DATA_LABELS));
+        
+        comboBox.addItemListener(EventListeners.getComboBoxItemListener(products, catalogueTable));
+        viewCartButton.addActionListener(e -> openCartView());
 
+        
         return topPanel;
     }
 
@@ -123,13 +125,14 @@ public class GraphicalInterface {
         addToCartPanel.setBorder(new EmptyBorder(0, 0, 25, 0));
 
         WButton addToCartButton = new WButton("Add to Shopping Cart");
-        addToCartButton.addActionListener(e -> EventListeners.armAddToCartButton(catalogueTable, cart, PROD_DESC_TXT_LABELS, PROD_DESC_DATA_LABELS));
         
         bottomRibbon.add(addToCartButton);
-
+        
         bottomPanel.add(productDetailsPanel);
         bottomPanel.add(addToCartPanel);
-
+        
+        addToCartButton.addActionListener(e -> EventListeners.armAddToCartButton(catalogueTable, cart, PROD_DESC_TXT_LABELS, PROD_DESC_DATA_LABELS));
+        
         return bottomPanel;
     }
 
@@ -137,17 +140,17 @@ public class GraphicalInterface {
         WindowListener wl = EventListeners.getCartCloseListener(catalogueTable, products, cart, PROD_DESC_TXT_LABELS, PROD_DESC_DATA_LABELS, FRAME);
         FRAME.setVisible(false);
         
-
         cartFrame = new JFrame("Shopping Cart");
         cartFrame.setLayout(new GridLayout(3, 1));
+        cartFrame.setSize(1080, 720);
+        GraphicalLogic.setFrameToCenter(displayCenterWidth, displayCenterHeight, cartFrame);
 
         cartFrame.add(setupCartTopPanel());
         cartFrame.add(setupCartBottomPanel());
         cartFrame.add(setupCartBottomRibbon());
 
-        cartFrame.setSize(1080, 720);
-        GraphicalLogic.setFrameToCenter(displayCenterWidth, displayCenterHeight, cartFrame);
         cartFrame.addWindowListener(wl);
+
         cartFrame.setVisible(true);
     }
 
@@ -183,7 +186,6 @@ public class GraphicalInterface {
         for (int i = 0; i < headers.length; i++) {
             JPanel p = new JPanel();
             p.setLayout(new FlowLayout(FlowLayout.RIGHT));
-            // p.setBorder(new EmptyBorder(0, 0, 10, 0));
 
             JLabel headLabel = new JLabel(headers[i]);
             JLabel dataLabel = new JLabel(data[i]);
@@ -210,6 +212,12 @@ public class GraphicalInterface {
         WButton clearCart = new WButton("Clear Cart");
         WButton checkout = new WButton("Checkout");
 
+        
+        buttonHolder.add(clearCart);
+        buttonHolder.add(checkout);
+        
+        panel.add(buttonHolder, BorderLayout.SOUTH);
+
         clearCart.addActionListener(e -> {
             EventListeners.killCartWindow(cartFrame, catalogueTable, PROD_DESC_TXT_LABELS, PROD_DESC_DATA_LABELS);
             EventListeners.clearCart(FRAME, products, cart);
@@ -219,11 +227,6 @@ public class GraphicalInterface {
             EventListeners.killCartWindow(cartFrame, catalogueTable, PROD_DESC_TXT_LABELS, PROD_DESC_DATA_LABELS);
             EventListeners.checkout(client, FRAME, cart);
         });
-
-        buttonHolder.add(clearCart);
-        buttonHolder.add(checkout);
-
-        panel.add(buttonHolder, BorderLayout.SOUTH);
 
         return panel;
     }
