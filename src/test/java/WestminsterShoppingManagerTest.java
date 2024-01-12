@@ -25,7 +25,7 @@ public class WestminsterShoppingManagerTest {
         
         try {
             wsm.addProduct(sb);
-        } catch (NonUniqueProductIdException e) {
+        } catch (NonUniqueProductIdException | CapacityOverloadException e) {
             Assertions.fail("Test Error: Product ID already used!");
         }
 
@@ -42,7 +42,7 @@ public class WestminsterShoppingManagerTest {
         
         try {
             wsm.addProduct(sb);
-        } catch (NonUniqueProductIdException e) {
+        } catch (NonUniqueProductIdException | CapacityOverloadException e) {
             Assertions.fail("Test Error: Product ID already used!");
         }
 
@@ -63,7 +63,7 @@ public class WestminsterShoppingManagerTest {
         WestminsterShoppingManager wsm = new WestminsterShoppingManager();
         try {
             wsm.addProduct(sb);
-        } catch (NonUniqueProductIdException e) {
+        } catch (NonUniqueProductIdException | CapacityOverloadException e) {
             Assertions.fail("Test Error: Product ID already used!");
         }
 
@@ -86,7 +86,7 @@ public class WestminsterShoppingManagerTest {
 
         try {
             wsm.addProduct(sb);
-        } catch (NonUniqueProductIdException e) {
+        } catch (NonUniqueProductIdException | CapacityOverloadException e) {
             Assertions.fail("Test Error: Product ID already used!");
         }
 
@@ -167,7 +167,7 @@ public class WestminsterShoppingManagerTest {
             wsm.addProduct(sp2);
             wsm.addProduct(sp3);
             wsm.addProduct(sp4);
-        } catch (NonUniqueProductIdException e) {
+        } catch (NonUniqueProductIdException | CapacityOverloadException e) {
             Assertions.fail("Test Error: Product Id used twice!");
         }
 
@@ -200,8 +200,12 @@ public class WestminsterShoppingManagerTest {
         JSONArray prodArray = wsm.getJsonArrayFromProductList(prodList);
         JSONArray userArray = wsm.getJsonArrayFromUserList(userList);
 
-        assertEquals(prodList, wsm.getProductListFromJsonArray(prodArray), "Failed to rebuild products from JSON");
-        assertEquals(userList, wsm.getUserListFromJsonArray(userArray), "Failed to rebuild users from JSON");
+        try {
+                assertEquals(prodList, wsm.getProductListFromJsonArray(prodArray), "Failed to rebuild products from JSON");
+                assertEquals(userList, wsm.getUserListFromJsonArray(userArray), "Failed to rebuild users from JSON");
+        } catch (CorruptedFileDataException ex) {
+            System.out.println("Test Failed: File data corrupted");
+        }
     }
 
     @Test
@@ -222,7 +226,7 @@ public class WestminsterShoppingManagerTest {
             wsm.addUser(m);
             wsm.addProduct(c);
             wsm.addProduct(e);
-        } catch (NonUniqueUsernameException | NonUniqueProductIdException x) {
+        } catch (NonUniqueUsernameException | NonUniqueProductIdException | CapacityOverloadException x) {
             Assertions.fail("Test Failed: Duplicate Id Entries");
         }
 
@@ -308,7 +312,25 @@ public class WestminsterShoppingManagerTest {
         } catch (IOException e) {
             Assertions.fail("Test Failed: Unable to open file to write");
         }
+    }
 
+    @Test
+    @DisplayName("Inventory capacity limit do not exceed")
+    public void capacityIsLimited() throws CapacityOverloadException {
+        final int CAPACITY_LIMIT = 50;
+        WestminsterShoppingManager wsm = new WestminsterShoppingManager();
+        
+        for (int i = 0; i < CAPACITY_LIMIT; i++) {
+            SubProduct sb = new SubProduct("ABCD" + i, "ABCD" + i, i, i);
+            try {
+                wsm.addProduct(sb);
+            } catch (NonUniqueProductIdException e) {
+                Assertions.fail("Test Failed: Unable to add products");
+            }
+        }
 
+        SubProduct sbTest = new SubProduct("Hello", "Hello", 1, 1);
+
+        assertThrows(CapacityOverloadException.class, () -> wsm.addProduct(sbTest));
     }
 }

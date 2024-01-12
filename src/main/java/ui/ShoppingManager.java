@@ -1,5 +1,6 @@
 package ui;
 
+import exceptions.CapacityOverloadException;
 import exceptions.CorruptedFileDataException;
 import exceptions.NonUniqueProductIdException;
 import exceptions.NonUniqueUsernameException;
@@ -10,7 +11,7 @@ import lib.User;
 import java.io.IOException;
 
 public interface ShoppingManager {
-    void addProduct(Product product) throws NonUniqueProductIdException;
+    void addProduct(Product product) throws NonUniqueProductIdException, CapacityOverloadException;
     void addUser(User user) throws NonUniqueUsernameException;
     Product deleteProduct(String productId) throws ProductNotFoundException;
     void printProductList();

@@ -233,7 +233,7 @@ public class UserInterface {
 
             wsm.addProduct(obj);
 
-        } catch (IllegalInputException | OutOfBoundsException | NonUniqueProductIdException e) {
+        } catch (IllegalInputException | OutOfBoundsException | NonUniqueProductIdException | CapacityOverloadException e) {
             System.out.println(err + e.getMessage());
         }
     }
@@ -243,8 +243,12 @@ public class UserInterface {
             System.out.println();
             String id = InputValidator.getStringInput("\tEnter product id of the item: ", InputFlag.NONE,8, 10);
             
-            wsm.deleteProduct(id);
+            Product p = wsm.deleteProduct(id);
             System.out.println("\nItem successfully deleted!");
+            System.out.println("\n\tProduct ID: " + p.getId());
+            System.out.println("\tProduct Name: " + p.getName());
+            System.out.println("\tProduct Type: " + p.getClass().getSimpleName());
+            System.out.println("\nRemaining Product count: " + wsm.getProductList().size());
 
         } catch (IllegalInputException | ProductNotFoundException e) {
             System.out.println(err + e.getMessage());

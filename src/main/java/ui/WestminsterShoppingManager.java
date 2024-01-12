@@ -28,9 +28,13 @@ public class WestminsterShoppingManager implements ShoppingManager {
      * @param product is the {@link Product} to be added.
      */
     @Override
-    public void addProduct(Product product) throws NonUniqueProductIdException {
+    public void addProduct(Product product) throws NonUniqueProductIdException, CapacityOverloadException {
         if (isIdNotUnique(product.getId())) {
             throw new NonUniqueProductIdException();
+        }
+
+        if (this.productList.size() == 50) {
+            throw new CapacityOverloadException();
         }
 
         this.productList.add(product);
@@ -181,10 +185,10 @@ public class WestminsterShoppingManager implements ShoppingManager {
             str.append(String.format(
                 "%15.15s | ".repeat(5) + "\n",
                 i.getCount(),
-                i.getClass() == Clothing.class ? ((Clothing) i).getSize() : "-",
-                i.getClass() == Clothing.class ? ((Clothing) i).getColor() : "-",
-                i.getClass() == Electronic.class ? ((Electronic) i).getBrand() : "-",
-                i.getClass() == Electronic.class ? ((Electronic) i).getWarrantyPeriod() : "-"
+                i instanceof Clothing ? ((Clothing) i).getSize() : "-",
+                i instanceof Clothing ? ((Clothing) i).getColor() : "-",
+                i instanceof Electronic ? ((Electronic) i).getBrand() : "-",
+                i instanceof Electronic ? ((Electronic) i).getWarrantyPeriod() : "-"
             ));
         }
 
@@ -226,7 +230,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
             jo.put("password", e.getPassword());
             jo.put("access", e.getAccess().toString());
 
-            if (e.getClass() == Client.class) {
+            if (e instanceof Client) {
                 Client c = (Client) e;
                 jo.put(
                     "purchaseHistory",
@@ -256,13 +260,13 @@ public class WestminsterShoppingManager implements ShoppingManager {
             jo.put("price", e.getPrice());
             jo.put("count", e.getCount());
             
-            if (e.getClass() == Clothing.class) {
+            if (e instanceof Clothing) {
                 Clothing c = (Clothing) e;
                 jo.put("type", "Clothing");
                 jo.put("size", c.getSize().toString());
                 jo.put("color", c.getColor());
             
-            } else if (e.getClass() == Electronic.class) {
+            } else if (e instanceof Electronic) {
                 Electronic el = (Electronic) e;
                 jo.put("type", "Electronic");
                 jo.put("brand", el.getBrand());
@@ -305,22 +309,27 @@ public class WestminsterShoppingManager implements ShoppingManager {
         }
     }
 
-    public ArrayList<Product> getProductListFromJsonArray(JSONArray ja) {
+    public ArrayList<Product> getProductListFromJsonArray(JSONArray ja) throws CorruptedFileDataException {
         ArrayList<Product> list = new ArrayList<>();
 
-        ja.forEach(e -> {
-            JSONObject jo = (JSONObject) e;
+        for (int i = 0; i < ja.toList().size(); i++) {
+            JSONObject jo = (JSONObject) ja.get(i);
+            Product obj;
 
-            Product obj = jo.getString("type").equals("Clothing")
-                ? new Clothing(null, null) 
-                : new Electronic(null, 0);
+            if (jo.getString("type").equals("Clothing")) {
+                obj = new Clothing(null, null);
+            
+            } else if (jo.getString("type").equals("Electronic")) {
+                obj = new Electronic(null, 0);
+            
+            } else throw new CorruptedFileDataException();
 
             obj.setId(jo.getString("id"));
             obj.setName(jo.getString("name"));
             obj.setPrice(jo.getDouble("price"));
             obj.setCount(jo.getInt("count"));
 
-            if (obj.getClass().getSimpleName().equals("Clothing")) {
+            if (obj instanceof Clothing) {
                 ((Clothing) obj).setSize(Size.toSize(jo.getString("size")));
                 ((Clothing)obj).setColor(jo.getString("color"));
             
@@ -330,32 +339,36 @@ public class WestminsterShoppingManager implements ShoppingManager {
             }
 
             list.add(obj);
-        });
+        }
 
         return list;
     }
 
-    public ArrayList<User> getUserListFromJsonArray(JSONArray jsonArr) {
+    public ArrayList<User> getUserListFromJsonArray(JSONArray jsonArr) throws CorruptedFileDataException {
         ArrayList<User> list = new ArrayList<>();
 
-        jsonArr.forEach(e -> {
-            JSONObject jo = (JSONObject) e;
+        for (int i = 0; i < jsonArr.toList().size(); i++) {
+            JSONObject jo = (JSONObject) jsonArr.get(i);
 
-            User obj = jo.getString("access").equals("Admin")
-                ? new Manager(null, null)
-                : new Client(null, null);
+            User obj;
+            
+            if (jo.getString("access").equals("Admin")) {
+                obj = new Manager(null, null);
+            } else if (jo.getString("access").equals("Client")) {
+                obj = new Client(null, null);
+            } else throw new CorruptedFileDataException();
             
             obj.setUsername(jo.getString("username"));
             obj.setPassword(jo.getString("password"));
 
-            if (obj.getClass().getSimpleName().equals("Client")) {
+            if (obj instanceof Client) {
                 ((Client) obj).setPurchaseHistory(getProductListFromJsonArray(
                     jo.getJSONArray("purchaseHistory"))
                 );
             }
 
             list.add(obj);
-        });
+        }
 
         return list;
     }
