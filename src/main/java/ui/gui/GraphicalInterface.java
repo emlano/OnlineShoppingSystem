@@ -16,11 +16,12 @@ import java.awt.*;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
+// Sets up the swing components
 public class GraphicalInterface {
     private final JFrame FRAME = new JFrame("Westminster Shopping Centre");
     private final String[] SELECTION_LIST = {"All", "Clothing", "Electronic"};
-    private final JLabel[] PROD_DESC_TXT_LABELS = new JLabel[6];
-    private final JLabel[] PROD_DESC_DATA_LABELS = new JLabel[6];
+    private final JLabel[] PROD_DESC_TXT_LABELS = new JLabel[6]; // Product description labels at the bottom panel of main page
+    private final JLabel[] PROD_DESC_DATA_LABELS = new JLabel[6]; // Same as above but contains data about the selected prod
     
     private JFrame cartFrame;
     private static WTable catalogueTable;
@@ -33,8 +34,10 @@ public class GraphicalInterface {
     public GraphicalInterface(User user, ArrayList<Product> productList) {
         products = productList;
         client = (Client) user;
+        // Set prod desc labels to "N/A"
         GraphicalLogic.setDefaultProdDescLabels(PROD_DESC_TXT_LABELS, PROD_DESC_DATA_LABELS);
 
+        // To spawn windows in the middle of the screen rather than in a corner
         GraphicsDevice gd = MouseInfo.getPointerInfo().getDevice();
         displayCenterWidth = gd.getDisplayMode().getWidth() / 2;
         displayCenterHeight = gd.getDisplayMode().getHeight() / 2;
@@ -158,6 +161,8 @@ public class GraphicalInterface {
 
         CartTableModel ctm = new CartTableModel(client.getCart().getProductList());
         WTable cartTable = new WTable(ctm);
+
+        // To make table unselectedable and undraggable
         cartTable.setEnabled(false);
         JScrollPane tableScroll = new JScrollPane(cartTable);
 
@@ -169,6 +174,7 @@ public class GraphicalInterface {
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 
+        //Gets total withotu discounts
         double total = client.getCart().calculateTotal();
         double firstDiscount = client.getCart().calculateNewUserDisc(client);
         double secondDiscount = client.getCart().calculateThreeOfSetDisc();
@@ -188,6 +194,7 @@ public class GraphicalInterface {
             JLabel headLabel = new JLabel(headers[i]);
             JLabel dataLabel = new JLabel(data[i]);
 
+            // Set all labels to a fixed size, so they align with each other no matter the text width
             GraphicalLogic.setLabelFixedSize(headLabel, 250, 15);
             GraphicalLogic.setLabelFixedSize(dataLabel, 100, 15);
 
@@ -201,6 +208,7 @@ public class GraphicalInterface {
         return bottomPanel;
     }
 
+    // Sets up the clear cart and checkout buttons
     public JPanel setupCartBottomRibbon() {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());

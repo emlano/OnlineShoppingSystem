@@ -15,7 +15,10 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+// Contains all logic relevant to the GUI part
 public class GraphicalLogic {
+        // Used to check how to filter the products table
+        // None filters nothing (All items displayed)
         public static final int NONE = 0;
         public static final int CLOTHING = 1;
         public static final int ELECTRONIC = 2;
@@ -33,10 +36,12 @@ public class GraphicalLogic {
         }
     }
 
+    // Spawns windows from center of the screen
     public static void setFrameToCenter(int x, int y, JFrame frame) {
         frame.setLocation((x - frame.getWidth() / 2), (y - frame.getHeight() / 2));
     }
 
+    // Used to set the info about the selected product from the table
     public static void setSelectedProdDescLabels(Product selectedProd, JLabel[] textLabelArr, JLabel[] dataLabelArr) {
         String[] headers = {"Product ID", "Category", "Name", null, null, "Items Available"};
         String[] data = {selectedProd.getId(), selectedProd.getClass().getSimpleName(), selectedProd.getName(), null, null, String.valueOf(selectedProd.getCount())};
@@ -65,6 +70,7 @@ public class GraphicalLogic {
         }
     }
 
+    // Refreshes table with filters optionally
     public static void redrawTable(int filter, ArrayList<Product> prodList, WTable table) {
         ArrayList<Product> displayedList;
 
@@ -87,6 +93,7 @@ public class GraphicalLogic {
         table.setModel(tm);
     }
 
+    // Unsets the selected product details
     public static void setDefaultProdDescLabels(JLabel[] txtLabelArr, JLabel[] dataLabelArr) {
         final int LABEL_COUNT = txtLabelArr.length;
 
@@ -123,6 +130,7 @@ public class GraphicalLogic {
         }
     }
 
+    // Returns unpurchased items back to the system
     public static void returnProdsFromCart(ArrayList<Product> prodList, ShoppingCart cart) {
         for (int i = 0; i < cart.getSize(); i++) {
             Product p = cart.getProduct(i);
@@ -139,6 +147,7 @@ public class GraphicalLogic {
         cart.emptyCart();
     }
 
+    // Gets the item selected by user from the table
     public static Optional<Product> getSelectedProd(WTable table) {
         int selectedRow = table.getSelectedRow();
         return getProdFromRow(selectedRow, table);

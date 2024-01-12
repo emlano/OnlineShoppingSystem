@@ -61,6 +61,7 @@ public abstract class Product implements Cloneable {
         return p;
     }
 
+    // Allows creation of a cloned object (an object not sharing a reference with each other
     @Override
     public Object clone() throws CloneNotSupportedException {
         Product p = (Product) super.clone();

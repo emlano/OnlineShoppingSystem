@@ -197,12 +197,12 @@ public class WestminsterShoppingManagerTest {
         userList.add(m);
 
         WestminsterShoppingManager wsm = new WestminsterShoppingManager();
-        JSONArray prodArray = wsm.getJsonArrayFromProductList(prodList);
-        JSONArray userArray = wsm.getJsonArrayFromUserList(userList);
+        JSONArray prodArray = wsm.fromProdsToJson(prodList);
+        JSONArray userArray = wsm.fromUsersToJson(userList);
 
         try {
-                assertEquals(prodList, wsm.getProductListFromJsonArray(prodArray), "Failed to rebuild products from JSON");
-                assertEquals(userList, wsm.getUserListFromJsonArray(userArray), "Failed to rebuild users from JSON");
+                assertEquals(prodList, wsm.fromJsonToProds(prodArray), "Failed to rebuild products from JSON");
+                assertEquals(userList, wsm.fromJsonToUsers(userArray), "Failed to rebuild users from JSON");
         } catch (CorruptedFileDataException ex) {
             System.out.println("Test Failed: File data corrupted");
         }

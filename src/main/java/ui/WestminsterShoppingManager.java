@@ -23,10 +23,6 @@ public class WestminsterShoppingManager implements ShoppingManager {
         this.userList = new ArrayList<>();
     }
 
-    /**
-     * Adds a {@link Product} to the product list.
-     * @param product is the {@link Product} to be added.
-     */
     @Override
     public void addProduct(Product product) throws NonUniqueProductIdException, CapacityOverloadException {
         if (isIdNotUnique(product.getId())) {
@@ -40,21 +36,11 @@ public class WestminsterShoppingManager implements ShoppingManager {
         this.productList.add(product);
     }
 
-    /**
-     * Checks if a product has been registered using the id provided
-     * @param id to be checked against all existing products
-     * @return boolean 
-     */
     private boolean isIdNotUnique(String id) {
         return this.productList.stream()
             .anyMatch(e -> e.getId().equals(id));
     }
 
-    /**
-     * Searches and returns a Product matching its product id
-     * @param id product id
-     * @return returns the {@link Product} if found, else returns null
-     */
     public Product getProduct(String id) throws ProductNotFoundException {
         Product product = this.productList.stream()
             .filter(e -> e.getId().equals(id))
@@ -66,11 +52,6 @@ public class WestminsterShoppingManager implements ShoppingManager {
         return product;
     }
 
-    /**
-     * Deletes a {@link Product} from the product list.
-     * @param productId {@link String} id of the product.
-     * @return {@link Product} object removed.
-     */
     @Override
     public Product deleteProduct(String productId) throws ProductNotFoundException {
         for (int i = 0; i < this.productList.size(); i++) {
@@ -82,18 +63,10 @@ public class WestminsterShoppingManager implements ShoppingManager {
         throw new ProductNotFoundException();
     }
 
-    /**
-     * Returns the product list
-     * @return Product list containing all products added into the program
-     */
     public ArrayList<Product> getProductList() {
         return this.productList;
     } 
 
-    /**
-     * Adds a {@link User} to the user list.
-     * @param user is the {@link User} to be added.
-     */
     @Override
     public void addUser(User user) throws NonUniqueUsernameException {
         if (isUsernameNotUnique(user.getUsername())) {
@@ -103,21 +76,11 @@ public class WestminsterShoppingManager implements ShoppingManager {
         this.userList.add(user);
     }
 
-    /**
-     * Checks if a user has already registered using the provided username
-     * @param username to be checked against existing users
-     * @return boolean
-     */
     private boolean isUsernameNotUnique(String username) {
         return this.userList.stream()
             .anyMatch(e -> e.getUsername().equals(username));
     }
 
-    /**
-     * Searches and returns a {@link User}
-     * @param username of the User object
-     * @return User object if found or null.
-     */
     public User getUser(String username) throws UserNotFoundException {
         User user = this.userList.stream()
         .filter(e -> e.getUsername().equals(username))
@@ -129,18 +92,11 @@ public class WestminsterShoppingManager implements ShoppingManager {
         return user;
     }
 
-    /**
-     * Returns the user list
-     * @return User list containing all users added into the program
-     */
     public ArrayList<User> getUserList() {
         userList.sort(new UsernameComparator());
         return this.userList;
     }
 
-    /**
-     * Creates an ASCII table of all products and information and displays it
-     */
     @Override
     public void printProductList() {
         sortProductList(0);
@@ -156,12 +112,9 @@ public class WestminsterShoppingManager implements ShoppingManager {
         System.out.println(sb);
     }
 
-    /**
-     * Sorts the product list by either product id or product name
-     * @param sortBy Accepts int 0 or 1, where
-     *  0 : sort by product id,
-     *  1 : sort by product name
-     */
+    // Sorts the product list,
+    // 0 - Sort by product id
+    // 1 - Sort by product name
     public void sortProductList(int sortBy) {
         switch (sortBy) {
             case 0 -> this.productList.sort(new comparators.ProductIdComparator());
@@ -170,12 +123,6 @@ public class WestminsterShoppingManager implements ShoppingManager {
         }
     }
 
-    /**
-     * Support method, used in gathering row data for the product table,
-     * displayed by {@link #printProductList()} 
-     * @param list {@link ArrayList} of product objects.
-     * @return Concatenated {@link StringBuilder} object with all information about each product.
-     */
     public StringBuilder convertProductsToString(ArrayList<Product> list) {
         StringBuilder str = new StringBuilder();
 
@@ -195,32 +142,26 @@ public class WestminsterShoppingManager implements ShoppingManager {
         return str;
     }
 
-    /**
-     * Saves all users and product data into a JSON file.
-     *
-     */
     @Override
     public void saveToFile(String file) throws IOException {
-        JSONArray jsonProdArr = this.getJsonArrayFromProductList(this.productList);
-        JSONArray jsonUserArr = this.getJsonArrayFromUserList(this.userList);
+        JSONArray jsonProdArr = this.fromProdsToJson(this.productList);
+        JSONArray jsonUserArr = this.fromUsersToJson(this.userList);
 
         FileWriter fw = new FileWriter(file);
         JSONObject root = new JSONObject();
 
         root.put("products", jsonProdArr);
         root.put("users", jsonUserArr);
+        
+        // Empties file
         fw.write("");
         fw.write(root.toString());
         fw.flush();
         fw.close();
     }
 
-    /**
-     * Support method, converts any User array into a JSONArray
-     * @param list {@link ArrayList} of {@link User} objects.
-     * @return {@link JSONArray} of {@link JSONObject}s.
-     */
-    public JSONArray getJsonArrayFromUserList(ArrayList<User> list) {
+    // Converts user list to a JsonArray
+    public JSONArray fromUsersToJson(ArrayList<User> list) {
         JSONArray jsonArr = new JSONArray();
 
         list.forEach(e -> {
@@ -234,11 +175,11 @@ public class WestminsterShoppingManager implements ShoppingManager {
                 Client c = (Client) e;
                 jo.put(
                     "purchaseHistory",
-                    getJsonArrayFromProductList(c.getPurchaseHistory())
+                    fromProdsToJson(c.getPurchaseHistory())
                 );
 
                 jo.put("shoppingCart",
-                getJsonArrayFromProductList(c.getCart().getProductList())
+                fromProdsToJson(c.getCart().getProductList())
                 );
             }
 
@@ -248,12 +189,8 @@ public class WestminsterShoppingManager implements ShoppingManager {
         return jsonArr;
     }
 
-    /**
-     * Support method, converts any products array into a JSONArray
-     * @param list {@link ArrayList} of {@link Product} objects.
-     * @return {@link JSONArray} of {@link JSONObject}s.
-     */
-    public JSONArray getJsonArrayFromProductList(ArrayList<Product> list) {
+    // Converts product list to a JsonArray
+    public JSONArray fromProdsToJson(ArrayList<Product> list) {
         JSONArray jsArr = new JSONArray();
 
         list.forEach(e -> {
@@ -283,9 +220,6 @@ public class WestminsterShoppingManager implements ShoppingManager {
         return jsArr;
     }
 
-    /**
-     * Reads from JSON file and stores data in the program.
-     */
     @Override
     public void readFromFile(String file) throws IOException, CorruptedFileDataException {
         StringBuilder sb = new StringBuilder();
@@ -305,15 +239,16 @@ public class WestminsterShoppingManager implements ShoppingManager {
             JSONArray jsonProdArr = root.getJSONArray("products");
             JSONArray jsonUserArr = root.getJSONArray("users");
 
-            this.productList = getProductListFromJsonArray(jsonProdArr);
-            this.userList = getUserListFromJsonArray(jsonUserArr);
+            this.productList = fromJsonToProds(jsonProdArr);
+            this.userList = fromJsonToUsers(jsonUserArr);
 
         } catch (JSONException e) {
             throw new CorruptedFileDataException();
         }
     }
 
-    public ArrayList<Product> getProductListFromJsonArray(JSONArray ja) throws CorruptedFileDataException {
+    // Converts JsonArray to Product list
+    public ArrayList<Product> fromJsonToProds(JSONArray ja) throws CorruptedFileDataException {
         ArrayList<Product> list = new ArrayList<>();
 
         for (int i = 0; i < ja.toList().size(); i++) {
@@ -348,7 +283,8 @@ public class WestminsterShoppingManager implements ShoppingManager {
         return list;
     }
 
-    public ArrayList<User> getUserListFromJsonArray(JSONArray jsonArr) throws CorruptedFileDataException {
+    // Converts JsonArray to user list
+    public ArrayList<User> fromJsonToUsers(JSONArray jsonArr) throws CorruptedFileDataException {
         ArrayList<User> list = new ArrayList<>();
 
         for (int i = 0; i < jsonArr.toList().size(); i++) {
@@ -366,11 +302,11 @@ public class WestminsterShoppingManager implements ShoppingManager {
             obj.setPassword(jo.getString("password"));
 
             if (obj instanceof Client) {
-                ((Client) obj).setPurchaseHistory(getProductListFromJsonArray(
+                ((Client) obj).setPurchaseHistory(fromJsonToProds(
                     jo.getJSONArray("purchaseHistory"))
                 );
 
-                ((Client) obj).setCart(new ShoppingCart(getProductListFromJsonArray(
+                ((Client) obj).setCart(new ShoppingCart(fromJsonToProds(
                     jo.getJSONArray("shoppingCart")))
                 );
             }

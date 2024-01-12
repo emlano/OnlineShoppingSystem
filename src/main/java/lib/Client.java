@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Client extends User {
     // All products bought by the customer
     private ArrayList<Product> purchaseHistory;
+    // Products added to cart by the user but was not purchased
     private ShoppingCart cart;
 
     public Client(String username, String password) {

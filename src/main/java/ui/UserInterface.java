@@ -281,7 +281,7 @@ public class UserInterface {
     }
 
     private void destroyState() {
-        System.out.println("\nProgram will DELETE ALL DATA!");
+        System.out.println("\nProgram will DELETE ALL DATA, including SAVE FILE DATA!");
 
         System.out.print("\n\tIf you are certain, type 'YES' and hit enter to continue... ");
         String confirmation = scn.nextLine().trim();
@@ -295,6 +295,7 @@ public class UserInterface {
         } else System.out.println("\nDeletion cancelled...");
     }
 
+    // Creates a custom product id 
     private String createProductId() {
         final int LEFTBOUND = 48;
         final int RIGHTBOUND = 123;

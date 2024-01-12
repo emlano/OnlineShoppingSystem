@@ -35,7 +35,7 @@ public class ItemTableModel extends AbstractTableModel {
             case 1 -> obj.getName();
             case 2 -> obj.getClass().getSimpleName();
             case 3 -> "%.2f".formatted(obj.getPrice());
-            case 4 -> obj.getClass().getSimpleName().equals("Clothing")
+            case 4 -> obj instanceof Clothing
                         ? "%s, %s"
                             .formatted(
                                 ((Clothing) obj).getSize(),
@@ -51,6 +51,8 @@ public class ItemTableModel extends AbstractTableModel {
         };
     }
 
+    // Used to get the product directly through the table row
+    // Instead of having to search for the item in product list
     public Optional<Product> getProductAtRow(int row) {
         if ((row < 0 || row > getRowCount()) || this.rows.get(row) == null) return Optional.empty();
         return Optional.of(this.rows.get(row));

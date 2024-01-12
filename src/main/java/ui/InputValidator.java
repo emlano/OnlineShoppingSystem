@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 public class InputValidator {
     private static final Scanner scanner = new Scanner(System.in);
+
     public static String getStringInput(String msg, InputFlag flag) throws IllegalInputException {
         System.out.print(msg);
         String str = scanner.nextLine();
@@ -84,7 +85,7 @@ public class InputValidator {
         String str = getStringInput(msg, flag);
 
         if (Size.toSize(str) == null) {
-            throw new IllegalInputException("Wrong format for Size, Input must in format 'XS / M / L / XL / XXL'");
+            throw new IllegalInputException("Wrong format for Size, Input must be 'XS' / 'M' / 'L' / 'XL' / 'XXL'");
         }
 
         return Size.toSize(str);

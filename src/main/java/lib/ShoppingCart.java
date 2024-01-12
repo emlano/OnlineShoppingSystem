@@ -21,7 +21,10 @@ public class ShoppingCart {
         this.products = prodList;
     }
 
+    // When the same item is added multiple times, system simply increases the item count
+    // Instead of having duplicate product items in cart
     public void addToCart(Product prod) {
+        // Used to get the index of item if it exists in prod list, else -1 is returned
         int indexOfProd = this.products.indexOf(prod);
 
         if (indexOfProd == -1) this.products.add(prod);
@@ -60,6 +63,7 @@ public class ShoppingCart {
     public double calculateThreeOfSetDisc() {
         double total = calculateTotal();
 
+        // Get the number of Clothing, Electronic items in list
         long countOfClothing = products.stream().distinct().filter(e -> e instanceof Clothing).count();
         long countOfElectronic = products.stream().distinct().filter(e -> e instanceof Electronic).count();
 

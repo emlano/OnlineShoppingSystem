@@ -1,5 +1,6 @@
 package enums;
 
+// Used to specify the size of clothing items
 public enum Size {
     XS,
     S,

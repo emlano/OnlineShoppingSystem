@@ -20,6 +20,8 @@ public class EventListeners {
             if (selectedProd.isEmpty()) return;
 
             GraphicalLogic.addProdToCart(selectedProd.get(), client.getCart());
+
+            // Used to refresh the selected prod description labels so as to show the count decreasing
             GraphicalLogic.setSelectedProdDescLabels(selectedProd.get(), prodTxtLabels, prodDataLabels);
     }
 
@@ -28,6 +30,8 @@ public class EventListeners {
             Optional<Product> selectedProduct = GraphicalLogic.getSelectedProd(table);
 
             if (selectedProduct.isPresent()) GraphicalLogic.setSelectedProdDescLabels(selectedProduct.get(), prodTxtLabels, prodDataLabels);
+
+            // If table is unselected, set the prod desc labels back to 'N/A'
             else GraphicalLogic.setDefaultProdDescLabels(prodTxtLabels, prodDataLabels);
         };
     }
@@ -73,6 +77,7 @@ public class EventListeners {
         mainFrame.setVisible(true);
     }
 
+    // Disposes cart window and prepares to switch back to main frame
     public static void killCartWindow(JFrame cartFrame, WTable table, JLabel[] prodTxtLabels, JLabel[] prodDataLabels) {
         cartFrame.dispose();
         Optional<Product> selectedProduct = GraphicalLogic.getSelectedProd(table);

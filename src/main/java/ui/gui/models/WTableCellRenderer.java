@@ -15,6 +15,7 @@ public class WTableCellRenderer extends DefaultTableCellRenderer {
     private final Color fg;
     private final Color errorFg;
     private final Color errorBg;
+
     public WTableCellRenderer() {
         this.errorBg = Color.WHITE;
         this.errorFg = Color.RED;
@@ -27,6 +28,7 @@ public class WTableCellRenderer extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         
+        // Sets table colors
         if ((!isSelected) && isProductStockLow(row, table)) {
             c.setBackground(errorBg);
             c.setForeground(errorFg);
@@ -43,6 +45,7 @@ public class WTableCellRenderer extends DefaultTableCellRenderer {
         return c;
     }
 
+    // Used to check if product at row has low stock (<3)
     public boolean isProductStockLow(int row, JTable table) {
         ItemTableModel itm = (ItemTableModel) table.getModel();
        Optional<Product> obj = itm.getProductAtRow(row);
