@@ -5,6 +5,7 @@ import lib.Client;
 import lib.Clothing;
 import lib.Electronic;
 import lib.Product;
+import lib.ShoppingCart;
 import ui.gui.WComponents.WTable;
 import ui.gui.models.ItemTableModel;
 
@@ -36,16 +37,11 @@ public class GraphicalLogic {
         frame.setLocation((x - frame.getWidth() / 2), (y - frame.getHeight() / 2));
     }
 
-    public static void setSelectedProdDescLabels(Optional<Product> selectedProd, JLabel[] textLabelArr, JLabel[] dataLabelArr) {
-        if (selectedProd.isEmpty()) return;
-        Product p = selectedProd.get();
-
+    public static void setSelectedProdDescLabels(Product selectedProd, JLabel[] textLabelArr, JLabel[] dataLabelArr) {
         String[] headers = {"Product ID", "Category", "Name", null, null, "Items Available"};
-        String[] data = {p.getId(), p.getClass().getSimpleName(), p.getName(), null, null, String.valueOf(p.getCount())};
+        String[] data = {selectedProd.getId(), selectedProd.getClass().getSimpleName(), selectedProd.getName(), null, null, String.valueOf(selectedProd.getCount())};
 
-        if (p instanceof Clothing) {
-            Clothing c = (Clothing) p;
-            
+        if (selectedProd instanceof Clothing c) {
             headers[3] = "Size";
             data[3] = c.getSize().toString();
 
@@ -54,7 +50,7 @@ public class GraphicalLogic {
         }
 
         else {
-            Electronic e = (Electronic) p;
+            Electronic e = (Electronic) selectedProd;
 
             headers[3] = "Brand";
             data[3] = e.getBrand();
@@ -70,7 +66,7 @@ public class GraphicalLogic {
     }
 
     public static void redrawTable(int filter, ArrayList<Product> prodList, WTable table) {
-        ArrayList<Product> displayedList = new ArrayList<>();
+        ArrayList<Product> displayedList;
 
         if (filter == NONE) {
             displayedList = prodList;
@@ -108,68 +104,38 @@ public class GraphicalLogic {
         setLabelFixedSize(dataLabelArr, 120, 15);
     }
 
-    public static void saveUserBuyHistory(ArrayList<Product> cartList, Client client) {
-        cartList.forEach(e -> client.addToPurchaseHistory(e));
-        cartList.clear();
+    public static void saveUserBuyHistory(Client client) {
+        client.addToPurchaseHistory(client.getCart().getProductList());
+        client.getCart().setProductList(new ArrayList<>());
     }
 
-    public static double calcTotal(ArrayList<Product> cartList) {
-        return cartList.stream().mapToDouble(e -> e.getPrice()).sum();
-    }
+    public static void addProdToCart(Product selectedProd, ShoppingCart cart) {
+        try {
+            Product p = selectedProd.extract(1);
+            cart.addToCart(p);
 
-    public static double calcNewCustDisc(Client client, double total) {
-        if (client.getPurchaseHistory().isEmpty()) return total * 0.10;
+        } catch (CloneNotSupportedException e) {
+            System.out.println("Warning! Internal error occurred! Couldn't clone Object!");
 
-        return 0.0;
-   }
-
-   public static double calcSetOfThreeDisc(ArrayList<Product> cartList, double total) {
-        long clothingCount = cartList
-            .stream()
-            .filter(e -> e instanceof Clothing)
-            .count();
-        
-        long electronicCount = cartList
-            .stream()
-            .filter(e -> e instanceof Electronic)
-            .count();
-        
-        if (clothingCount >= 3 || electronicCount >= 3) return total * 0.20;
-        
-        return 0.0;
-    }
-
-    public static void addProdToCart(Optional<Product> selectedProd, ArrayList<Product> cartList) {
-        if (selectedProd.isPresent()) {
-            try {
-                Product p = selectedProd.get().extract(1);
-
-                int index = cartList.indexOf(p);
-
-                if (index == -1) cartList.add(p);
-                
-                else {
-                    Product prodAtIndex = cartList.get(index);
-                    prodAtIndex.setCount(prodAtIndex.getCount() + 1);
-                }
-
-            } catch (CloneNotSupportedException e) {
-                System.out.println("Warning! Internal error occurred! Couldn't clone Object!");
-            
-            } catch (NotEnoughProductStockException e) {
-                JOptionPane.showMessageDialog(null, "Cannot add item to cart, Not enough Stock!", "Error!", JOptionPane.ERROR_MESSAGE);
-            }
+        } catch (NotEnoughProductStockException e) {
+            JOptionPane.showMessageDialog(null, "Cannot add item to cart, Not enough Stock!", "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public static void returnProdsFromCart(ArrayList<Product> prodList, ArrayList<Product> cartList) {
-        prodList.stream()
-                .filter(e -> cartList.contains(e))
-                .forEach(e -> cartList.forEach(f -> {
-                    if (e.getId().equals(f.getId())) e.setCount(e.getCount() + f.getCount());
-        }));
+    public static void returnProdsFromCart(ArrayList<Product> prodList, ShoppingCart cart) {
+        for (int i = 0; i < cart.getSize(); i++) {
+            Product p = cart.getProduct(i);
 
-        cartList.clear();
+            int prodListIndex = prodList.indexOf(p);
+
+            if (prodListIndex == -1) return;
+            
+            Product prodFromList = prodList.get(prodListIndex);
+
+            prodFromList.setCount(prodFromList.getCount() + p.getCount());
+        }
+
+        cart.emptyCart();
     }
 
     public static Optional<Product> getSelectedProd(WTable table) {

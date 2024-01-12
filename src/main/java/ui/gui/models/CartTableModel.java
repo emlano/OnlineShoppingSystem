@@ -40,7 +40,7 @@ public class CartTableModel extends AbstractTableModel {
         double productTotal = obj.getPrice() * obj.getCount();
 
         return switch(col) {
-            case 0 -> "%s, %s, %s".formatted(obj.getId(), obj.getName(), sizeOrBrand, colorOrWarranty);
+            case 0 -> "%s, %s, %s, %s".formatted(obj.getId(), obj.getName(), sizeOrBrand, colorOrWarranty);
             case 1 -> "%d".formatted(obj.getCount());
             case 2 -> "%.2f".formatted(productTotal);
             default -> null;

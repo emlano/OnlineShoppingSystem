@@ -54,9 +54,7 @@ public class Clothing extends Product {
 
         if (!this.color.equals(clothing.color)) return false;
 
-        if (!this.size.equals(clothing.size)) return false;
-
-        return true;
+        return this.size.equals(clothing.size);
     }
 }
 

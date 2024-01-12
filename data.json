@@ -9,61 +9,35 @@
             "password": "pass",
             "purchaseHistory": [
                 {
-                    "price": 300,
-                    "name": "Headset",
-                    "count": 1,
-                    "warranty": 21,
-                    "id": "QUVPOZWWDS",
-                    "type": "Electronic",
-                    "brand": "JBL"
-                },
-                {
-                    "price": 120,
-                    "name": "BlueRay Player",
-                    "count": 1,
-                    "warranty": 12,
-                    "id": "P8ZWV1ERJW",
-                    "type": "Electronic",
-                    "brand": "Toshiba"
-                },
-                {
-                    "price": 40.59,
-                    "name": "USB Drive",
-                    "count": 1,
-                    "warranty": 4,
-                    "id": "M41GCH22RN",
-                    "type": "Electronic",
-                    "brand": "SanDisk"
+                    "size": "S",
+                    "color": "Blue",
+                    "price": 99.99,
+                    "name": "Jeans",
+                    "count": 3,
+                    "id": "YQOZYNHEKA",
+                    "type": "Clothing"
                 },
                 {
                     "size": "M",
                     "color": "Black",
                     "price": 25,
                     "name": "Beanie",
-                    "count": 1,
+                    "count": 2,
                     "id": "TOU889Q0TT",
                     "type": "Clothing"
                 },
                 {
-                    "size": "L",
-                    "color": "Grey",
-                    "price": 120,
-                    "name": "Hoodie",
-                    "count": 1,
-                    "id": "5LIH235IQ2",
-                    "type": "Clothing"
-                },
-                {
-                    "size": "M",
-                    "color": "Grey/White",
-                    "price": 145.99,
-                    "name": "Sweatpants",
+                    "size": "XXL",
+                    "color": "Khaki",
+                    "price": 140.99,
+                    "name": "Cargo Pants",
                     "count": 2,
-                    "id": "1KSMLVXJUX",
+                    "id": "OTI7YE2P10",
                     "type": "Clothing"
                 }
             ],
             "access": "Client",
+            "shoppingCart": [],
             "username": "user"
         }
     ],
@@ -190,7 +164,7 @@
             "color": "Khaki",
             "price": 140.99,
             "name": "Cargo Pants",
-            "count": 12,
+            "count": 10,
             "id": "OTI7YE2P10",
             "type": "Clothing"
         },
@@ -235,7 +209,7 @@
             "color": "Black",
             "price": 25,
             "name": "Beanie",
-            "count": 14,
+            "count": 12,
             "id": "TOU889Q0TT",
             "type": "Clothing"
         },
@@ -244,7 +218,7 @@
             "color": "Blue",
             "price": 99.99,
             "name": "Jeans",
-            "count": 25,
+            "count": 22,
             "id": "YQOZYNHEKA",
             "type": "Clothing"
         }

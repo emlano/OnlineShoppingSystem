@@ -236,6 +236,10 @@ public class WestminsterShoppingManager implements ShoppingManager {
                     "purchaseHistory",
                     getJsonArrayFromProductList(c.getPurchaseHistory())
                 );
+
+                jo.put("shoppingCart",
+                getJsonArrayFromProductList(c.getCart().getProductList())
+                );
             }
 
             jsonArr.put(jo);
@@ -364,6 +368,10 @@ public class WestminsterShoppingManager implements ShoppingManager {
             if (obj instanceof Client) {
                 ((Client) obj).setPurchaseHistory(getProductListFromJsonArray(
                     jo.getJSONArray("purchaseHistory"))
+                );
+
+                ((Client) obj).setCart(new ShoppingCart(getProductListFromJsonArray(
+                    jo.getJSONArray("shoppingCart")))
                 );
             }
 

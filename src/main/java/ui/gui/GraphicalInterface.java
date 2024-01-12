@@ -28,13 +28,11 @@ public class GraphicalInterface {
     private static int displayCenterWidth;
 
     private static ArrayList<Product> products;
-    private static ArrayList<Product> cart;
     private static Client client;
 
     public GraphicalInterface(User user, ArrayList<Product> productList) {
         products = productList;
         client = (Client) user;
-        cart = new ArrayList<>();
         GraphicalLogic.setDefaultProdDescLabels(PROD_DESC_TXT_LABELS, PROD_DESC_DATA_LABELS);
 
         GraphicsDevice gd = MouseInfo.getPointerInfo().getDevice();
@@ -131,13 +129,13 @@ public class GraphicalInterface {
         bottomPanel.add(productDetailsPanel);
         bottomPanel.add(addToCartPanel);
         
-        addToCartButton.addActionListener(e -> EventListeners.armAddToCartButton(catalogueTable, cart, PROD_DESC_TXT_LABELS, PROD_DESC_DATA_LABELS));
+        addToCartButton.addActionListener(e -> EventListeners.armAddToCartButton(catalogueTable, client, PROD_DESC_TXT_LABELS, PROD_DESC_DATA_LABELS));
         
         return bottomPanel;
     }
 
     public void openCartView() {
-        WindowListener wl = EventListeners.getCartCloseListener(catalogueTable, products, cart, PROD_DESC_TXT_LABELS, PROD_DESC_DATA_LABELS, FRAME);
+        WindowListener wl = EventListeners.getCartCloseListener(catalogueTable, PROD_DESC_TXT_LABELS, PROD_DESC_DATA_LABELS, FRAME);
         FRAME.setVisible(false);
         
         cartFrame = new JFrame("Shopping Cart");
@@ -158,7 +156,7 @@ public class GraphicalInterface {
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
 
-        CartTableModel ctm = new CartTableModel(cart);
+        CartTableModel ctm = new CartTableModel(client.getCart().getProductList());
         WTable cartTable = new WTable(ctm);
         cartTable.setEnabled(false);
         JScrollPane tableScroll = new JScrollPane(cartTable);
@@ -171,9 +169,9 @@ public class GraphicalInterface {
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 
-        double total = GraphicalLogic.calcTotal(cart);
-        double firstDiscount = GraphicalLogic.calcNewCustDisc(client, total);
-        double secondDiscount = GraphicalLogic.calcSetOfThreeDisc(cart, total);
+        double total = client.getCart().calculateTotal();
+        double firstDiscount = client.getCart().calculateNewUserDisc(client);
+        double secondDiscount = client.getCart().calculateThreeOfSetDisc();
 
         final String[] headers = {"Total", "First Purchase Discount (10%)", "Three Items in Same Category (20%)", "Final Total"};
         final String[] data = {
@@ -220,12 +218,12 @@ public class GraphicalInterface {
 
         clearCart.addActionListener(e -> {
             EventListeners.killCartWindow(cartFrame, catalogueTable, PROD_DESC_TXT_LABELS, PROD_DESC_DATA_LABELS);
-            EventListeners.clearCart(FRAME, products, cart);
+            EventListeners.clearCart(FRAME, products, client, catalogueTable, PROD_DESC_TXT_LABELS, PROD_DESC_DATA_LABELS);
         });
 
         checkout.addActionListener(e -> {
             EventListeners.killCartWindow(cartFrame, catalogueTable, PROD_DESC_TXT_LABELS, PROD_DESC_DATA_LABELS);
-            EventListeners.checkout(client, FRAME, cart);
+            EventListeners.checkout(client, FRAME);
         });
 
         return panel;

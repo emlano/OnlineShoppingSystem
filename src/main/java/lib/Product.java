@@ -87,9 +87,7 @@ public abstract class Product implements Cloneable {
         
         if (!this.name.equals(product.name)) return false;
 
-        if (this.price != product.price) return false;
-
-        return true;
+        return this.price == product.price;
     }
 
     @Override

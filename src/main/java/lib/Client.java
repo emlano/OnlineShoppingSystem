@@ -5,10 +5,12 @@ import java.util.ArrayList;
 public class Client extends User {
     // All products bought by the customer
     private ArrayList<Product> purchaseHistory;
+    private ShoppingCart cart;
 
     public Client(String username, String password) {
         super(username, password);
         this.purchaseHistory = new ArrayList<>();
+        this.cart = new ShoppingCart();
     }
 
     public ArrayList<Product> getPurchaseHistory() {
@@ -30,5 +32,17 @@ public class Client extends User {
             Product p = purchaseHistory.get(indexOfItem);
             p.setCount(p.getCount() + 1);
         }
+    }
+
+    public void addToPurchaseHistory(ArrayList<Product> prodList) {
+        for (Product i : prodList) addToPurchaseHistory(i);
+    }
+
+    public ShoppingCart getCart() {
+        return cart;
+    }
+
+    public void setCart(ShoppingCart cart) {
+        this.cart = cart;
     }
 }

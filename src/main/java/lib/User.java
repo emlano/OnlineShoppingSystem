@@ -49,8 +49,7 @@ public abstract class User {
 
         User user = (User) obj;
 
-        if (!this.username.equals(user.username)) return false;
-        return true;
+        return this.username.equals(user.username);
     }
 }
 

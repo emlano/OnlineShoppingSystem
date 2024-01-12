@@ -11,7 +11,7 @@ Submitted as partial completion of Bachelor of Computer Science.
 * ✅ `Electronic` class contains `Brand` and `Warranty Period` as attributes.
 * ✅ `Clothing` class contains `Color` and `Size` as attributes.
 * ✅ Class `User` must represent a user account, attributes must contain `username`, `password`
-* 🔴 `ShoppingCart` must represent the cart of the `User`.
+* 🔴 `ShoppingCart` must represent the cart of the `User`. // FUUUUUUUUUCK
 * ✅ `WestminsterShoppingManager` must implement `ShoppingManager` which maintains the list of products in the system
 
 ### Console Menu
@@ -29,5 +29,5 @@ Submitted as partial completion of Bachelor of Computer Science.
 * ✅ When the `User` selects a product, its information should appear in a panel below the product display table.
 * ✅ Shopping cart must calculate and display a `Total Price`
 * Following discounts must be available to the `User`
-* * ✅ '10%' Discount for the first purchase
-* * ✅ '20%' Discount for buying 3 different `Product`s of same `Product Type`
+    * ✅ '10%' Discount for the first purchase
+    * ✅ '20%' Discount for buying 3 different `Product`s of same `Product Type`

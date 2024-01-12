@@ -11,10 +11,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import lib.Product;
 
 public class WTableCellRenderer extends DefaultTableCellRenderer {
-    private Color bg;
-    private Color fg;
-    private Color errorFg;
-    private Color errorBg;
+    private final Color bg;
+    private final Color fg;
+    private final Color errorFg;
+    private final Color errorBg;
     public WTableCellRenderer() {
         this.errorBg = Color.WHITE;
         this.errorFg = Color.RED;

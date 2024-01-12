@@ -52,8 +52,6 @@ public class Electronic extends Product {
 
         if (!this.brand.equals(electronic.brand)) return false;
 
-        if (this.warrantyPeriod != electronic.warrantyPeriod) return false;
-
-        return true;
+        return this.warrantyPeriod == electronic.warrantyPeriod;
     }
 }

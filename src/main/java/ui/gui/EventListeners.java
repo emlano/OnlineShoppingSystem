@@ -14,32 +14,33 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class EventListeners {
-    public static void armAddToCartButton(WTable table, ArrayList<Product> cartList, JLabel[] prodTxtLabels, JLabel[] prodDataLabels) {
+    public static void armAddToCartButton(WTable table, Client client, JLabel[] prodTxtLabels, JLabel[] prodDataLabels) {
             Optional<Product> selectedProd = GraphicalLogic.getSelectedProd(table);
 
-            GraphicalLogic.addProdToCart(selectedProd, cartList);
-            GraphicalLogic.setSelectedProdDescLabels(selectedProd, prodTxtLabels, prodDataLabels);
+            if (selectedProd.isEmpty()) return;
+
+            GraphicalLogic.addProdToCart(selectedProd.get(), client.getCart());
+            GraphicalLogic.setSelectedProdDescLabels(selectedProd.get(), prodTxtLabels, prodDataLabels);
     }
 
-    public static ListSelectionListener getTableListSelectionListener(WTable table, JLabel[] prodTxtLables, JLabel[] prodDataLabels) {
+    public static ListSelectionListener getTableListSelectionListener(WTable table, JLabel[] prodTxtLabels, JLabel[] prodDataLabels) {
         return e -> {
             Optional<Product> selectedProduct = GraphicalLogic.getSelectedProd(table);
 
-            if (selectedProduct.isPresent()) GraphicalLogic.setSelectedProdDescLabels(selectedProduct, prodTxtLables, prodDataLabels);
-            else GraphicalLogic.setDefaultProdDescLabels(prodTxtLables, prodDataLabels);
+            if (selectedProduct.isPresent()) GraphicalLogic.setSelectedProdDescLabels(selectedProduct.get(), prodTxtLabels, prodDataLabels);
+            else GraphicalLogic.setDefaultProdDescLabels(prodTxtLabels, prodDataLabels);
         };
     }
 
-    public static WindowListener getCartCloseListener(WTable table, ArrayList<Product> prodList, ArrayList<Product> cartList, JLabel[] prodTxtLables, JLabel[] prodDataLabels, JFrame frame) {
+    public static WindowListener getCartCloseListener(WTable table, JLabel[] prodTxtLabels, JLabel[] prodDataLabels, JFrame frame) {
         return new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 e.getWindow().dispose();
                 
                 Optional<Product> selectedProduct = GraphicalLogic.getSelectedProd(table);
-                GraphicalLogic.returnProdsFromCart(prodList, cartList);
-                GraphicalLogic.redrawTable(GraphicalLogic.NONE, prodList, table);
-                GraphicalLogic.setSelectedProdDescLabels(selectedProduct, prodTxtLables, prodDataLabels);
+
+                selectedProduct.ifPresent(product -> GraphicalLogic.setSelectedProdDescLabels(product, prodTxtLabels, prodDataLabels));
 
                 frame.setVisible(true);
             }
@@ -59,19 +60,23 @@ public class EventListeners {
         };
     }
 
-    public static void clearCart(JFrame mainFrame, ArrayList<Product> prodList, ArrayList<Product> cartList) {
-        GraphicalLogic.returnProdsFromCart(prodList, cartList);
+    public static void clearCart(JFrame mainFrame, ArrayList<Product> prodList, Client client, WTable table, JLabel[] txtLabelArr, JLabel[] dataLabelArr) {
+        GraphicalLogic.returnProdsFromCart(prodList, client.getCart());
+        Optional<Product> selectedProd = GraphicalLogic.getSelectedProd(table);
+
+        selectedProd.ifPresent(prod -> GraphicalLogic.setSelectedProdDescLabels(prod, txtLabelArr, dataLabelArr));
         mainFrame.setVisible(true);
     }
 
-    public static void checkout(Client client, JFrame mainFrame, ArrayList<Product> cartList) {
-        GraphicalLogic.saveUserBuyHistory(cartList, client);
+    public static void checkout(Client client, JFrame mainFrame) {
+        GraphicalLogic.saveUserBuyHistory(client);
         mainFrame.setVisible(true);
     }
 
     public static void killCartWindow(JFrame cartFrame, WTable table, JLabel[] prodTxtLabels, JLabel[] prodDataLabels) {
         cartFrame.dispose();
         Optional<Product> selectedProduct = GraphicalLogic.getSelectedProd(table);
-        GraphicalLogic.setSelectedProdDescLabels(selectedProduct, prodTxtLabels, prodDataLabels);
+
+        selectedProduct.ifPresent(product -> GraphicalLogic.setSelectedProdDescLabels(product, prodTxtLabels, prodDataLabels));
     }
 }
