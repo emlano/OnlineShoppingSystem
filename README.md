@@ -11,7 +11,7 @@ Submitted as partial completion of Bachelor of Computer Science.
 * ✅ `Electronic` class contains `Brand` and `Warranty Period` as attributes.
 * ✅ `Clothing` class contains `Color` and `Size` as attributes.
 * ✅ Class `User` must represent a user account, attributes must contain `username`, `password`
-* 🔴 `ShoppingCart` must represent the cart of the `User`. // FUUUUUUUUUCK
+* ✅ `ShoppingCart` must represent the cart of the `User`.
 * ✅ `WestminsterShoppingManager` must implement `ShoppingManager` which maintains the list of products in the system
 
 ### Console Menu
