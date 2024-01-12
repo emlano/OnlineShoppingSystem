@@ -49,7 +49,7 @@ public class ShoppingCart {
     public double calculateTotal() {
         return products
             .stream()
-            .mapToDouble(Product::getPrice)
+            .mapToDouble(e -> e.getPrice() * e.getCount())
             .sum();
     }
 
